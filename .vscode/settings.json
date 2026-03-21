@@ -4,5 +4,6 @@
   "markdown.validate.fragmentLinks.enabled": "ignore",
   "markdown.validate.fileLinks.enabled": "ignore",
   "markdown.validate.referenceLinks.enabled": "ignore",
-  "markdown.validate.unusedLinkDefinitions.enabled": "ignore"
+  "markdown.validate.unusedLinkDefinitions.enabled": "ignore",
+  "markdownlint.enable": false
 }
