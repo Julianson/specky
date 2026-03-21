@@ -1,11 +1,12 @@
 {
-  "name": "specky",
+  "name": "specky-sdd",
   "version": "1.0.0",
   "description": "Specky — The open-source MCP server for Spec-Driven Development (SDD). Transforms natural language into production-grade specifications with EARS notation, architecture design, and quality gates.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "specky": "./dist/index.js"
+    "specky": "./dist/index.js",
+    "specky-sdd": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc && node -e \"const fs=require('fs');const f='dist/index.js';const c=fs.readFileSync(f,'utf8');if(!c.startsWith('#!'))fs.writeFileSync(f,'#!/usr/bin/env node\\n'+c)\" && chmod +x dist/index.js",
