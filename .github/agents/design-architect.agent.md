@@ -4,14 +4,6 @@ description: >-
   Creates system architecture, Mermaid diagrams, Architecture Decision Records
   (ADRs), and API contracts — all traced to EARS-notation requirements from
   SPECIFICATION.md.
-tools:
-  - sdd_write_design
-  - sdd_get_status
-  - sdd_get_template
-  - sdd_scan_codebase
-  - sdd_clarify
-  - sdd_advance_phase
-  - sdd_check_sync
 ---
 
 # SDD Design Architect

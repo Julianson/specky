@@ -4,14 +4,6 @@ description: >-
   Audits specifications for quality, completeness, and traceability. Runs
   quality gate analysis, detects spec-code drift, and validates EARS notation
   compliance across all specification documents.
-tools:
-  - sdd_run_analysis
-  - sdd_check_sync
-  - sdd_clarify
-  - sdd_get_status
-  - sdd_get_template
-  - sdd_amend
-  - sdd_advance_phase
 ---
 
 # SDD Spec Reviewer

@@ -4,24 +4,6 @@ description: >-
   Full pipeline orchestrator for Spec-Driven Development. Manages the complete
   SDD workflow from interactive discovery through EARS-notation requirements,
   architecture design, task breakdown, and quality gate analysis.
-tools:
-  - sdd_init
-  - sdd_discover
-  - sdd_write_spec
-  - sdd_clarify
-  - sdd_write_design
-  - sdd_write_tasks
-  - sdd_run_analysis
-  - sdd_advance_phase
-  - sdd_get_status
-  - sdd_get_template
-  - sdd_write_bugfix
-  - sdd_check_sync
-  - sdd_scan_codebase
-  - sdd_amend
-  - sdd_import_transcript
-  - sdd_auto_pipeline
-  - sdd_batch_transcripts
 ---
 
 # SDD Spec Engineer

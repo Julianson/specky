@@ -4,12 +4,6 @@ description: >-
   Decomposes approved designs into sequenced implementation tasks with
   pre-implementation gates, effort estimates, dependency tracking, and parallel
   execution markers.
-tools:
-  - sdd_write_tasks
-  - sdd_get_status
-  - sdd_get_template
-  - sdd_scan_codebase
-  - sdd_advance_phase
 ---
 
 # SDD Task Planner
