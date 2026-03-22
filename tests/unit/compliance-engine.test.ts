@@ -67,7 +67,12 @@ describe("ComplianceEngine", () => {
     });
 
     it("returns partial status when only some controls are covered", () => {
-      const partialSpec = "The system shall implement authentication with login and password protection.";
+      // Cover 4/6 general controls (passed > failed → partial):
+      // GEN-1 via "input validation", GEN-2 via "authentication",
+      // GEN-3 via "authorization", GEN-4 via "logging"
+      const partialSpec =
+        "The system shall validate input and implement authentication with authorization. " +
+        "Comprehensive logging shall be enabled.";
       const result = engine.checkCompliance("general", partialSpec, "");
       expect(result.overall_status).toBe("partial");
       expect(result.controls_passed).toBeGreaterThan(0);

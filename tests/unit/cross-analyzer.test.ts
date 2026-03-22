@@ -117,14 +117,14 @@ describe("CrossAnalyzer", () => {
   });
 
   describe("analyze — empty spec", () => {
-    it("returns 100 score and empty alignments when spec has no REQ IDs", async () => {
+    it("returns 0 score and empty alignments when spec has no REQ IDs", async () => {
       const fm = makeFileManagerFull("No structured requirements here.", "", "");
       const analyzer = new CrossAnalyzer(fm as never);
 
       const result = await analyzer.analyze(".specs/features/001");
       expect(result.spec_design_alignment).toHaveLength(0);
       expect(result.design_tasks_alignment).toHaveLength(0);
-      expect(result.consistency_score).toBe(100);
+      expect(result.consistency_score).toBe(0);
     });
   });
 

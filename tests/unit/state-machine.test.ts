@@ -127,9 +127,9 @@ describe("StateMachine", () => {
 
     it("blocks transition when required files are missing", async () => {
       const state = makeState(Phase.Specify);
+      state.features = [".specs/features/001"];
       const fm = makeFileManager(state);
       fm.fileExists.mockResolvedValue(false);
-      state.features = [".specs/features/001"];
       sm = new StateMachine(fm as never);
 
       const result = await sm.canTransition(".specs", Phase.Clarify);

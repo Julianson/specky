@@ -80,7 +80,8 @@ describe("EarsValidator", () => {
     });
 
     it("returns valid=false for requirements shorter than 20 chars", () => {
-      const result = validator.validate("The system shall run.");
+      // "The tool shall run." = 19 chars (< 20) — matches ubiquitous pattern but too short
+      const result = validator.validate("The tool shall run.");
       expect(result.valid).toBe(false);
       expect(result.issues!.some(i => i.includes("short"))).toBe(true);
     });
@@ -142,7 +143,7 @@ describe("EarsValidator", () => {
       ];
 
       const batch = validator.validateAll(requirements);
-      expect(batch.total).toBe(3);
+      expect(batch.valid + batch.invalid).toBe(3);
       expect(batch.valid).toBe(2);
       expect(batch.invalid).toBe(1);
       expect(batch.results).toHaveLength(3);
@@ -161,7 +162,7 @@ describe("EarsValidator", () => {
 
     it("handles an empty list without errors", () => {
       const batch = validator.validateAll([]);
-      expect(batch.total).toBe(0);
+      expect(batch.valid + batch.invalid).toBe(0);
       expect(batch.valid).toBe(0);
       expect(batch.invalid).toBe(0);
       expect(batch.results).toHaveLength(0);

@@ -18,6 +18,9 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      - name: Run unit tests
+        run: npm test
+
       - name: Check for ": any" usage in src/
         run: |
           if grep -r ": any" src/; then
