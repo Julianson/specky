@@ -131,6 +131,13 @@ Use these `/sdd:*` commands in Claude Code to invoke specialized workflows:
 |------|-------------|
 | `sdd_check_ecosystem` | Report recommended MCP servers with install commands |
 
+### Testing Tools (2) — NEW in v2.2.0
+
+| Tool | Description |
+|------|-------------|
+| `sdd_generate_tests` | Generate test stubs from acceptance criteria for 6 frameworks (vitest/jest/playwright/pytest/junit/xunit) |
+| `sdd_verify_tests` | Verify test results JSON against specification requirements, report traceability coverage |
+
 ---
 
 ## 4. Model Routing Table

@@ -20,7 +20,11 @@
   "files": [
     "dist/",
     "templates/",
+    "references/",
+    "hooks/",
     "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
     "LICENSE"
   ],
   "engines": {

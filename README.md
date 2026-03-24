@@ -283,6 +283,61 @@ Each phase is **mandatory**. The state machine blocks advancement until prerequi
 | `sdd_metrics` | Project metrics dashboard |
 | `sdd_amend` | Amend project constitution |
 
+### Testing (2) — NEW in v2.2.0
+
+| Tool | Description |
+|------|-------------|
+| `sdd_generate_tests` | Generate test stubs from acceptance criteria (vitest/jest/playwright/pytest/junit/xunit) |
+| `sdd_verify_tests` | Verify test results against requirements — reports traceability coverage |
+
+---
+
+## Specky + Spec-Kit: Better Together
+
+**[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is a CLI tool that copies prompt templates into your repo. **Specky** is an MCP server that enforces those same patterns programmatically.
+
+| Aspect | Spec-Kit | Specky |
+|--------|----------|--------|
+| **How it works** | Copies prompt files to your repo | MCP server exposes 47 tools |
+| **Validation** | AI tries to follow prompts | Programmatic (EARS regex, state machine) |
+| **Phase enforcement** | None — AI decides | State machine blocks skipping |
+| **Compliance** | None | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
+| **Test generation** | None | 6 frameworks with traceability |
+| **Best for** | Quick start, learning SDD | Production enforcement, enterprise |
+
+**Use them together:**
+
+1. **Start with Spec-Kit** to learn Spec-Driven Development with guided prompts
+2. **Add Specky** when you need programmatic enforcement, compliance checking, and test generation
+3. Spec-Kit's templates become the educational layer; Specky becomes the enforcement engine
+
+```json
+{
+  "servers": {
+    "specky": {
+      "command": "npx",
+      "args": ["-y", "specky-sdd"]
+    }
+  }
+}
+```
+
+---
+
+## Project Configuration
+
+Create `.specky/config.yml` in your project root to customize Specky:
+
+```yaml
+# .specky/config.yml
+templates_path: ./my-templates       # Override built-in templates
+default_framework: vitest            # Default test framework
+compliance_frameworks: [hipaa, soc2] # Frameworks to check
+audit_enabled: true                  # Enable audit trail
+```
+
+When `templates_path` is set, Specky uses your custom templates instead of the built-in ones. When `audit_enabled` is true, tool invocations are logged locally.
+
 ---
 
 ## MCP Integration Architecture

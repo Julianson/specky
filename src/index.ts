@@ -134,6 +134,9 @@ async function main(): Promise<void> {
     const httpServer = http.createServer(async (req, res) => {
       if (req.url === "/mcp") {
         await transport.handleRequest(req, res);
+      } else if (req.url === "/health") {
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ status: "ok", version: VERSION }));
       } else {
         res.writeHead(404);
         res.end("Not found");

@@ -5,8 +5,14 @@ dist/
 .github/
 .claude/
 .vscode/
+.specky/
+tests/
+coverage/
+reports/
 *.md
 !README.md
 .DS_Store
-coverage/
 .env
+.env.*
+vitest.config.ts
+*.tsbuildinfo

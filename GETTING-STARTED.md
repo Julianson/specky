@@ -1,6 +1,6 @@
 # Getting Started with Specky -- From Zero to Production-Ready Specifications
 
-> **Specky v2.1.0** -- 44 MCP tools for the full specification lifecycle.
+> **Specky v2.2.0** -- 47 MCP tools for the full specification lifecycle.
 >
 > This guide assumes no prior knowledge of MCP, Spec-Driven Development, or EARS notation. By the end, you will have a production-grade specification written, validated, exported to your project tracker, and backed by generated infrastructure code.
 
@@ -20,9 +20,12 @@
 10. [Generating Infrastructure as Code](#10-generating-infrastructure-as-code)
 11. [Generating Diagrams](#11-generating-diagrams)
 12. [Running Compliance Checks](#12-running-compliance-checks)
-13. [The Full Pipeline -- From Meeting to Deployment](#13-the-full-pipeline----from-meeting-to-deployment)
-14. [Tool Reference Summary](#14-tool-reference-summary)
-15. [Next Steps](#15-next-steps)
+13. [Generating Tests from Specifications](#13-generating-tests-from-specifications-new-in-v220)
+14. [Project Configuration](#14-project-configuration-new-in-v220)
+15. [Specky + Spec-Kit: Better Together](#15-specky--spec-kit-better-together)
+16. [The Full Pipeline -- From Meeting to Deployment](#16-the-full-pipeline----from-meeting-to-deployment)
+17. [Tool Reference Summary](#17-tool-reference-summary)
+18. [Next Steps](#18-next-steps)
 
 ---
 
@@ -40,7 +43,7 @@ With MCP, the AI calls Specky's tools directly. Specky validates EARS notation, 
 
 ```
 You -----> AI Assistant -----> Specky MCP Server -----> Files on disk
-           (Copilot/Claude)    (44 tools)               (.specs/ folder)
+           (Copilot/Claude)    (47 tools)               (.specs/ folder)
 ```
 
 ---
@@ -201,7 +204,7 @@ You can test that Specky responds to MCP handshakes:
 echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | npx specky-sdd 2>/dev/null
 ```
 
-A successful response includes `"serverInfo":{"name":"specky","version":"2.1.0"}` and a list of 44 tools.
+A successful response includes `"serverInfo":{"name":"specky","version":"2.2.0"}` and a list of 47 tools.
 
 ---
 
@@ -253,7 +256,7 @@ Specky ships with four custom agents for GitHub Copilot in the `.github/agents/`
 
 | Agent | Role |
 |-------|------|
-| `@spec-engineer` | Full pipeline orchestrator -- uses all 44 tools |
+| `@spec-engineer` | Full pipeline orchestrator -- uses all 47 tools |
 | `@design-architect` | Architecture and design phase specialist |
 | `@task-planner` | Task decomposition and estimation |
 | `@spec-reviewer` | Quality audit, compliance, and analysis |
@@ -576,7 +579,7 @@ If any requirement lacks a design component, task, or acceptance criteria, the g
 
 ## 8. Importing Documents
 
-Specky v2.1.0 can import existing documents and convert them into structured specifications. This is useful when requirements already exist in PDFs, Word documents, PowerPoint decks, or meeting transcripts.
+Specky v2.2.0 can import existing documents and convert them into structured specifications. This is useful when requirements already exist in PDFs, Word documents, PowerPoint decks, or meeting transcripts.
 
 ### Importing a single document
 
@@ -953,7 +956,152 @@ Checks every requirement against the six EARS patterns and provides improvement 
 
 ---
 
-## 13. The Full Pipeline -- From Meeting to Deployment
+## 13. Generating Tests from Specifications (NEW in v2.2.0)
+
+Specky can generate test stubs directly from your acceptance criteria — with full traceability back to requirements. This is the competitive differentiator: every test maps to a requirement ID.
+
+### Supported Frameworks
+
+| Framework | Language | File Extension |
+|-----------|----------|----------------|
+| **vitest** | TypeScript | `.test.ts` |
+| **jest** | TypeScript | `.test.ts` |
+| **playwright** | TypeScript | `.spec.ts` |
+| **pytest** | Python | `_test.py` |
+| **junit** | Java | `Test.java` |
+| **xunit** | C# | `Tests.cs` |
+
+### How It Works
+
+After writing your specification (`sdd_write_spec`) and tasks (`sdd_write_tasks`), ask:
+
+```
+Generate vitest tests from my specification for feature 001
+```
+
+Specky calls `sdd_generate_tests` which:
+
+1. Reads `SPECIFICATION.md` and `TASKS.md` from the feature directory
+2. Extracts acceptance criteria and maps them to requirement IDs
+3. Generates a test file with one test stub per criterion
+4. Each stub has a `TODO` placeholder for you to fill with real assertions
+
+### Example Output
+
+For a specification with 3 acceptance criteria, Specky generates:
+
+```typescript
+/**
+ * Auto-generated test stubs from Specky SDD
+ * Feature: user-auth
+ * Framework: vitest
+ */
+import { describe, it, expect } from "vitest";
+
+describe("user-auth", () => {
+  it("Verify that valid credentials return a JWT token", () => {
+    // TODO: implement test — traces to REQ-001
+    expect(true).toBe(true);
+  });
+
+  it("Ensure expired tokens trigger re-authentication", () => {
+    // TODO: implement test — traces to REQ-001
+    expect(true).toBe(true);
+  });
+
+  it("Check that stored data is encrypted", () => {
+    // TODO: implement test — traces to REQ-002
+    expect(true).toBe(true);
+  });
+});
+```
+
+### Verifying Test Coverage Against Requirements
+
+After running your tests, use `sdd_verify_tests` to check how many requirements have passing tests:
+
+```
+Verify my test results against the specification for feature 001
+```
+
+This reads your test results JSON and compares test names against requirement IDs in `SPECIFICATION.md`. It reports:
+
+- **Covered requirements** — which REQs have corresponding tests
+- **Uncovered requirements** — which REQs are missing tests
+- **Coverage percentage** — requirement-level coverage (not code coverage)
+
+### Playwright Integration
+
+When you choose Playwright as the framework, Specky automatically includes a `recommended_servers` field suggesting the Playwright MCP server for auto-execution:
+
+```json
+{
+  "recommended_servers": [{
+    "id": "playwright-mcp",
+    "name": "Playwright MCP",
+    "purpose": "Execute generated Playwright tests directly from the AI client"
+  }]
+}
+```
+
+---
+
+## 14. Project Configuration (NEW in v2.2.0)
+
+Create a `.specky/config.yml` file in your project root to customize Specky's behavior:
+
+```yaml
+# .specky/config.yml
+
+# Use your own templates instead of built-in ones
+templates_path: ./my-templates
+
+# Default test framework for sdd_generate_tests
+default_framework: vitest
+
+# Compliance frameworks to check (array)
+compliance_frameworks: [hipaa, soc2]
+
+# Enable audit trail logging
+audit_enabled: true
+```
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `templates_path` | string | `""` (built-in) | Path to custom Markdown templates |
+| `default_framework` | string | `"vitest"` | Default test framework: vitest, jest, playwright, pytest, junit, xunit |
+| `compliance_frameworks` | array | `["general"]` | Frameworks for compliance checks: hipaa, soc2, gdpr, pci_dss, iso27001, general |
+| `audit_enabled` | boolean | `false` | Log tool invocations locally |
+
+If no config file exists, Specky uses sensible defaults and works out of the box.
+
+---
+
+## 15. Specky + Spec-Kit: Better Together
+
+**[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is a CLI tool that copies SDD prompt templates into your repo. **Specky** is an MCP server that enforces those same patterns programmatically. They complement each other:
+
+| Aspect | Spec-Kit | Specky |
+|--------|----------|--------|
+| **Type** | CLI + templates | MCP server + engine |
+| **How it works** | Copies prompts to your repo | AI calls 47 tools via JSON-RPC |
+| **Validation** | AI tries to follow | Programmatic (EARS regex, state machine) |
+| **Phase enforcement** | None | State machine blocks skipping |
+| **Compliance** | None | 6 frameworks (HIPAA, SOC2, GDPR...) |
+| **Test generation** | None | 6 frameworks with traceability |
+| **Best for** | Learning SDD, quick start | Production enforcement, enterprise |
+
+### Use them together
+
+1. **Start with Spec-Kit** — learn the SDD workflow with guided prompts
+2. **Add Specky** — enforce requirements programmatically, generate tests, check compliance
+3. Spec-Kit's templates become the educational layer; Specky becomes the enforcement engine
+
+---
+
+## 16. The Full Pipeline -- From Meeting to Deployment
 
 Here is the complete workflow that takes a project from an initial meeting to deployment-ready specifications, infrastructure, and work items.
 
@@ -1082,9 +1230,9 @@ sdd_implement --> code --> sdd_verify_tasks --> sdd_create_pr
 
 ---
 
-## 14. Tool Reference Summary
+## 17. Tool Reference Summary
 
-Specky v2.1.0 provides 44 MCP tools organized into seven groups.
+Specky v2.2.0 provides 47 MCP tools organized into eight groups.
 
 ### Pipeline Tools (8)
 
@@ -1188,7 +1336,7 @@ Specky v2.1.0 provides 44 MCP tools organized into seven groups.
 
 ---
 
-## 15. Next Steps
+## 18. Next Steps
 
 ### Explore the reference materials
 
