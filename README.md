@@ -12,7 +12,6 @@
   </p>
 </div>
 
----
 
 ## Table of Contents
 
@@ -36,17 +35,15 @@
 - [Enterprise Ready](#enterprise-ready) — Security posture, audit trail, quality gates
 - [Development](#development) — Build from source, run tests, contribute
 
----
 
 ## What is Specky?
 
-Specky is the **complete Spec-Driven Development (SDD) platform**, built on the foundation of the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology. It's an open-source MCP (Model Context Protocol) server that provides a deterministic pipeline from **any input** -- meeting transcripts, documents, Figma designs, or natural language prompts -- through specifications, architecture, infrastructure as code, implementation, and deployment.
+Specky is the **complete Spec-Driven Development (SDD) platform**, built on the foundation of the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology. It's an open-source MCP (Model Context Protocol) server that provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
 
-Specky **already includes everything from Spec-Kit** -- the EARS notation, the SDD templates, the pipeline phases, and the quality patterns -- and adds **programmatic enforcement** on top: a state machine that blocks phase-skipping, an EARS validator that ensures testable requirements, cross-artifact analysis that catches drift, and compliance engines that validate against frameworks like HIPAA and SOC2.
+Specky **already includes everything from Spec-Kit**: the EARS notation, the SDD templates, the pipeline phases, and the quality patterns. On top of that, it adds **programmatic enforcement**: a state machine that blocks phase-skipping, an EARS validator that ensures testable requirements, cross-artifact analysis that catches drift, and compliance engines that validate against frameworks like HIPAA and SOC2.
 
 **Install Specky and you're ready to go.** No separate installation of Spec-Kit required. It works inside any AI IDE that supports MCP — via `.github/agents/` for GitHub Copilot or `.claude/commands/` for Claude Code, and natively in Cursor, Windsurf, or any MCP-compatible client.
 
----
 
 ## Why Specifications Matter in the AI Era
 
@@ -56,29 +53,29 @@ Specky **already includes everything from Spec-Kit** -- the EARS notation, the S
 
 ### The Problem: Vibe Coding
 
-AI coding assistants are fast but chaotic. You say *"build me a login system"* and the AI generates code immediately -- skipping requirements, guessing architecture, and producing something that works but doesn't match what anyone actually needed. This is **vibe coding**: generating code based on vibes instead of validated specifications.
+AI coding assistants are fast but chaotic. You say *"build me a login system"* and the AI generates code immediately, skipping requirements, guessing architecture, and producing something that works but doesn't match what anyone actually needed. This is **vibe coding**: generating code based on vibes instead of validated specifications.
 
 The result? Teams spend 40% of their time on rework because requirements were never written down, acceptance criteria were never defined, and there's no way to verify the code matches the original intent.
 
 ### The Solution: Deterministic Development
 
-**Specifications** are structured documents that describe *what the system must do* before anyone writes code. They've existed for decades in engineering, but AI development mostly ignores them. Specky brings them back -- with AI enforcement.
+**Specifications** are structured documents that describe *what the system must do* before anyone writes code. They've existed for decades in engineering, but AI development mostly ignores them. Specky brings them back, with AI enforcement.
 
 **Key concepts you should know:**
 
-- **Markdown** -- The universal language that both humans and AI read fluently. All spec artifacts are Markdown files that live in your repo, versioned with Git.
-- **MCP (Model Context Protocol)** -- An open standard by Anthropic that lets AI assistants call external tools. Think of it as USB for AI. Specky is an MCP server; any AI IDE can connect to it.
-- **EARS Notation** -- A method for writing requirements that forces precision. Six patterns (When/While/Where/If/The system shall) eliminate vague statements like "the system should be fast."
-- **Agents and Skills** -- Specialized AI roles (Spec Engineer, Design Architect, Task Planner) that invoke Specky tools with domain expertise. Defined in `.github/agents/` and `.claude/commands/`.
+- **Markdown**: The universal language that both humans and AI read fluently. All spec artifacts are Markdown files that live in your repo, versioned with Git.
+- **MCP (Model Context Protocol)**: An open standard by Anthropic that lets AI assistants call external tools. Think of it as USB for AI. Specky is an MCP server; any AI IDE can connect to it.
+- **EARS Notation**: A method for writing requirements that forces precision. Six patterns (When/While/Where/If/The system shall) eliminate vague statements like "the system should be fast."
+- **Agents and Skills**: Specialized AI roles (Spec Engineer, Design Architect, Task Planner) that invoke Specky tools with domain expertise. Defined in `.github/agents/` and `.claude/commands/`.
 
 ### How Specky Enforces Determinism
 
 Specky adds a **deterministic engine** between your intent and your code:
 
-- **State Machine** -- 10 mandatory phases, no skipping. Init, Discover, Specify, Clarify, Design, Tasks, Analyze, Implement, Verify, Release.
-- **EARS Validator** -- Every requirement validated against 6 patterns. No vague statements pass.
-- **Cross-Artifact Analysis** -- Automatic alignment checking between spec, design, and tasks. Orphaned requirements are flagged instantly.
-- **MCP-to-MCP Architecture** -- Specky outputs structured JSON that your AI client routes to GitHub, Azure DevOps, Jira, Terraform, Figma, and Docker MCP servers. No vendor lock-in.
+- **State Machine**: 10 mandatory phases, no skipping. Init, Discover, Specify, Clarify, Design, Tasks, Analyze, Implement, Verify, Release.
+- **EARS Validator**: Every requirement validated against 6 patterns. No vague statements pass.
+- **Cross-Artifact Analysis**: Automatic alignment checking between spec, design, and tasks. Orphaned requirements are flagged instantly.
+- **MCP-to-MCP Architecture**: Specky outputs structured JSON that your AI client routes to GitHub, Azure DevOps, Jira, Terraform, Figma, and Docker MCP servers. No vendor lock-in.
 
 > **The AI is the operator; Specky is the engine.** The AI's creativity is channeled through a validated pipeline instead of producing unstructured guesswork. For a complete educational walkthrough, see [GETTING-STARTED.md](GETTING-STARTED.md).
 
@@ -113,7 +110,6 @@ Specky adds a **deterministic engine** between your intent and your code:
 
 </details>
 
----
 
 ## Quick Start
 
@@ -311,7 +307,6 @@ Specky creates the project structure and asks you 7 discovery questions. From he
 
 > **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/paulasilvatech/spec-kit). Just install Specky and the pipeline guides you through every phase with [educative outputs](#educative-outputs) that explain the concepts as you work.
 
----
 
 ## Where Specifications Live
 
@@ -341,7 +336,6 @@ your-project/
 
 **Naming convention:** `NNN-feature-name` — zero-padded number + kebab-case name. Each directory is independent; you can work on multiple features simultaneously.
 
----
 
 ## Input Methods — 6 Ways to Start
 
@@ -467,7 +461,6 @@ No file? Just paste the content directly. Every import tool accepts a `raw_text`
   Import this and create a specification.
 ```
 
----
 
 ## Three Project Types — One Pipeline
 
@@ -477,7 +470,6 @@ No file? Just paste the content directly. Every import tool accepts a `raw_text`
 
 Specky adapts to any project type. The pipeline is the same; the **starting point** is what changes.
 
----
 
 ## Greenfield Project — Start from Scratch
 
@@ -583,7 +575,6 @@ The AI calls `sdd_export_work_items` + `sdd_create_pr` → generates work item p
 
 > **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [all 47 tools](#all-47-tools) for a complete reference.
 
----
 
 ## Brownfield Project — Add Features to Existing Code
 
@@ -655,7 +646,6 @@ The AI calls `sdd_cross_analyze` → checks for contradictions, shared dependenc
 
 > **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation, or [MCP integration](#mcp-integration-architecture) for routing to external tools.
 
----
 
 ## Modernization Project — Assess and Upgrade Legacy Systems
 
@@ -735,7 +725,6 @@ The AI calls `sdd_generate_onboarding` → creates a guide covering architecture
 
 > **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation during modernization, or [project configuration](#project-configuration) to customize Specky for your team.
 
----
 
 ## Pipeline and LGTM Gates
 
@@ -776,7 +765,6 @@ The AI calls `sdd_advance_phase` → moves the pipeline forward if all prerequis
 
 All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). See [Input Methods](#input-methods--6-ways-to-start) for how to feed data into the pipeline.
 
----
 
 ## All 47 Tools
 
@@ -874,7 +862,6 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_generate_tests` | Generate test stubs from acceptance criteria (vitest/jest/playwright/pytest/junit/xunit) |
 | `sdd_verify_tests` | Verify test results against requirements — reports traceability coverage |
 
----
 
 ## The Spec-Driven Development Platform
 
@@ -922,7 +909,6 @@ But for production use, **Specky is all you need**:
 }
 ```
 
----
 
 ## Project Configuration
 
@@ -938,7 +924,6 @@ audit_enabled: true                  # Enable audit trail
 
 When `templates_path` is set, Specky uses your custom templates instead of the built-in ones. When `audit_enabled` is true, tool invocations are logged locally.
 
----
 
 ## MCP Integration Architecture
 
@@ -971,7 +956,6 @@ Specky --> sdd_figma_to_spec(file_key: "abc123") --> Figma request
 | **Figma MCP** | Design context, FigJam diagrams |
 | **Docker MCP** | Local dev environments |
 
----
 
 ## EARS Notation
 
@@ -988,19 +972,17 @@ Every requirement in Specky follows EARS (Easy Approach to Requirements Syntax):
 
 The EARS validator programmatically checks every requirement against these 6 patterns. Vague terms like "fast", "good", "easy" are flagged automatically.
 
----
 
 ## Compliance Frameworks
 
 Built-in compliance checking against:
 
-- **HIPAA** -- Access control, audit, encryption, PHI protection
-- **SOC 2** -- Logical access, monitoring, change management, incident response
-- **GDPR** -- Lawful processing, right to erasure, data portability, breach notification
-- **PCI-DSS** -- Firewall, stored data protection, encryption, user identification
-- **ISO 27001** -- Security policies, access control, cryptography, incident management
+- **HIPAA**: Access control, audit, encryption, PHI protection
+- **SOC 2**: Logical access, monitoring, change management, incident response
+- **GDPR**: Lawful processing, right to erasure, data portability, breach notification
+- **PCI-DSS**: Firewall, stored data protection, encryption, user identification
+- **ISO 27001**: Security policies, access control, cryptography, incident management
 
----
 
 ## Educative Outputs
 
@@ -1015,7 +997,6 @@ Every tool response includes structured guidance:
 }
 ```
 
----
 
 ## End-to-End Flow
 
@@ -1025,7 +1006,6 @@ Every tool response includes structured guidance:
 
 From any [input](#input-methods--6-ways-to-start) to production — fully automated, [MCP-orchestrated](#mcp-integration-architecture), with artifacts and diagrams generated at every step. All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live).
 
----
 
 ## Enterprise Ready
 
@@ -1063,7 +1043,6 @@ Every pipeline phase produces a traceable artifact in `.specs/NNN-feature/`. The
 - **Phase Enforcement** — state machine blocks phase-skipping; required files gate advancement
 - **211 unit tests** with 89% code coverage; CI enforces thresholds on every push
 
----
 
 ## Development
 
@@ -1094,13 +1073,11 @@ docker run -p 3200:3200 -v $(pwd):/workspace specky-sdd:dev
 curl http://localhost:3200/health
 ```
 
----
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add tools, templates, or services.
 
----
 
 ## Links
 
@@ -1110,8 +1087,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add t
 - [Spec-Kit](https://github.com/paulasilvatech/spec-kit) — The learning companion for Spec-Driven Development
 - [npm package](https://www.npmjs.com/package/specky-sdd) — `specky-sdd` on npm
 
----
 
 ## License
 
-MIT -- Created by [Paula Silva](https://github.com/paulasilvatech) | Americas Software GBB, Microsoft
+MIT. Created by [Paula Silva](https://github.com/paulasilvatech) | Americas Software GBB, Microsoft

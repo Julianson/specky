@@ -1,10 +1,9 @@
-# Getting Started with Specky -- From Zero to Production-Ready Specifications
+# Getting Started with Specky. From Zero to Production-Ready Specifications
 
-> **Specky v2.2.0** -- 47 MCP tools for the full specification lifecycle.
+> **Specky v2.2.0** | 47 MCP tools for the full specification lifecycle.
 >
 > This guide assumes no prior knowledge of MCP, Spec-Driven Development, or EARS notation. By the end, you will have a production-grade specification written, validated, exported to your project tracker, and backed by generated infrastructure code.
 
----
 
 ## Table of Contents
 
@@ -15,7 +14,7 @@
 4.  [Installing Specky](#4-installing-specky)
 5.  [Configuring in VS Code with GitHub Copilot](#5-configuring-in-vs-code-with-github-copilot)
 6.  [Configuring in Claude Code](#6-configuring-in-claude-code)
-7.  [Your First Specification -- Complete Walkthrough](#7-your-first-specification----complete-walkthrough)
+7.  [Your First Specification. Complete Walkthrough](#7-your-first-specification----complete-walkthrough)
 8.  [Importing Documents](#8-importing-documents)
 9.  [Exporting to Azure Boards, Jira, and GitHub Issues](#9-exporting-to-azure-boards-jira-and-github-issues)
 10. [Generating Infrastructure as Code](#10-generating-infrastructure-as-code)
@@ -24,11 +23,10 @@
 13. [Generating Tests from Specifications](#13-generating-tests-from-specifications-new-in-v220)
 14. [Project Configuration](#14-project-configuration-new-in-v220)
 15. [Specky and the Spec-Kit Foundation](#15-specky-and-the-spec-kit-foundation)
-16. [The Full Pipeline -- From Meeting to Deployment](#16-the-full-pipeline----from-meeting-to-deployment)
+16. [The Full Pipeline. From Meeting to Deployment](#16-the-full-pipeline----from-meeting-to-deployment)
 17. [Tool Reference Summary](#17-tool-reference-summary)
 18. [Next Steps](#18-next-steps)
 
----
 
 ## 0. The Big Picture: Why This Exists
 
@@ -58,11 +56,10 @@ Specky is a **deterministic engine** that sits between your intent and your code
 
 Both agents and skills call the same 47 Specky MCP tools underneath — they're just different entry points for different platforms.
 
----
 
 ## 1. What is MCP and Why It Matters
 
-**MCP (Model Context Protocol)** is an open standard created by Anthropic that allows AI assistants to call external tools. Think of it as a universal interface -- like USB for AI. Any AI assistant that supports MCP can connect to any MCP-compatible tool server without custom integration work.
+**MCP (Model Context Protocol)** is an open standard created by Anthropic that allows AI assistants to call external tools. Think of it as a universal interface, like USB for AI. Any AI assistant that supports MCP can connect to any MCP-compatible tool server without custom integration work.
 
 Before MCP, if you wanted an AI assistant to write files, query a database, or interact with an API, you needed bespoke plugins for each AI platform. MCP eliminates that fragmentation. A single MCP server works with GitHub Copilot, Claude Code, Claude Desktop, and any other MCP-compatible client.
 
@@ -77,7 +74,6 @@ You -----> AI Assistant -----> Specky MCP Server -----> Files on disk
            (Copilot/Claude)    (47 tools)               (.specs/ folder)
 ```
 
----
 
 ## 2. What is Spec-Driven Development
 
@@ -100,7 +96,7 @@ SDD enforces a 10-phase pipeline:
   <img src="media/pipeline-lgtm-gates.svg" alt="10-Phase Pipeline with LGTM Gates" width="100%"/>
 </p>
 
-Each phase produces a concrete artifact. Each phase has prerequisites -- you cannot write a design without a specification, and you cannot create tasks without a design. Quality gates at each phase prevent bad specs from propagating downstream.
+Each phase produces a concrete artifact. Each phase has prerequisites. You cannot write a design without a specification, and you cannot create tasks without a design. Quality gates at each phase prevent bad specs from propagating downstream.
 
 ### The Core Artifacts
 
@@ -114,7 +110,6 @@ Each phase produces a concrete artifact. Each phase has prerequisites -- you can
 
 Every requirement in the specification traces forward to a design component, a task, and a test. Every task traces backward to the requirement it fulfills. This bidirectional traceability is the foundation of SDD.
 
----
 
 ## 3. What is EARS Notation
 
@@ -122,37 +117,37 @@ Every requirement in the specification traces forward to a design component, a t
 
 ### The Six EARS Patterns
 
-**Ubiquitous** -- Always true, no conditions.
+**Ubiquitous**:Always true, no conditions.
 
 ```
 The system shall log all API requests with timestamp, method, path, and response code.
 ```
 
-**Event-driven** -- Triggered by a specific event.
+**Event-driven**:Triggered by a specific event.
 
 ```
 When a user submits valid credentials, the system shall return a JWT token with a 24-hour expiration.
 ```
 
-**State-driven** -- Active only while a condition holds.
+**State-driven**:Active only while a condition holds.
 
 ```
 While in maintenance mode, the system shall return HTTP 503 for all non-admin requests.
 ```
 
-**Optional** -- Active only when a feature or configuration is present.
+**Optional**:Active only when a feature or configuration is present.
 
 ```
 Where two-factor authentication is enabled, the system shall require a TOTP code after password validation.
 ```
 
-**Unwanted** -- Handles failure conditions and edge cases.
+**Unwanted**:Handles failure conditions and edge cases.
 
 ```
 If the database connection fails, then the system shall retry with exponential backoff up to 3 attempts.
 ```
 
-**Complex** -- Combines two or more patterns.
+**Complex**:Combines two or more patterns.
 
 ```
 While connected to the message broker, when a new order is placed, the system shall publish an OrderCreated event within 500ms.
@@ -169,14 +164,13 @@ Each EARS pattern forces you to answer specific questions:
 
 Specky validates every requirement against these patterns. If a requirement does not match any EARS pattern, Specky flags it and suggests improvements. This validation happens automatically during the `sdd_write_spec` phase.
 
----
 
 ## 4. Installing Specky
 
 ### Prerequisites
 
-- **Node.js 18 or later** -- [Download from nodejs.org](https://nodejs.org/)
-- **An MCP-compatible AI assistant** -- VS Code with GitHub Copilot, Claude Code, or Claude Desktop
+- **Node.js 18 or later**:[Download from nodejs.org](https://nodejs.org/)
+- **An MCP-compatible AI assistant**:VS Code with GitHub Copilot, Claude Code, or Claude Desktop
 
 Verify your Node.js installation:
 
@@ -237,7 +231,6 @@ echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":
 
 A successful response includes `"serverInfo":{"name":"specky","version":"2.2.0"}` and a list of 47 tools.
 
----
 
 ## 5. Configuring in VS Code with GitHub Copilot
 
@@ -287,7 +280,7 @@ Specky ships with four custom agents for GitHub Copilot in the `.github/agents/`
 
 | Agent | Role |
 |-------|------|
-| `@spec-engineer` | Full pipeline orchestrator -- uses all 47 tools |
+| `@spec-engineer` | Full pipeline orchestrator:uses all 47 tools |
 | `@design-architect` | Architecture and design phase specialist |
 | `@task-planner` | Task decomposition and estimation |
 | `@spec-reviewer` | Quality audit, compliance, and analysis |
@@ -298,7 +291,6 @@ Invoke them in Copilot Chat:
 @spec-engineer Create a specification for a real-time chat application with end-to-end encryption.
 ```
 
----
 
 ## 6. Configuring in Claude Code
 
@@ -372,9 +364,8 @@ Add the Specky server:
 
 Restart Claude Desktop after saving.
 
----
 
-## 7. Your First Specification -- Complete Walkthrough
+## 7. Your First Specification. Complete Walkthrough
 
 This section walks through the entire SDD pipeline step by step, from an empty project to a fully analyzed specification. We will build a specification for a task management API.
 
@@ -405,7 +396,7 @@ The AI initializes the project structure and creates the project charter.
   .sdd-state.json
 ```
 
-`CONSTITUTION.md` defines the project identity -- its principles, constraints, stakeholders, and boundaries. The state machine records that the pipeline is in the `init` phase.
+`CONSTITUTION.md` defines the project identity, its principles, constraints, stakeholders, and boundaries. The state machine records that the pipeline is in the `init` phase.
 
 **Example CONSTITUTION.md excerpt:**
 
@@ -486,7 +477,7 @@ and return HTTP 201 with the created resource.
 
 Every requirement includes its EARS pattern classification. Specky validates each requirement and suggests improvements if a statement is ambiguous.
 
-**Pause point:** The AI will ask "LGTM?" -- respond with LGTM to proceed, or request changes.
+**Pause point:** The AI will ask "LGTM?". Respond with LGTM to proceed, or request changes.
 
 ### Phase 4: Clarify
 
@@ -497,13 +488,13 @@ Specky scans the specification for ambiguities and generates targeted clarificat
 **Example clarifications:**
 
 ```
-1. REQ-FUNC-005 mentions "real-time notifications" -- what transport protocol?
+1. REQ-FUNC-005 mentions "real-time notifications". What transport protocol?
    Options: WebSocket, Server-Sent Events, or push notifications?
 
-2. REQ-PERF-001 requires "fast response times" -- what is the target latency?
+2. REQ-PERF-001 requires "fast response times". What is the target latency?
    Suggested: p95 < 200ms for read operations, p95 < 500ms for writes.
 
-3. REQ-SEC-002 says "appropriate access control" -- define the role hierarchy.
+3. REQ-SEC-002 says "appropriate access control". Define the role hierarchy.
    Suggested: admin > project_owner > member > viewer.
 ```
 
@@ -560,7 +551,7 @@ Specky decomposes the specification and design into implementation tasks with ef
 ```markdown
 | ID    | Task                              | [P] | Effort | Depends | Traces To    |
 |-------|-----------------------------------|-----|--------|---------|--------------|
-| T-001 | Project scaffolding and CI setup   |     | M      | --      | REQ-CORE-001 |
+| T-001 | Project scaffolding and CI setup   |     | M      |:     | REQ-CORE-001 |
 | T-002 | JWT authentication service         |     | L      | T-001   | REQ-FUNC-001 |
 | T-003 | User registration and profile API  | [P] | M      | T-001   | REQ-FUNC-003 |
 | T-004 | Task CRUD API endpoints            | [P] | M      | T-001   | REQ-FUNC-002 |
@@ -606,7 +597,6 @@ Coverage: 100% (12/12 requirements traced)
 
 If any requirement lacks a design component, task, or acceptance criteria, the gate decision is `CHANGES_NEEDED` or `BLOCK`, and the analysis report explains exactly what is missing.
 
----
 
 ## 8. Importing Documents
 
@@ -681,7 +671,6 @@ Process all transcripts in my OneDrive transcripts folder.
 
 The AI calls `sdd_batch_transcripts` and each transcript becomes a numbered feature spec.
 
----
 
 ## 9. Exporting to Azure Boards, Jira, and GitHub Issues
 
@@ -736,7 +725,7 @@ Specky also supports Git workflow integration:
 Create a feature branch for feature 001.
 ```
 
-Tool: `sdd_create_branch` -- creates `feature/001-task-management-api` from your base branch.
+Tool: `sdd_create_branch` creates `feature/001-task-management-api` from your base branch.
 
 **Create a pull request:**
 
@@ -744,9 +733,8 @@ Tool: `sdd_create_branch` -- creates `feature/001-task-management-api` from your
 Create a draft PR for feature 001.
 ```
 
-Tool: `sdd_create_pr` -- generates a PR with a description that includes the specification summary, design highlights, and task checklist.
+Tool: `sdd_create_pr` generates a PR with a description that includes the specification summary, design highlights, and task checklist.
 
----
 
 ## 10. Generating Infrastructure as Code
 
@@ -839,7 +827,6 @@ Validate the Terraform code generated for feature 001.
 
 Produces a validation payload that the AI routes to Terraform MCP or Azure MCP for plan/validate execution.
 
----
 
 ## 11. Generating Diagrams
 
@@ -904,7 +891,6 @@ Generate a FigJam architecture diagram for feature 001.
 
 Produces structured data compatible with the Figma MCP server's `generate_diagram` tool. Supported types: `architecture`, `user_flow`, `data_flow`, `integration`.
 
----
 
 ## 12. Running Compliance Checks
 
@@ -973,7 +959,7 @@ Writes `CHECKLIST.md` with domain-specific validation items.
 Verify that the tasks for feature 001 are implemented in src/.
 ```
 
-This compares TASKS.md against actual code files to detect "phantom completions" -- tasks marked as done with no corresponding code evidence. Writes `VERIFICATION.md`.
+This compares TASKS.md against actual code files to detect "phantom completions", tasks marked as done with no corresponding code evidence. Writes `VERIFICATION.md`.
 
 ### EARS validation
 
@@ -985,7 +971,6 @@ Validate the EARS notation in the specification for feature 001.
 
 Checks every requirement against the six EARS patterns and provides improvement suggestions for any that are ambiguous or structurally weak.
 
----
 
 ## 13. Generating Tests from Specifications (NEW in v2.2.0)
 
@@ -1075,7 +1060,6 @@ When you choose Playwright as the framework, Specky automatically includes a `re
 }
 ```
 
----
 
 ## 14. Project Configuration (NEW in v2.2.0)
 
@@ -1108,7 +1092,6 @@ audit_enabled: true
 
 If no config file exists, Specky uses sensible defaults and works out of the box.
 
----
 
 ## 15. Specky and the Spec-Kit Foundation
 
@@ -1137,9 +1120,8 @@ Specky is a **complete, self-contained SDD platform**. It already includes the f
 
 [Spec-Kit](https://github.com/paulasilvatech/spec-kit) is still useful as a standalone learning tool if you want to learn SDD concepts before using the full platform, or if you work in environments where MCP servers are not available. But for production use, **Specky is all you need** — one install, everything included.
 
----
 
-## 16. The Full Pipeline -- From Meeting to Deployment
+## 16. The Full Pipeline. From Meeting to Deployment
 
 Here is the complete workflow that takes a project from an initial meeting to deployment-ready specifications, infrastructure, and work items.
 
@@ -1266,7 +1248,6 @@ sdd_generate_docs + sdd_generate_api_docs + sdd_generate_runbook
 sdd_implement --> code --> sdd_verify_tasks --> sdd_create_pr
 ```
 
----
 
 ## 17. Tool Reference Summary
 
@@ -1372,15 +1353,14 @@ Specky v2.2.0 provides 47 MCP tools organized into eight groups.
 |------|---------|
 | `sdd_metrics` | Collect and report specification metrics |
 
----
 
 ## 18. Next Steps
 
 ### Explore the reference materials
 
-- [EARS Notation Guide](references/ears-notation.md) -- Complete syntax reference with examples for all six patterns
-- [Specification Templates](references/spec-templates.md) -- Boilerplate templates for common feature types
-- [Design Patterns](references/design-patterns.md) -- Architecture templates for the design phase
+- [EARS Notation Guide](references/ears-notation.md). Complete syntax reference with examples for all six patterns
+- [Specification Templates](references/spec-templates.md). Boilerplate templates for common feature types
+- [Design Patterns](references/design-patterns.md). Architecture templates for the design phase
 
 ### Customize for your organization
 
@@ -1409,7 +1389,7 @@ Specky integrates with GitHub MCP, Azure DevOps MCP, Jira MCP, Terraform MCP, Fi
 If you're contributing or want to verify your installation:
 
 ```bash
-# Run all 101 unit tests
+# Run all 211 unit tests
 npm test
 
 # Run with coverage report
@@ -1420,13 +1400,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full testing guide.
 
 ### Learn more
 
-- [README.md](README.md) -- Full tool documentation and architecture overview
-- [CONTRIBUTING.md](CONTRIBUTING.md) -- How to contribute tools, templates, and services
-- [PUBLISH.md](PUBLISH.md) -- How to publish to GitHub, npm, and Docker
-- [GitHub Repository](https://github.com/paulasilvatech/specky) -- Source code and issue tracker
-
----
+- [README.md](README.md). Full tool documentation and architecture overview
+- [CONTRIBUTING.md](CONTRIBUTING.md). How to contribute tools, templates, and services
+- [PUBLISH.md](PUBLISH.md). How to publish to GitHub, npm, and Docker
+- [GitHub Repository](https://github.com/paulasilvatech/specky). Source code and issue tracker
 
 **Created by [Paula Silva](https://github.com/paulasilvatech)** ([@paulanunes85](https://twitter.com/paulanunes85)) | Americas Software GBB
 
-*Specky -- The fun name, the serious engine.*
+*Specky. The fun name, the serious engine.*
