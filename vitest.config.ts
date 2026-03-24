@@ -8,7 +8,10 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       include: ["src/services/**"],
-      exclude: ["src/services/file-manager.ts"], // I/O-bound, tested via integration
+      exclude: [
+        "src/services/file-manager.ts",       // I/O boundary, tested via integration
+        "src/services/document-converter.ts",  // Uses node:fs/promises directly, I/O boundary
+      ],
       reporter: ["text", "lcov", "html"],
       thresholds: {
         lines: 80,
