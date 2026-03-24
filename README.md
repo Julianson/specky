@@ -65,7 +65,7 @@ Specky adds a **deterministic engine** between your intent and your code:
 | Phantom task detection | Extension | No | No | **Yes** |
 | Complete auto-documentation | No | No | No | **Yes** |
 | Educative outputs | No | No | No | **Yes** |
-| 42 MCP tools | N/A | N/A | N/A | **Yes** |
+| 47 MCP tools | N/A | N/A | N/A | **Yes** |
 | Works in ANY IDE via MCP | Templates | IDE-locked | IDE-locked | **Yes** |
 
 </details>
@@ -102,7 +102,7 @@ Create `.vscode/mcp.json` in your project:
 }
 ```
 
-Open Copilot Chat -- Specky's 44 tools are now available.
+Open Copilot Chat -- Specky's 47 tools are now available.
 
 ### Configure in Claude Code
 
@@ -194,7 +194,7 @@ Each phase is **mandatory**. The state machine blocks advancement until prerequi
 
 ---
 
-## All 44 Tools
+## All 47 Tools
 
 ### Input and Conversion (5)
 

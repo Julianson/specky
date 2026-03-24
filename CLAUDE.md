@@ -1,4 +1,4 @@
-# Specky v2.1.0 -- Claude Code Project Instructions
+# Specky v2.2.0 -- Claude Code Project Instructions
 
 **Auto-loaded by Claude Code when working in this directory.**
 
@@ -6,7 +6,7 @@
 
 ## 1. Project Overview
 
-Specky v2.1.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **44 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 14 services, 21 templates, 4 Custom Agents, and 6 automation hooks.
+Specky v2.2.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **47 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 15 services, 22 templates, 4 Custom Agents, and 6 automation hooks.
 
 **Goal:** Close the gap between specification and code through continuous validation, preventing drift and ensuring acceptance criteria are met.
 
@@ -521,6 +521,7 @@ PORT=3200                               # HTTP transport port (--http mode)
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.2.0 | 2026-03-24 | 47 tools (+sdd_generate_tests, sdd_verify_tests), test generation for 6 frameworks, .specky/config.yml support, 211 unit tests, 89% coverage, OpenSSF Scorecard, SBOM generation |
 | 2.1.0 | 2026-03-21 | 44 tools (+sdd_check_ecosystem, sdd_validate_ears), MCP ecosystem detection, server recommendations, recommended_servers in tool outputs |
 | 2.0.0 | 2026-03-21 | 42 tools, 10-phase pipeline, 14 services, 21 templates, compliance frameworks, MCP-to-MCP routing, educative outputs, IaC generation, diagram generation, document import |
 | 1.0.0 | 2026-03-20 | Initial release: 17 tools, 7-phase pipeline, 6 services, 4 agents, 6 hooks |
