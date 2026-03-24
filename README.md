@@ -34,11 +34,11 @@
 
 ## 🔍 What is Specky?
 
-Specky is the **complete Spec-Driven Development (SDD) platform**, built on the foundation of the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology. It's an open-source MCP (Model Context Protocol) server that provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
+Specky is an open-source **MCP server** that turns the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) SDD methodology into a **programmable enforcement engine** with 47 validated tools. It provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
 
-Specky **already includes everything from Spec-Kit**: the EARS notation, the SDD templates, the pipeline phases, and the quality patterns. On top of that, it adds **programmatic enforcement**: a state machine that blocks phase-skipping, an EARS validator that ensures testable requirements, cross-artifact analysis that catches drift, and compliance engines that validate against frameworks like HIPAA and SOC2.
+**Spec-Kit** provides the methodology: EARS notation, gated pipeline phases, constitution model, quality patterns. **Specky** reimplements all of it as MCP tools and adds programmatic enforcement: a state machine that blocks phase-skipping, an EARS validator, cross-artifact analysis, compliance engines, test generation, and MCP-to-MCP routing.
 
-**Install Specky and you're ready to go.** No separate installation of Spec-Kit required. It works inside any AI IDE that supports MCP, via `.github/agents/` for GitHub Copilot or `.claude/commands/` for Claude Code, and natively in Cursor, Windsurf, or any MCP-compatible client.
+**Install Specky and you get both.** The Spec-Kit methodology is already built in. It works inside any AI IDE that supports MCP, via `.github/agents/` or `.claude/commands/`, and natively in Cursor, Windsurf, or any MCP-compatible client. See how they [complement each other](#%EF%B8%8F-the-spec-driven-development-platform).
 
 
 ## 🧠 Why Specifications Matter in the AI Era
@@ -864,43 +864,37 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | Tool | Description |
 |------|-------------|
 | `sdd_generate_tests` | Generate test stubs from acceptance criteria (vitest/jest/playwright/pytest/junit/xunit) |
-| `sdd_verify_tests` | Verify test results against requirements.reports traceability coverage |
+| `sdd_verify_tests` | Verify test results against requirements, report traceability coverage |
 
 
 ## 🏛️ The Spec-Driven Development Platform
 
-Specky is a **complete, self-contained SDD platform**. It includes everything from the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology.the EARS notation, the pipeline phases, the quality patterns, the templates.and adds programmatic enforcement on top.
+<p align="center">
+  <img src="media/specky-speckit-integration.svg" alt="How Spec-Kit and Specky Work Together in the GitHub + Microsoft Ecosystem" width="100%"/>
+</p>
 
-**You do not need to install Spec-Kit separately.** Specky already has it built in.
+### How Spec-Kit and Specky Complement Each Other
 
-### What Spec-Kit Provides (included in Specky)
+**[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is the open-source SDD methodology: EARS notation, gated pipeline phases, constitution model, 25+ specialized agents, and Markdown prompt templates. It defines **what** to do.
 
-- EARS notation for testable requirements (6 patterns)
-- 10-phase pipeline structure (Init → Release)
-- 22 Markdown templates for all spec artifacts
-- Quality gate patterns and traceability model
-- Spec-Driven Development methodology and workflow
+**Specky** is the MCP engine that reimplements that methodology as 47 enforceable tools with programmatic validation. It enforces **how** to do it.
 
-### What Specky Adds on Top
+| | Spec-Kit (Methodology) | Specky (Engine) |
+|--|------------------------|-----------------|
+| **What it is** | Prompt templates + agent definitions | MCP server with 47 tools |
+| **How it works** | AI reads `.md` templates and follows instructions | AI calls tools that validate, enforce, and generate |
+| **Validation** | AI tries to follow the prompts | State machine, EARS regex, Zod schemas |
+| **Install** | Copy `.github/agents/` and `.claude/commands/` | `npx specky-sdd` (includes methodology built-in) |
+| **Works standalone** | Yes, in any AI IDE | Yes, includes all Spec-Kit patterns |
+| **Best for** | Learning SDD, lightweight adoption | Production enforcement, enterprise, compliance |
 
-- **47 MCP tools**.programmatic enforcement, not just templates
-- **State machine**.blocks phase-skipping, enforces prerequisites
-- **EARS validator**.regex-based requirement validation, flags vague terms
-- **6 input types**.transcripts, documents, Figma, codebase scan, raw text, prompts
-- **Compliance engines**: HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001
-- **Test generation**.6 frameworks (vitest, jest, playwright, pytest, junit, xunit)
-- **MCP-to-MCP routing**.structured payloads for GitHub, Azure DevOps, Jira, Terraform, Figma, Docker
-- **Cross-artifact analysis**.automatic alignment checking with consistency scoring
-- **Educative outputs**.every tool explains what it did and what to do next
+### Together: The Complete SDD Layer
 
-### When to Use Spec-Kit Directly
+When you install Specky, you get the full Spec-Kit methodology reimplemented as validated MCP tools. **No separate installation of Spec-Kit needed.** But Spec-Kit remains available as a standalone learning tool for teams that want to adopt SDD concepts before using the engine.
 
-[Spec-Kit](https://github.com/paulasilvatech/spec-kit) is still useful as a **standalone learning tool** if you want to:
-- Learn SDD concepts before using the full platform
-- Work in environments where MCP servers aren't available
-- Use the prompt templates with any AI tool that doesn't support MCP
+Together they form the **SDD layer** of the GitHub + Microsoft enterprise platform, competing with standalone approaches like Kiro (AWS), Cursor, and Windsurf.
 
-But for production use, **Specky is all you need**:
+> 💡 **Key insight from the [SDD Market Analysis 2026](https://paulanunes85.github.io/sdd-market-analysis-2026/)**: SDD workflow scores are at competitive parity (4:4 tie). The enterprise platform surrounding the SDD layer is the differentiator: security, governance, multi-model freedom, and compliance. GitHub + Microsoft scores 4.25/5.0 vs Kiro's 2.85/5.0.
 
 ```json
 {
