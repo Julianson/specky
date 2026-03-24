@@ -17,7 +17,8 @@
 ## Table of Contents
 
 - [What is Specky?](#what-is-specky) — Overview and ecosystem
-- [Why Specky?](#why-specky) — Problem, solution, and differentiators
+- [Why Specifications Matter](#why-specifications-matter-in-the-ai-era) — Vibe coding vs deterministic development, what is Markdown/MCP/EARS/Agents
+- [GETTING-STARTED.md](GETTING-STARTED.md) — Complete educational guide (1400 lines, assumes no prior knowledge)
 - [Quick Start](#quick-start) — Install via npm or Docker, connect to your IDE, and run your first command
 - [Where Specifications Live](#where-specifications-live) — File structure and naming conventions
 - [Input Methods](#input-methods--6-ways-to-start) — 6 ways to feed Specky (prompts, transcripts, documents, Figma, codebase scan, raw text)
@@ -27,7 +28,7 @@
   - [Modernization](#modernization-project--assess-and-upgrade-legacy-systems) — Assess and upgrade legacy systems
 - [Pipeline and LGTM Gates](#pipeline-and-lgtm-gates) — 10-phase pipeline with human review gates
 - [All 47 Tools](#all-47-tools) — Complete tool reference by category
-- [The SDD Platform](#the-spec-driven-development-platform) — How Specky and Spec-Kit work together
+- [The SDD Platform](#the-spec-driven-development-platform) — Built on Spec-Kit, everything included
 - [Configuration](#project-configuration) — `.specky/config.yml` options
 - [MCP Integration](#mcp-integration-architecture) — MCP-to-MCP routing to GitHub, Azure DevOps, Jira, Terraform, Figma
 - [EARS Notation](#ears-notation) — The 6 requirement patterns
@@ -39,28 +40,47 @@
 
 ## What is Specky?
 
-Specky is the **enforcement engine** of the [Spec-Driven Development](https://github.com/paulasilvatech/spec-kit) ecosystem. It's an open-source MCP (Model Context Protocol) server that provides a complete, deterministic pipeline from **any input** -- meeting transcripts, documents, Figma designs, or natural language prompts -- through specifications, architecture, infrastructure as code, implementation, and deployment.
+Specky is the **complete Spec-Driven Development (SDD) platform**, built on the foundation of the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology. It's an open-source MCP (Model Context Protocol) server that provides a deterministic pipeline from **any input** -- meeting transcripts, documents, Figma designs, or natural language prompts -- through specifications, architecture, infrastructure as code, implementation, and deployment.
 
-Unlike template-based tools, Specky enforces every step programmatically: a state machine blocks phase-skipping, an EARS validator ensures testable requirements, cross-artifact analysis catches drift, and compliance engines validate against frameworks like HIPAA and SOC2.
+Specky **already includes everything from Spec-Kit** -- the EARS notation, the SDD templates, the pipeline phases, and the quality patterns -- and adds **programmatic enforcement** on top: a state machine that blocks phase-skipping, an EARS validator that ensures testable requirements, cross-artifact analysis that catches drift, and compliance engines that validate against frameworks like HIPAA and SOC2.
 
-**Specky works inside the tools you already use** -- VS Code with GitHub Copilot, Claude Code, Cursor, Windsurf, or any AI agent that supports MCP. It complements **[Spec-Kit](https://github.com/paulasilvatech/spec-kit)**, which provides the learning templates that teach SDD fundamentals.
+**Install Specky and you're ready to go.** No separate installation of Spec-Kit required. It works inside any AI IDE that supports MCP — via `.github/agents/` for GitHub Copilot or `.claude/commands/` for Claude Code, and natively in Cursor, Windsurf, or any MCP-compatible client.
 
 ---
 
-## Why Specky?
+## Why Specifications Matter in the AI Era
 
-### The Problem
+<p align="center">
+  <img src="media/why-specifications-matter.svg" alt="Why Specifications Matter — From Vibe Coding to Deterministic Development" width="100%"/>
+</p>
 
-AI coding assistants are fast but chaotic. They skip requirements, ignore architecture, and produce code that drifts from the original intent. Template-based approaches help but rely on the AI to follow instructions -- with no programmatic enforcement.
+### The Problem: Vibe Coding
 
-### The Solution
+AI coding assistants are fast but chaotic. You say *"build me a login system"* and the AI generates code immediately -- skipping requirements, guessing architecture, and producing something that works but doesn't match what anyone actually needed. This is **vibe coding**: generating code based on vibes instead of validated specifications.
+
+The result? Teams spend 40% of their time on rework because requirements were never written down, acceptance criteria were never defined, and there's no way to verify the code matches the original intent.
+
+### The Solution: Deterministic Development
+
+**Specifications** are structured documents that describe *what the system must do* before anyone writes code. They've existed for decades in engineering, but AI development mostly ignores them. Specky brings them back -- with AI enforcement.
+
+**Key concepts you should know:**
+
+- **Markdown** -- The universal language that both humans and AI read fluently. All spec artifacts are Markdown files that live in your repo, versioned with Git.
+- **MCP (Model Context Protocol)** -- An open standard by Anthropic that lets AI assistants call external tools. Think of it as USB for AI. Specky is an MCP server; any AI IDE can connect to it.
+- **EARS Notation** -- A method for writing requirements that forces precision. Six patterns (When/While/Where/If/The system shall) eliminate vague statements like "the system should be fast."
+- **Agents and Skills** -- Specialized AI roles (Spec Engineer, Design Architect, Task Planner) that invoke Specky tools with domain expertise. Defined in `.github/agents/` and `.claude/commands/`.
+
+### How Specky Enforces Determinism
 
 Specky adds a **deterministic engine** between your intent and your code:
 
 - **State Machine** -- 10 mandatory phases, no skipping. Init, Discover, Specify, Clarify, Design, Tasks, Analyze, Implement, Verify, Release.
-- **EARS Validator** -- Every requirement validated against 6 patterns (Ubiquitous, Event-driven, State-driven, Optional, Unwanted, Complex). No vague statements pass.
+- **EARS Validator** -- Every requirement validated against 6 patterns. No vague statements pass.
 - **Cross-Artifact Analysis** -- Automatic alignment checking between spec, design, and tasks. Orphaned requirements are flagged instantly.
 - **MCP-to-MCP Architecture** -- Specky outputs structured JSON that your AI client routes to GitHub, Azure DevOps, Jira, Terraform, Figma, and Docker MCP servers. No vendor lock-in.
+
+> **The AI is the operator; Specky is the engine.** The AI's creativity is channeled through a validated pipeline instead of producing unstructured guesswork. For a complete educational walkthrough, see [GETTING-STARTED.md](GETTING-STARTED.md).
 
 ### Differentiators
 
@@ -289,7 +309,7 @@ Once connected, type this in your AI chat to see Specky in action:
 
 Specky creates the project structure and asks you 7 discovery questions. From here, follow the [Greenfield](#greenfield-project--start-from-scratch), [Brownfield](#brownfield-project--add-features-to-existing-code), or [Modernization](#modernization-project--assess-and-upgrade-legacy-systems) guide depending on your project type.
 
-> **New to Spec-Driven Development?** Start with **[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** to learn the concepts with guided prompts, then add Specky for [programmatic enforcement](#the-spec-driven-development-platform).
+> **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/paulasilvatech/spec-kit). Just install Specky and the pipeline guides you through every phase with [educative outputs](#educative-outputs) that explain the concepts as you work.
 
 ---
 
@@ -858,27 +878,38 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 
 ## The Spec-Driven Development Platform
 
-Specky is a **complete Spec-Driven Development platform** — and it's designed to work alongside **[Spec-Kit](https://github.com/paulasilvatech/spec-kit)**, the open-source prompt template framework that teaches SDD fundamentals.
+Specky is a **complete, self-contained SDD platform**. It includes everything from the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology — the EARS notation, the pipeline phases, the quality patterns, the templates — and adds programmatic enforcement on top.
 
-### How They Work Together
+**You do not need to install Spec-Kit separately.** Specky already has it built in.
 
-| | Spec-Kit | Specky |
-|--|----------|--------|
-| **What it is** | Prompt templates (`.md` files) | MCP server (47 tools) |
-| **How it works** | Copies templates into your repo; AI follows the prompts | Programmatic enforcement via state machine, validators, and compliance engines |
-| **Validation** | AI tries to follow instructions | EARS regex validation, Zod schema enforcement, cross-artifact analysis |
-| **Phase enforcement** | None — AI decides the order | State machine blocks phase-skipping |
-| **Compliance** | None | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
-| **Test generation** | None | 6 frameworks (vitest, jest, playwright, pytest, junit, xunit) |
-| **Input types** | User prompts only | 6 types: prompts, transcripts, documents, Figma, codebase scan, raw text |
-| **Output routing** | None | MCP-to-MCP routing to GitHub, Azure DevOps, Jira, Terraform, Figma, Docker |
-| **Best for** | Learning SDD, quick start | Production enforcement, enterprise, compliance |
+### What Spec-Kit Provides (included in Specky)
 
-### Recommended Learning Path
+- EARS notation for testable requirements (6 patterns)
+- 10-phase pipeline structure (Init → Release)
+- 22 Markdown templates for all spec artifacts
+- Quality gate patterns and traceability model
+- Spec-Driven Development methodology and workflow
 
-1. **Start with Spec-Kit** to learn Spec-Driven Development concepts with guided prompts
-2. **Add Specky** when you need programmatic enforcement, multi-input support, and compliance checking
-3. **Use both** in production — Spec-Kit's templates as the educational layer, Specky as the enforcement engine
+### What Specky Adds on Top
+
+- **47 MCP tools** — programmatic enforcement, not just templates
+- **State machine** — blocks phase-skipping, enforces prerequisites
+- **EARS validator** — regex-based requirement validation, flags vague terms
+- **6 input types** — transcripts, documents, Figma, codebase scan, raw text, prompts
+- **Compliance engines** — HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001
+- **Test generation** — 6 frameworks (vitest, jest, playwright, pytest, junit, xunit)
+- **MCP-to-MCP routing** — structured payloads for GitHub, Azure DevOps, Jira, Terraform, Figma, Docker
+- **Cross-artifact analysis** — automatic alignment checking with consistency scoring
+- **Educative outputs** — every tool explains what it did and what to do next
+
+### When to Use Spec-Kit Directly
+
+[Spec-Kit](https://github.com/paulasilvatech/spec-kit) is still useful as a **standalone learning tool** if you want to:
+- Learn SDD concepts before using the full platform
+- Work in environments where MCP servers aren't available
+- Use the prompt templates with any AI tool that doesn't support MCP
+
+But for production use, **Specky is all you need**:
 
 ```json
 {
@@ -890,8 +921,6 @@ Specky is a **complete Spec-Driven Development platform** — and it's designed 
   }
 }
 ```
-
-> Specky is the **complete platform**. Spec-Kit is the **learning companion**. Together, they close the gap between intent and implementation.
 
 ---
 

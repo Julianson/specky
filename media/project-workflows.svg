@@ -237,6 +237,6 @@
 
   <!-- Bottom note -->
   <text x="700" y="680" text-anchor="middle" font-size="11" fill="#888780">All three workflows produce the same traceable, auditable spec package in .specs/NNN-feature/</text>
-  <text x="700" y="700" text-anchor="middle" font-size="10" fill="#B4B2A9" font-style="italic">Specky is the enforcement engine · Spec-Kit is the learning companion</text>
+  <text x="700" y="700" text-anchor="middle" font-size="10" fill="#B4B2A9" font-style="italic">Specky includes the full Spec-Kit SDD methodology with programmatic enforcement</text>
 
 </svg>

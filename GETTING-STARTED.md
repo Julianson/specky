@@ -8,6 +8,7 @@
 
 ## Table of Contents
 
+0.  [The Big Picture: Why This Exists](#0-the-big-picture-why-this-exists) — Vibe coding, Markdown, agents, skills
 1.  [What is MCP and Why It Matters](#1-what-is-mcp-and-why-it-matters)
 2.  [What is Spec-Driven Development](#2-what-is-spec-driven-development)
 3.  [What is EARS Notation](#3-what-is-ears-notation)
@@ -22,10 +23,40 @@
 12. [Running Compliance Checks](#12-running-compliance-checks)
 13. [Generating Tests from Specifications](#13-generating-tests-from-specifications-new-in-v220)
 14. [Project Configuration](#14-project-configuration-new-in-v220)
-15. [Specky + Spec-Kit: Better Together](#15-specky--spec-kit-better-together)
+15. [Specky and the Spec-Kit Foundation](#15-specky-and-the-spec-kit-foundation)
 16. [The Full Pipeline -- From Meeting to Deployment](#16-the-full-pipeline----from-meeting-to-deployment)
 17. [Tool Reference Summary](#17-tool-reference-summary)
 18. [Next Steps](#18-next-steps)
+
+---
+
+## 0. The Big Picture: Why This Exists
+
+<p align="center">
+  <img src="media/why-specifications-matter.svg" alt="Why Specifications Matter in the AI Era" width="100%"/>
+</p>
+
+### The Vibe Coding Problem
+
+AI coding assistants generate code fast, but they skip the most important step: **understanding what you actually need**. You say "build me a login system" and the AI guesses the architecture, invents requirements, and produces code that might work but doesn't match what anyone agreed on. This is called **vibe coding** — building software based on vibes instead of validated specifications.
+
+The result: 40% of developer time goes to rework because requirements were never written down, never validated, and never agreed upon.
+
+### What Specky Does About It
+
+Specky is a **deterministic engine** that sits between your intent and your code. Instead of letting the AI guess, Specky enforces a structured pipeline: you must define requirements before designing architecture, you must design before creating tasks, and you must validate before implementing. The AI can't skip steps because a **state machine** physically prevents it.
+
+### What is Markdown and Why Does AI Use It?
+
+**Markdown** (`.md` files) is a lightweight text format that is both human-readable and machine-parseable. It's the native language of AI assistants — when you chat with an AI, it "thinks" in Markdown. All Specky artifacts (specifications, designs, tasks) are Markdown files that live in your Git repository, version-controlled alongside your code.
+
+### What are Agents and Skills?
+
+**Agents** (`.github/agents/`) are specialized AI roles with expertise in a specific domain. Specky includes four agents (Spec Engineer, Design Architect, Task Planner, Spec Reviewer) that know how to use the SDD methodology. These work with any IDE that supports GitHub Copilot Custom Agents.
+
+**Skills** (`.claude/commands/`) are reusable slash commands (like `/sdd:spec`, `/sdd:design`) that invoke the Specky pipeline with the right parameters. These work with Claude Code and compatible CLIs.
+
+Both agents and skills call the same 47 Specky MCP tools underneath — they're just different entry points for different platforms.
 
 ---
 
@@ -65,9 +96,9 @@ In most software projects, requirements exist as scattered Slack messages, meeti
 
 SDD enforces a 10-phase pipeline:
 
-```
-Init --> Discover --> Specify --> Clarify --> Design --> Tasks --> Analyze --> Implement --> Verify --> Release
-```
+<p align="center">
+  <img src="media/pipeline-lgtm-gates.svg" alt="10-Phase Pipeline with LGTM Gates" width="100%"/>
+</p>
 
 Each phase produces a concrete artifact. Each phase has prerequisites -- you cannot write a design without a specification, and you cannot create tasks without a design. Quality gates at each phase prevent bad specs from propagating downstream.
 
@@ -1079,25 +1110,32 @@ If no config file exists, Specky uses sensible defaults and works out of the box
 
 ---
 
-## 15. Specky + Spec-Kit: Better Together
+## 15. Specky and the Spec-Kit Foundation
 
-**[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is a CLI tool that copies SDD prompt templates into your repo. **Specky** is an MCP server that enforces those same patterns programmatically. They complement each other:
+Specky is a **complete, self-contained SDD platform**. It already includes the full [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology — the EARS notation, the pipeline phases, the quality patterns, the 22 Markdown templates. **You do not need to install Spec-Kit separately.**
 
-| Aspect | Spec-Kit | Specky |
-|--------|----------|--------|
-| **Type** | CLI + templates | MCP server + engine |
-| **How it works** | Copies prompts to your repo | AI calls 47 tools via JSON-RPC |
-| **Validation** | AI tries to follow | Programmatic (EARS regex, state machine) |
-| **Phase enforcement** | None | State machine blocks skipping |
-| **Compliance** | None | 6 frameworks (HIPAA, SOC2, GDPR...) |
-| **Test generation** | None | 6 frameworks with traceability |
-| **Best for** | Learning SDD, quick start | Production enforcement, enterprise |
+### What comes from Spec-Kit (already built into Specky)
 
-### Use them together
+- EARS notation for testable requirements (6 patterns)
+- 10-phase pipeline structure (Init → Release)
+- 22 Markdown templates for all spec artifacts
+- Quality gate patterns and traceability model
+- Spec-Driven Development methodology
 
-1. **Start with Spec-Kit** — learn the SDD workflow with guided prompts
-2. **Add Specky** — enforce requirements programmatically, generate tests, check compliance
-3. Spec-Kit's templates become the educational layer; Specky becomes the enforcement engine
+### What Specky adds on top
+
+- **47 MCP tools** — programmatic enforcement via state machine
+- **EARS validator** — regex-based validation, flags vague terms automatically
+- **6 input types** — transcripts, documents, Figma, codebase scan, raw text, prompts
+- **Compliance engines** — HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001
+- **Test generation** — 6 frameworks (vitest, jest, playwright, pytest, junit, xunit)
+- **MCP-to-MCP routing** — structured payloads for GitHub, Azure DevOps, Jira, Terraform, Figma, Docker
+- **Cross-artifact analysis** — alignment checking with consistency scoring
+- **Educative outputs** — every tool response explains what happened and what to do next
+
+### When to use Spec-Kit directly
+
+[Spec-Kit](https://github.com/paulasilvatech/spec-kit) is still useful as a standalone learning tool if you want to learn SDD concepts before using the full platform, or if you work in environments where MCP servers are not available. But for production use, **Specky is all you need** — one install, everything included.
 
 ---
 
