@@ -30,6 +30,7 @@
 | [📐 EARS Notation](#-ears-notation) | The 6 requirement patterns |
 | [🛡️ Compliance](#%EF%B8%8F-compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
 | [🏢 Enterprise Ready](#-enterprise-ready) | Security, audit trail, quality gates |
+| [🗺️ Roadmap](#%EF%B8%8F-roadmap) | v2.2 (current), v2.3, v3.0 plans |
 
 
 ## 🔍 What is Specky?
@@ -1072,6 +1073,48 @@ curl http://localhost:3200/health
 ```
 
 
+## 🗺️ Roadmap
+
+### v2.2 (current, stable)
+
+Specky v2.2 is **production-ready** for teams and organizations adopting Spec-Driven Development.
+
+| Capability | Status |
+|------------|--------|
+| 47 MCP tools across 10 pipeline phases | ✅ Stable |
+| State machine enforcement (no phase-skipping) | ✅ Stable |
+| EARS validation (6 patterns, vague term detection) | ✅ Stable |
+| 6 input types (transcript, PDF, DOCX, Figma, codebase, raw text) | ✅ Stable |
+| Compliance checking (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001) | ✅ Stable |
+| Test generation (vitest, jest, playwright, pytest, junit, xunit) | ✅ Stable |
+| MCP-to-MCP routing (GitHub, Azure DevOps, Jira, Terraform, Figma, Docker) | ✅ Stable |
+| Docker deployment with health check | ✅ Stable |
+| 211 unit tests, 89% code coverage | ✅ Stable |
+| `.github/agents/` + `.claude/commands/` integration | ✅ Stable |
+
+### v2.3 (planned)
+
+| Feature | Description |
+|---------|-------------|
+| 🔐 HTTP authentication | Token-based auth for the HTTP transport (Docker/container mode) |
+| 📊 Observability | OpenTelemetry metrics and structured logging for tool invocations |
+| 🔄 Spec versioning | Track specification versions with diff and rollback support |
+| 🌐 Internationalization | Spec templates in multiple languages (PT-BR, ES, FR, DE, JA) |
+
+### v3.0 (future)
+
+| Feature | Description |
+|---------|-------------|
+| 👥 RBAC | Role-based access control for pipeline phase advancement |
+| 📝 Persistent audit log | Centralized audit trail beyond `.sdd-state.json` |
+| ⚡ Rate limiting | Request throttling for multi-tenant deployments |
+| 🔑 SSO/SAML | Enterprise identity provider integration |
+| 🏢 Multi-tenant | Isolated workspaces for multiple teams on a single server |
+| 📈 Analytics dashboard | Specification quality metrics over time |
+
+> 💡 Have a feature request? [Open an issue](https://github.com/paulasilvatech/specky/issues) on GitHub.
+
+
 ## 🤝 Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add tools, templates, or services.
@@ -1079,11 +1122,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add t
 
 ## 📎 Links
 
-- [CHANGELOG.md](CHANGELOG.md).Version history and release notes
-- [SECURITY.md](SECURITY.md).Vulnerability disclosure policy and OWASP Top 10 coverage
-- [CONTRIBUTING.md](CONTRIBUTING.md).How to add tools, templates, or services
-- [Spec-Kit](https://github.com/paulasilvatech/spec-kit).The learning companion for Spec-Driven Development
-- [npm package](https://www.npmjs.com/package/specky-sdd).`specky-sdd` on npm
+- [CHANGELOG.md](CHANGELOG.md): Version history and release notes
+- [SECURITY.md](SECURITY.md): Vulnerability disclosure policy and OWASP Top 10 coverage
+- [CONTRIBUTING.md](CONTRIBUTING.md): How to add tools, templates, or services
+- [Spec-Kit](https://github.com/paulasilvatech/spec-kit): The SDD methodology foundation
+- [SDD Market Analysis 2026](https://paulanunes85.github.io/sdd-market-analysis-2026/): Enterprise readiness comparison
+- [npm package](https://www.npmjs.com/package/specky-sdd): `specky-sdd` on npm
 
 
 ## 📄 License
