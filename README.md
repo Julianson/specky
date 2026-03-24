@@ -115,79 +115,23 @@ Specky adds a **deterministic engine** between your intent and your code:
 ### Prerequisites
 
 - **Node.js 18+**: [Download here](https://nodejs.org/)
-- **An AI IDE or client**: VS Code with Copilot, Claude Code, Claude Desktop, Cursor, or Windsurf
+- **An AI IDE**: VS Code with Copilot, Claude Code, Claude Desktop, Cursor, or Windsurf
 
-### Option 1: npm (Recommended)
+### Step 1: Choose Your Installation Scope
 
-No installation needed. `npx` downloads and runs Specky on demand:
+| Scope | What it does | Best for |
+|-------|-------------|----------|
+| **Per workspace** (recommended) | Config file lives inside the repo, shared with the team via Git | Teams, open-source projects |
+| **Global (once)** | Installed on your machine, available in every repo automatically | Personal use, quick setup |
 
-```bash
-npx specky-sdd
-```
+### Step 2: Install
 
-Or install globally for faster startup:
+<details open>
+<summary><strong>📂 Per Workspace (recommended)</strong></summary>
 
-```bash
-npm install -g specky-sdd
-specky-sdd
-```
+No global install needed. You add a config file to the repo and `npx` handles the rest.
 
-### Option 2: Docker
-
-Run Specky as an HTTP server in a container, no Node.js required on the host:
-
-```bash
-# Pull and run (mounts your project into /workspace)
-docker run -p 3200:3200 -v $(pwd):/workspace ghcr.io/paulasilvatech/specky:latest
-```
-
-Or use Docker Compose for a persistent setup:
-
-```bash
-# Create a workspace directory and start
-mkdir -p workspace
-docker compose up -d
-
-# Check health
-curl http://localhost:3200/health
-# → {"status":"ok","version":"2.2.0"}
-
-# View logs
-docker compose logs -f specky
-
-# Stop
-docker compose down
-```
-
-<details>
-<summary>Build from source with Docker</summary>
-
-```bash
-git clone https://github.com/paulasilvatech/specky.git
-cd specky
-
-# Build the image locally
-docker build -t specky-sdd:local .
-
-# Run it
-docker run -p 3200:3200 -v $(pwd):/workspace specky-sdd:local
-
-# Or with docker compose
-docker compose up -d --build
-```
-
-</details>
-
-> **stdio vs HTTP:** When run via `npx`, Specky uses stdio (direct pipe to the AI client). When run in Docker, it uses HTTP mode on port 3200. Both modes expose the same 47 MCP tools.
-
-### Connect to Your AI IDE
-
-Once Specky is running, connect it to your preferred AI tool:
-
-<details>
-<summary><strong>VS Code with GitHub Copilot</strong></summary>
-
-Create `.vscode/mcp.json` in your project root:
+**For VS Code with GitHub Copilot** create `.vscode/mcp.json` in the repo root:
 
 ```json
 {
@@ -203,68 +147,13 @@ Create `.vscode/mcp.json` in your project root:
 }
 ```
 
-Open Copilot Chat. Specky's 47 tools are now available. Type `@specky` to scope your prompts.
-
-</details>
-
-<details>
-<summary><strong>Claude Code</strong></summary>
-
-One command:
+**For Claude Code** run this once inside the repo:
 
 ```bash
 claude mcp add specky -- npx -y specky-sdd
 ```
 
-Or add to your MCP settings manually:
-
-```json
-{
-  "mcpServers": {
-    "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"],
-      "env": {
-        "SDD_WORKSPACE": "/path/to/your/project"
-      }
-    }
-  }
-}
-```
-
-</details>
-
-<details>
-<summary><strong>Claude Desktop</strong></summary>
-
-Add to your `claude_desktop_config.json`:
-
-| OS | Config File Location |
-|----|---------------------|
-| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Linux | `~/.config/Claude/claude_desktop_config.json` |
-| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
-
-```json
-{
-  "mcpServers": {
-    "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"],
-      "env": {
-        "SDD_WORKSPACE": "/path/to/your/project"
-      }
-    }
-  }
-}
-```
-
-</details>
-
-<details>
-<summary><strong>Cursor</strong></summary>
-
-Add to Cursor's MCP settings (Settings > MCP Servers):
+**For Cursor** add to MCP settings (Settings > MCP Servers):
 
 ```json
 {
@@ -275,24 +164,93 @@ Add to Cursor's MCP settings (Settings > MCP Servers):
 }
 ```
 
+> 💡 Commit the config file to Git so every team member gets Specky automatically when they clone the repo.
+
 </details>
 
 <details>
-<summary><strong>Docker (HTTP mode), for any MCP client</strong></summary>
+<summary><strong>🌐 Global (once, all repos)</strong></summary>
 
-If your AI client supports HTTP-based MCP servers, point it to:
-
-```
-http://localhost:3200/mcp
-```
-
-Start the container first:
+Install globally and Specky is available everywhere on your machine:
 
 ```bash
-docker compose up -d
+npm install -g specky-sdd
+```
+
+Then configure your IDE to use the global install:
+
+**VS Code** (`.vscode/mcp.json`):
+```json
+{
+  "servers": {
+    "specky": {
+      "command": "specky-sdd",
+      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
+    }
+  }
+}
+```
+
+**Claude Code**:
+```bash
+claude mcp add specky -- specky-sdd
+```
+
+**Claude Desktop** (`claude_desktop_config.json`):
+
+| OS | Config location |
+|----|----------------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Linux | `~/.config/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+
+```json
+{
+  "mcpServers": {
+    "specky": {
+      "command": "specky-sdd",
+      "env": { "SDD_WORKSPACE": "/path/to/your/project" }
+    }
+  }
+}
 ```
 
 </details>
+
+<details>
+<summary><strong>🐳 Docker (HTTP mode, no Node.js required)</strong></summary>
+
+Run Specky as an HTTP server in a container:
+
+```bash
+docker run -d --name specky -p 3200:3200 -v $(pwd):/workspace ghcr.io/paulasilvatech/specky:latest
+```
+
+Verify it's running:
+
+```bash
+curl http://localhost:3200/health
+```
+
+Point any MCP client that supports HTTP to `http://localhost:3200/mcp`
+
+Stop when done:
+
+```bash
+docker stop specky && docker rm specky
+```
+
+</details>
+
+### Step 3: Verify
+
+Open your AI IDE and type:
+
+```
+> What tools does Specky have?
+```
+
+The AI should list the 47 SDD tools. If you see them, Specky is working.
 
 ### ✅ Try It Now
 
