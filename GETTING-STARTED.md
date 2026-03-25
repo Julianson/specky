@@ -972,7 +972,7 @@ Validate the EARS notation in the specification for feature 001.
 Checks every requirement against the six EARS patterns and provides improvement suggestions for any that are ambiguous or structurally weak.
 
 
-## 13. Generating Tests from Specifications (NEW in v2.3.1)
+## 13. Generating Tests from Specifications (NEW in v2.2.0)
 
 Specky can generate test stubs directly from your acceptance criteria — with full traceability back to requirements. This is the competitive differentiator: every test maps to a requirement ID.
 
@@ -1061,7 +1061,7 @@ When you choose Playwright as the framework, Specky automatically includes a `re
 ```
 
 
-## 14. Project Configuration (NEW in v2.3.1)
+## 14. Project Configuration (NEW in v2.2.0)
 
 Create a `.specky/config.yml` file in your project root to customize Specky's behavior:
 
