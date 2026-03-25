@@ -1,7 +1,7 @@
 <div align="center">
   <h1>Specky</h1>
   <h3>The Complete Spec-Driven Development Platform</h3>
-  <p><strong>47 MCP tools. 10-phase pipeline. Works in any IDE.</strong></p>
+  <p><strong>52 MCP tools. 10-phase pipeline. Works in any IDE.</strong></p>
 
   <p>
     <a href="https://www.npmjs.com/package/specky-sdd"><img src="https://img.shields.io/npm/v/specky-sdd" alt="npm"/></a>
@@ -25,12 +25,12 @@
 | [📥 Input Methods](#-input-methods--6-ways-to-start) | 6 ways to feed Specky |
 | [🏗️ Three Project Types](#%EF%B8%8F-three-project-types--one-pipeline) | Greenfield, Brownfield, Modernization |
 | [⚙️ Pipeline and LGTM Gates](#%EF%B8%8F-pipeline-and-lgtm-gates) | 10 phases with human review gates |
-| [🧰 All 47 Tools](#-all-47-tools) | Complete tool reference by category |
+| [🧰 All 52 Tools](#-all-47-tools) | Complete tool reference by category |
 | [🏛️ The SDD Platform](#%EF%B8%8F-the-spec-driven-development-platform) | Built on Spec-Kit, everything included |
 | [📐 EARS Notation](#-ears-notation) | The 6 requirement patterns |
 | [🛡️ Compliance](#%EF%B8%8F-compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
 | [🏢 Enterprise Ready](#-enterprise-ready) | Security, audit trail, quality gates |
-| [🗺️ Roadmap](#%EF%B8%8F-roadmap) | v2.2 (current), v2.3, v3.0 plans |
+| [🗺️ Roadmap](#%EF%B8%8F-roadmap) | v2.3 (current), v2.4, v3.0 plans |
 
 
 ## 🔍 What is Specky?
@@ -104,7 +104,11 @@ Specky adds a **deterministic engine** between your intent and your code:
 | Phantom task detection | Extension | No | No | **Yes** |
 | Complete auto-documentation | No | No | No | **Yes** |
 | Educative outputs | No | No | No | **Yes** |
-| 47 MCP tools | N/A | N/A | N/A | **Yes** |
+| Turnkey spec from natural language | No | Partial (1 EARS pattern) | No | **Yes (5 EARS patterns)** |
+| Property-based testing (fast-check/Hypothesis) | No | Yes | No | **Yes** |
+| Checkpoint/restore for spec artifacts | No | Session-only | No | **Yes (persistent)** |
+| Executable hooks (file-save triggers) | No | Yes (IDE-level) | No | **Yes (Claude Code + GitHub Actions)** |
+| 52 MCP tools | N/A | N/A | N/A | **Yes** |
 | Works in ANY IDE via MCP | Templates | IDE-locked | IDE-locked | **Yes** |
 
 </details>
@@ -729,7 +733,7 @@ The AI calls `sdd_advance_phase` → moves the pipeline forward if all prerequis
 All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). See [Input Methods](#input-methods--6-ways-to-start) for how to feed data into the pipeline.
 
 
-## 🧰 All 47 Tools
+## 🧰 All 52 Tools
 
 ### 📥 Input and Conversion (5)
 
@@ -818,12 +822,33 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_metrics` | Project metrics dashboard |
 | `sdd_amend` | Amend project constitution |
 
-### 🧪 Testing (2)
+### 🧪 Testing (3)
 
 | Tool | Description |
 |------|-------------|
 | `sdd_generate_tests` | Generate test stubs from acceptance criteria (vitest/jest/playwright/pytest/junit/xunit) |
 | `sdd_verify_tests` | Verify test results against requirements, report traceability coverage |
+| `sdd_generate_pbt` | Generate property-based tests using fast-check (TypeScript) or Hypothesis (Python). Extracts invariants, round-trips, idempotence, state transitions, and negative properties from EARS requirements |
+
+### ⚡ Turnkey Specification (1)
+
+| Tool | Description |
+|------|-------------|
+| `sdd_turnkey_spec` | Generate a complete EARS specification from a natural language description. Auto-extracts requirements, classifies all 5 EARS patterns, generates acceptance criteria, infers non-functional requirements, and identifies clarification questions |
+
+### 💾 Checkpointing (3)
+
+| Tool | Description |
+|------|-------------|
+| `sdd_checkpoint` | Create a named snapshot of all spec artifacts and pipeline state |
+| `sdd_restore` | Restore spec artifacts from a previous checkpoint (auto-creates backup before restoring) |
+| `sdd_list_checkpoints` | List all available checkpoints for a feature with labels, dates, and phases |
+
+### 🔌 Ecosystem (1)
+
+| Tool | Description |
+|------|-------------|
+| `sdd_check_ecosystem` | Report recommended MCP servers with install commands |
 
 
 ## 🏛️ The Spec-Driven Development Platform
@@ -836,11 +861,11 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 
 **[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is the open-source SDD methodology: EARS notation, gated pipeline phases, constitution model, 25+ specialized agents, and Markdown prompt templates. It defines **what** to do.
 
-**Specky** is the MCP engine that reimplements that methodology as 47 enforceable tools with programmatic validation. It enforces **how** to do it.
+**Specky** is the MCP engine that reimplements that methodology as 52 enforceable tools with programmatic validation. It enforces **how** to do it.
 
 | | Spec-Kit (Methodology) | Specky (Engine) |
 |--|------------------------|-----------------|
-| **What it is** | Prompt templates + agent definitions | MCP server with 47 tools |
+| **What it is** | Prompt templates + agent definitions | MCP server with 52 tools |
 | **How it works** | AI reads `.md` templates and follows instructions | AI calls tools that validate, enforce, and generate |
 | **Validation** | AI tries to follow the prompts | State machine, EARS regex, Zod schemas |
 | **Install** | Copy `.github/agents/` and `.claude/commands/` | `npx specky-sdd` (includes methodology built-in) |
@@ -1033,31 +1058,36 @@ curl http://localhost:3200/health
 
 ## 🗺️ Roadmap
 
-### v2.2 (current, stable)
+### v2.3 (current, stable)
 
-Specky v2.2 is **production-ready** for teams and organizations adopting Spec-Driven Development.
+Specky v2.3 is **production-ready** with full Kiro-parity features and complete GitHub Copilot + Claude Code integration.
 
 | Capability | Status |
 |------------|--------|
-| 47 MCP tools across 10 pipeline phases | ✅ Stable |
+| 52 MCP tools across 10 pipeline phases | ✅ Stable |
+| Turnkey spec from natural language (`sdd_turnkey_spec`) | ✅ New |
+| Property-based testing — fast-check + Hypothesis (`sdd_generate_pbt`) | ✅ New |
+| Checkpoint/restore for spec artifacts (`sdd_checkpoint`, `sdd_restore`) | ✅ New |
+| 6 executable hooks with Claude Code settings.json integration | ✅ New |
+| GitHub Actions SDD workflow (`sdd-hooks.yml`) | ✅ New |
+| 12 Claude Code commands + 5 Copilot agents with full workflows | ✅ New |
+| `.github/copilot-instructions.md` for Copilot project context | ✅ New |
 | State machine enforcement (no phase-skipping) | ✅ Stable |
 | EARS validation (6 patterns, vague term detection) | ✅ Stable |
 | 6 input types (transcript, PDF, DOCX, Figma, codebase, raw text) | ✅ Stable |
 | Compliance checking (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001) | ✅ Stable |
 | Test generation (vitest, jest, playwright, pytest, junit, xunit) | ✅ Stable |
 | MCP-to-MCP routing (GitHub, Azure DevOps, Jira, Terraform, Figma, Docker) | ✅ Stable |
-| Docker deployment with health check | ✅ Stable |
-| 211 unit tests, 89% code coverage | ✅ Stable |
-| `.github/agents/` + `.claude/commands/` integration | ✅ Stable |
+| 292 unit tests across 19 files | ✅ Stable |
 
-### v2.3 (planned)
+### v2.4 (planned)
 
 | Feature | Description |
 |---------|-------------|
 | 🔐 HTTP authentication | Token-based auth for the HTTP transport (Docker/container mode) |
 | 📊 Observability | OpenTelemetry metrics and structured logging for tool invocations |
-| 🔄 Spec versioning | Track specification versions with diff and rollback support |
 | 🌐 Internationalization | Spec templates in multiple languages (PT-BR, ES, FR, DE, JA) |
+| 🧠 AI-powered shrinking | Integrate fast-check/Hypothesis shrinking feedback into spec refinement |
 
 ### v3.0 (future)
 

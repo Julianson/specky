@@ -42,6 +42,10 @@ import { registerIntegrationTools } from "./tools/integration.js";
 import { registerDocumentationTools } from "./tools/documentation.js";
 import { TestGenerator } from "./services/test-generator.js";
 import { registerTestingTools } from "./tools/testing.js";
+import { registerCheckpointTools } from "./tools/checkpoint.js";
+import { registerTurnkeyTools } from "./tools/turnkey.js";
+import { PbtGenerator } from "./services/pbt-generator.js";
+import { registerPbtTools } from "./tools/pbt.js";
 import { loadConfig } from "./config.js";
 
 // Resolve workspace root
@@ -77,6 +81,7 @@ const complianceEngine = new ComplianceEngine();
 const docGenerator = new DocGenerator(fileManager);
 const gitManager = new GitManager(fileManager);
 const testGenerator = new TestGenerator(fileManager);
+const pbtGenerator = new PbtGenerator(fileManager);
 
 // Register all tools (44 total)
 // v1 tools (17)
@@ -94,6 +99,9 @@ registerEnvironmentTools(server, fileManager, stateMachine, iacGenerator, codeba
 registerIntegrationTools(server, fileManager, stateMachine, templateEngine, gitManager, workItemExporter);
 registerDocumentationTools(server, fileManager, stateMachine, docGenerator);
 registerTestingTools(server, fileManager, stateMachine, testGenerator);
+registerCheckpointTools(server, fileManager, stateMachine);
+registerTurnkeyTools(server, fileManager, stateMachine, templateEngine, earsValidator);
+registerPbtTools(server, fileManager, stateMachine, pbtGenerator);
 
 // Graceful shutdown
 let isShuttingDown = false;

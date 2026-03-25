@@ -1,4 +1,4 @@
-# Specky v2.2.0 -- Claude Code Project Instructions
+# Specky v2.3.0 -- Claude Code Project Instructions
 
 **Auto-loaded by Claude Code when working in this directory.**
 
@@ -6,11 +6,13 @@
 
 ## 1. Project Overview
 
-Specky v2.2.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **47 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 15 services, 22 templates, 4 Custom Agents, and 6 automation hooks.
+Specky v2.3.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **52 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 16 services, 22 templates, 5 Custom Agents, 12 Claude Code commands, and 6 executable automation hooks.
 
 **Goal:** Close the gap between specification and code through continuous validation, preventing drift and ensuring acceptance criteria are met.
 
 **What changed in v2.0.0:** The tool count grew from 17 to 42. The pipeline expanded from 7 phases to 10 (adding Discover, Clarify, and Release). New capabilities include compliance checking, diagram generation, IaC generation, document import, cross-spec analysis, work item export, and MCP-to-MCP routing for integration with GitHub, Docker, and Terraform MCP servers.
+
+**What changed in v2.3.0:** The tool count grew from 47 to 52. Added: turnkey spec generation from natural language (`sdd_turnkey_spec`), property-based testing with fast-check and Hypothesis (`sdd_generate_pbt`), checkpoint/restore for spec artifacts (`sdd_checkpoint`, `sdd_restore`, `sdd_list_checkpoints`). Added 5 new Claude Code commands (`/sdd:verify`, `/sdd:docs`, `/sdd:export`, `/sdd:diagrams`, `/sdd:iac`). All 6 hooks now have executable shell scripts with Claude Code settings.json integration. All 4 GitHub Copilot agents updated with Extended Toolset v2.3. 292 unit tests, new PBT generator service.
 
 ---
 
@@ -27,10 +29,15 @@ Use these `/sdd:*` commands in Claude Code to invoke specialized workflows:
 | `/sdd:bugfix` | Spec Reviewer | Link bugs to failing acceptance criteria | `reports/bugfix-trace.md` |
 | `/sdd:transcript` | Spec Engineer | Import meeting transcript and auto-generate specs | `.specs/NNN-feature/SPECIFICATION.md` |
 | `/sdd:onedrive` | Spec Engineer | Import OneDrive/SharePoint documents into specs | `.specs/NNN-feature/SPECIFICATION.md` |
+| `/sdd:verify` | Spec Reviewer | Generate tests and verify coverage against spec | Test files + traceability matrix |
+| `/sdd:docs` | Spec Engineer | Generate project documentation from artifacts | `docs/` directory |
+| `/sdd:export` | Task Planner | Export work items and create PR/branch | GitHub/Azure/Jira payloads |
+| `/sdd:diagrams` | Design Architect | Generate Mermaid diagrams from spec artifacts | Mermaid code blocks |
+| `/sdd:iac` | Design Architect | Generate Infrastructure as Code from design | Terraform/Bicep/Dockerfile |
 
 ---
 
-## 3. MCP Tools (44 Total)
+## 3. MCP Tools (52 Total)
 
 ### Pipeline Tools (8)
 
@@ -131,12 +138,32 @@ Use these `/sdd:*` commands in Claude Code to invoke specialized workflows:
 |------|-------------|
 | `sdd_check_ecosystem` | Report recommended MCP servers with install commands |
 
-### Testing Tools (2) — NEW in v2.2.0
+### Testing Tools (2)
 
 | Tool | Description |
 |------|-------------|
 | `sdd_generate_tests` | Generate test stubs from acceptance criteria for 6 frameworks (vitest/jest/playwright/pytest/junit/xunit) |
 | `sdd_verify_tests` | Verify test results JSON against specification requirements, report traceability coverage |
+
+### Property-Based Testing (1) — NEW in v2.3.0
+
+| Tool | Description |
+|------|-------------|
+| `sdd_generate_pbt` | Generate property-based tests from EARS requirements using fast-check (TypeScript) or Hypothesis (Python). Extracts invariants, round-trip, idempotence, state transition, and negative properties |
+
+### Turnkey Specification (1) — NEW in v2.3.0
+
+| Tool | Description |
+|------|-------------|
+| `sdd_turnkey_spec` | Generate a complete EARS specification from a natural language description. Auto-extracts requirements, classifies EARS patterns, generates acceptance criteria, infers NFRs, and identifies clarification questions |
+
+### Checkpointing (3) — NEW in v2.3.0
+
+| Tool | Description |
+|------|-------------|
+| `sdd_checkpoint` | Create a named snapshot of all spec artifacts and pipeline state for a feature |
+| `sdd_restore` | Restore spec artifacts from a previous checkpoint (auto-creates backup before restoring) |
+| `sdd_list_checkpoints` | List all available checkpoints for a feature with labels, dates, and phases |
 
 ---
 
@@ -201,7 +228,7 @@ specky/
 │   │   ├── infrastructure.ts         IaC/Dockerfile schemas
 │   │   ├── environment.ts            Dev environment schemas
 │   │   └── integration.ts            Git/export/PR schemas
-│   ├── services/                     14 service classes
+│   ├── services/                     15 service classes
 │   │   ├── file-manager.ts           Atomic file I/O
 │   │   ├── state-machine.ts          10-phase pipeline enforcement
 │   │   ├── template-engine.ts        Markdown template rendering
@@ -215,8 +242,9 @@ specky/
 │   │   ├── cross-analyzer.ts         Multi-spec analysis
 │   │   ├── compliance-engine.ts      Regulatory framework controls
 │   │   ├── doc-generator.ts          Documentation generation
-│   │   └── git-manager.ts            Branch/PR payload generation
-│   └── tools/                        11 tool registration files
+│   │   ├── git-manager.ts            Branch/PR payload generation
+│   │   └── pbt-generator.ts          Property-based test generation (fast-check/hypothesis)
+│   └── tools/                        14 tool registration files
 │       ├── pipeline.ts               8 pipeline tools
 │       ├── analysis.ts               1 analysis tool
 │       ├── utility.ts                5 utility tools
@@ -227,7 +255,10 @@ specky/
 │       ├── infrastructure.ts         3 IaC tools
 │       ├── environment.ts            3 dev environment tools
 │       ├── integration.ts            5 integration/export tools
-│       └── documentation.ts          4 documentation tools
+│       ├── documentation.ts          4 documentation tools
+│       ├── pbt.ts                    1 property-based testing tool
+│       ├── turnkey.ts                1 turnkey specification tool
+│       └── checkpoint.ts             3 checkpoint/restore tools
 ├── templates/                        21 Markdown templates
 │   ├── constitution.md               Project constitution
 │   ├── specification.md              EARS requirements
@@ -266,14 +297,26 @@ specky/
 │       ├── task-planner.agent.md
 │       └── spec-reviewer.agent.md
 ├── .claude/
-│   └── commands/                     7 Claude Code command definitions
-│       ├── sdd-spec.md
-│       ├── sdd-design.md
-│       ├── sdd-tasks.md
-│       ├── sdd-analyze.md
-│       ├── sdd-bugfix.md
-│       ├── sdd-transcript.md
-│       └── sdd-onedrive.md
+│   ├── commands/                     12 Claude Code command definitions
+│   │   ├── sdd-spec.md
+│   │   ├── sdd-design.md
+│   │   ├── sdd-tasks.md
+│   │   ├── sdd-analyze.md
+│   │   ├── sdd-bugfix.md
+│   │   ├── sdd-transcript.md
+│   │   ├── sdd-onedrive.md
+│   │   ├── sdd-verify.md            NEW: Test generation + coverage verification
+│   │   ├── sdd-docs.md              NEW: Documentation generation
+│   │   ├── sdd-export.md            NEW: Work item export + PR/branch
+│   │   ├── sdd-diagrams.md          NEW: Mermaid diagram generation
+│   │   └── sdd-iac.md               NEW: Infrastructure as Code generation
+│   └── hooks/                        6 executable hook scripts
+│       ├── spec-sync.sh             PostToolUse: Detect spec-code drift
+│       ├── auto-test.sh             TaskCompleted: Remind to generate tests
+│       ├── auto-docs.sh             PostToolUse: Flag doc updates needed
+│       ├── security-scan.sh         Stop: Scan for hardcoded secrets
+│       ├── srp-validator.sh         PostToolUse: Flag SRP violations
+│       └── changelog.sh             Stop: Remind to update changelog
 ├── hooks/                            6 automation hooks
 │   ├── auto-test.md
 │   ├── auto-docs.md
@@ -528,6 +571,7 @@ PORT=3200                               # HTTP transport port (--http mode)
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.3.0 | 2026-03-24 | 52 tools (+sdd_turnkey_spec, sdd_generate_pbt, sdd_checkpoint, sdd_restore, sdd_list_checkpoints), turnkey EARS spec from natural language, property-based testing (fast-check/hypothesis), checkpoint/restore for spec artifacts, 12 Claude Code commands (+5), 6 executable hooks with settings.json integration, 4 agents updated to Extended Toolset v2.3, 292 unit tests |
 | 2.2.0 | 2026-03-24 | 47 tools (+sdd_generate_tests, sdd_verify_tests), test generation for 6 frameworks, .specky/config.yml support, 211 unit tests, 89% coverage, OpenSSF Scorecard, SBOM generation |
 | 2.1.0 | 2026-03-21 | 44 tools (+sdd_check_ecosystem, sdd_validate_ears), MCP ecosystem detection, server recommendations, recommended_servers in tool outputs |
 | 2.0.0 | 2026-03-21 | 42 tools, 10-phase pipeline, 14 services, 21 templates, compliance frameworks, MCP-to-MCP routing, educative outputs, IaC generation, diagram generation, document import |
@@ -535,6 +579,6 @@ PORT=3200                               # HTTP transport port (--http mode)
 
 ---
 
-**Last Updated:** 2026-03-22
+**Last Updated:** 2026-03-24
 **Maintainer:** Paula Silva
 **License:** MIT

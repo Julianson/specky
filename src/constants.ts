@@ -13,7 +13,7 @@ export const VERSION = _pkg.version;
 export const SERVER_NAME = "specky";
 
 /** Total tool count for ecosystem check */
-export const TOTAL_TOOLS = 44;
+export const TOTAL_TOOLS = 52;
 
 /**
  * MCP Ecosystem — Recommended external MCP servers.
@@ -259,6 +259,15 @@ export const TOOL_NAMES = {
   METRICS: "sdd_metrics",
   // Testing
   GENERATE_TESTS: "sdd_generate_tests",
+  VERIFY_TESTS: "sdd_verify_tests",
+  // Property-Based Testing
+  GENERATE_PBT: "sdd_generate_pbt",
+  // Turnkey
+  TURNKEY_SPEC: "sdd_turnkey_spec",
+  // Checkpointing
+  CHECKPOINT: "sdd_checkpoint",
+  RESTORE: "sdd_restore",
+  LIST_CHECKPOINTS: "sdd_list_checkpoints",
 } as const;
 
 // Input & Conversion

@@ -578,5 +578,19 @@ export interface EducativeOutput {
   recommended_servers?: RecommendedServer[];
 }
 
+// ─── Checkpoints ───
+
+/** Checkpoint snapshot of spec artifacts */
+export interface Checkpoint {
+  id: string;
+  label: string;
+  created_at: string;
+  phase: string;
+  phases: Record<string, PhaseStatus>;
+  gate_decision: GateDecision | null;
+  artifacts: string[];
+  artifact_contents: Record<string, string>;
+}
+
 /** Re-export for convenience */
 export type { EarsPatternName, TemplateName, WorkItemPlatform, DiagramType, ComplianceFramework, ChecklistDomain, DocumentFormat, IacProvider, CloudProvider };

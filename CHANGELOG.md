@@ -5,6 +5,37 @@ All notable changes to Specky are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-03-24
+
+### Added
+- `sdd_turnkey_spec` tool — generates complete EARS specification from a natural language description with auto-extracted requirements, EARS pattern classification, acceptance criteria generation, NFR inference, and clarification questions
+- `sdd_generate_pbt` tool — generates property-based tests using fast-check (TypeScript) or Hypothesis (Python), extracting 6 property types from EARS requirements: invariant, state_transition, conditional, negative, round_trip, idempotence
+- `sdd_checkpoint` tool — creates named snapshots of all spec artifacts and pipeline state for safe rollback
+- `sdd_restore` tool — restores spec artifacts from a previous checkpoint with automatic backup of current state
+- `sdd_list_checkpoints` tool — lists all available checkpoints with labels, dates, and phases
+- `src/services/pbt-generator.ts` — new PBT generator service with EARS-to-property extraction and framework-specific code generation
+- 5 new Claude Code commands: `/sdd:verify`, `/sdd:docs`, `/sdd:export`, `/sdd:diagrams`, `/sdd:iac`
+- 6 executable hook scripts in `.claude/hooks/` with Claude Code `settings.json` integration (PostToolUse, Stop, TaskCompleted events)
+- `.github/copilot-instructions.md` — GitHub Copilot project instructions with quick start guide
+- `.github/workflows/sdd-hooks.yml` — GitHub Actions workflow replicating hook automation (spec-sync, security-scan, SRP validator, changelog reminder)
+- `tests/unit/pbt-generator.test.ts` — 36 test cases for PBT generator (property extraction, classification, fast-check/hypothesis generation)
+- `tests/unit/turnkey.test.ts` — 36 test cases for turnkey spec helpers (candidate extraction, EARS conversion, acceptance criteria, clarifications, NFR inference)
+- `tests/integration/checkpoint-e2e.test.ts` — 9 integration test cases for checkpoint create/restore/list with real filesystem
+
+### Changed
+- MCP tool count: 47 → 52
+- Claude Code commands: 7 → 12
+- Test suite expanded: 211 → 292 tests across 19 files
+- All 4 GitHub Copilot agents rewritten with complete workflows (turnkey, PBT, checkpointing, diagrams, IaC, docs, export, compliance)
+- `spec-engineer.agent.md` now documents 8 workflows and references 49 tools
+- `design-architect.agent.md` now includes diagram generation, IaC, and dev environment workflows
+- `task-planner.agent.md` now includes export, test generation, and verification workflows
+- `spec-reviewer.agent.md` now includes compliance, EARS validation, cross-artifact analysis, and test verification workflows
+- `CLAUDE.md` updated to v2.3.0 with complete tool reference
+- `README.md` updated with new tools, comparison matrix, and feature descriptions
+- `TOTAL_TOOLS` constant corrected: 44 → 52
+- Version bumped: 2.2.3 → 2.3.0
+
 ## [2.2.0] - 2026-03-24
 
 ### Added

@@ -1,0 +1,122 @@
+name: SDD Hooks — Spec-Driven Development Automation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - '.specs/**'
+
+jobs:
+  spec-sync:
+    name: Spec-Sync Check
+    runs-on: ubuntu-latest
+    if: |
+      contains(join(github.event.pull_request.labels.*.name, ','), 'sdd') ||
+      github.event.pull_request.head.ref == 'sdd-*'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for spec-code drift
+        run: |
+          echo "🔍 Checking spec-code alignment..."
+
+          # Check if specs exist
+          if [ ! -d ".specs" ]; then
+            echo "⚠️ No .specs/ directory found. Skipping drift check."
+            exit 0
+          fi
+
+          # List modified source files
+          MODIFIED=$(git diff --name-only origin/main...HEAD -- 'src/' '*.ts' '*.py' '*.js' '*.java' '*.cs' 2>/dev/null || true)
+          SPEC_MODIFIED=$(git diff --name-only origin/main...HEAD -- '.specs/' 2>/dev/null || true)
+
+          if [ -n "$MODIFIED" ] && [ -z "$SPEC_MODIFIED" ]; then
+            echo "⚠️ Source files modified but no spec updates detected:"
+            echo "$MODIFIED"
+            echo ""
+            echo "Consider running sdd_check_sync to verify spec-code alignment."
+          else
+            echo "✅ Spec and source changes are in sync."
+          fi
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for hardcoded secrets
+        run: |
+          echo "🔒 Scanning for hardcoded secrets..."
+
+          PATTERNS='(api[_-]?key|secret|password|token|credential|private[_-]?key)\s*[:=]\s*["\x27][^\s"'\'']{8,}'
+          FOUND=false
+
+          for file in $(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1 2>/dev/null); do
+            if [ -f "$file" ] && echo "$file" | grep -qE '\.(ts|js|py|java|cs|json|yml|yaml|env)$'; then
+              if grep -qiE "$PATTERNS" "$file" 2>/dev/null; then
+                echo "⚠️ Possible secret in: $file"
+                FOUND=true
+              fi
+            fi
+          done
+
+          if [ "$FOUND" = "true" ]; then
+            echo ""
+            echo "❌ Potential secrets detected. Review flagged files before merging."
+            echo "Run sdd_compliance_check for a full security audit."
+            exit 1
+          else
+            echo "✅ No hardcoded secrets detected."
+          fi
+
+  srp-validator:
+    name: SRP Validator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for SRP violations
+        run: |
+          echo "📏 Checking Single Responsibility Principle..."
+
+          VIOLATIONS=0
+          for file in $(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1 2>/dev/null); do
+            if [ -f "$file" ] && echo "$file" | grep -qE '\.(ts|js|py|java|cs)$'; then
+              LINES=$(wc -l < "$file" | tr -d ' ')
+              if [ "$LINES" -gt 300 ]; then
+                echo "⚠️ $file has $LINES lines (>300). Consider splitting."
+                VIOLATIONS=$((VIOLATIONS + 1))
+              fi
+            fi
+          done
+
+          if [ "$VIOLATIONS" -gt 0 ]; then
+            echo ""
+            echo "⚠️ $VIOLATIONS file(s) may violate SRP. Review and consider decomposition."
+          else
+            echo "✅ All modified files are within SRP thresholds."
+          fi
+
+  changelog-reminder:
+    name: Changelog Reminder
+    runs-on: ubuntu-latest
+    if: |
+      contains(join(github.event.pull_request.labels.*.name, ','), 'sdd')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for spec changes without changelog
+        run: |
+          SPEC_CHANGES=$(git diff --name-only origin/main...HEAD -- '.specs/' 2>/dev/null | wc -l | tr -d ' ')
+
+          if [ "$SPEC_CHANGES" -gt 0 ]; then
+            CHANGELOG_UPDATED=$(git diff --name-only origin/main...HEAD -- 'CHANGELOG.md' 2>/dev/null | wc -l | tr -d ' ')
+            if [ "$CHANGELOG_UPDATED" -eq 0 ]; then
+              echo "📝 $SPEC_CHANGES spec file(s) modified but CHANGELOG.md not updated."
+              echo "Consider running sdd_generate_docs to update project documentation."
+            else
+              echo "✅ Changelog updated with spec changes."
+            fi
+          fi
