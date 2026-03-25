@@ -138,6 +138,96 @@ describe("StateMachine", () => {
     });
   });
 
+  // ── advancePhase ─────────────────────────────────────────────────────────
+  describe("advancePhase", () => {
+    it("throws when already at terminal phase (Release)", async () => {
+      const state = makeState(Phase.Release);
+      sm = new StateMachine(makeFileManager(state) as never);
+
+      await expect(sm.advancePhase(".specs", "001")).rejects.toThrow(/terminal phase/i);
+    });
+
+    it("advances from Init to Discover with timestamps", async () => {
+      const state = makeState(Phase.Init);
+      state.features = [".specs/001-test"];
+      const fm = makeFileManager(state);
+      fm.fileExists.mockResolvedValue(true);
+      sm = new StateMachine(fm as never);
+
+      const result = await sm.advancePhase(".specs", "001");
+      expect(result.current_phase).toBe(Phase.Discover);
+      expect(result.phases[Phase.Init].status).toBe("completed");
+      expect(result.phases[Phase.Init].completed_at).toBeDefined();
+      expect(result.phases[Phase.Discover].status).toBe("in_progress");
+      expect(result.phases[Phase.Discover].started_at).toBeDefined();
+    });
+
+    it("rejects advance when required files are missing", async () => {
+      const state = makeState(Phase.Specify);
+      state.features = [".specs/001-test"];
+      const fm = makeFileManager(state);
+      fm.fileExists.mockResolvedValue(false);
+      sm = new StateMachine(fm as never);
+
+      await expect(sm.advancePhase(".specs", "001")).rejects.toThrow(/missing/i);
+    });
+  });
+
+  // ── recordPhaseStart / recordPhaseComplete ──────────────────────────────
+  describe("recordPhaseStart", () => {
+    it("sets phase to in_progress with started_at timestamp", async () => {
+      const state = makeState(Phase.Design);
+      const fm = makeFileManager(state);
+      sm = new StateMachine(fm as never);
+
+      await sm.recordPhaseStart(".specs", Phase.Design);
+
+      const savedJson = fm.writeSpecFile.mock.calls[0][2];
+      const saved = JSON.parse(savedJson);
+      expect(saved.phases[Phase.Design].status).toBe("in_progress");
+      expect(saved.phases[Phase.Design].started_at).toBeDefined();
+      expect(saved.current_phase).toBe(Phase.Design);
+    });
+  });
+
+  describe("recordPhaseComplete", () => {
+    it("sets phase to completed with completed_at timestamp", async () => {
+      const state = makeState(Phase.Design);
+      const fm = makeFileManager(state);
+      sm = new StateMachine(fm as never);
+
+      await sm.recordPhaseComplete(".specs", Phase.Design);
+
+      const savedJson = fm.writeSpecFile.mock.calls[0][2];
+      const saved = JSON.parse(savedJson);
+      expect(saved.phases[Phase.Design].status).toBe("completed");
+      expect(saved.phases[Phase.Design].completed_at).toBeDefined();
+    });
+  });
+
+  // ── getPhaseOrder / getRequiredFiles ────────────────────────────────────
+  describe("getPhaseOrder / getRequiredFiles", () => {
+    it("returns ordered phases array", () => {
+      sm = new StateMachine(makeFileManager() as never);
+      const order = sm.getPhaseOrder();
+      expect(order[0]).toBe(Phase.Init);
+      expect(order[order.length - 1]).toBe(Phase.Release);
+      expect(order.length).toBe(10);
+    });
+
+    it("returns required files for Specify phase", () => {
+      sm = new StateMachine(makeFileManager() as never);
+      const files = sm.getRequiredFiles(Phase.Specify);
+      expect(files).toContain("SPECIFICATION.md");
+    });
+
+    it("returns empty array for Discover phase", () => {
+      sm = new StateMachine(makeFileManager() as never);
+      const files = sm.getRequiredFiles(Phase.Discover);
+      expect(files).toHaveLength(0);
+    });
+  });
+
   // ── saveState ─────────────────────────────────────────────────────────────
   describe("saveState", () => {
     it("calls writeSpecFile with JSON-serialised state", async () => {

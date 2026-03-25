@@ -116,6 +116,71 @@ describe("DiagramGenerator", () => {
     });
   });
 
+  // ── Additional coverage for extraction helpers ──────────────────────────
+
+  describe("generateDiagram — C4 with extractable content", () => {
+    it("generates C4 context with system names from content", () => {
+      const content = "Auth Service handles authentication. API Gateway routes requests. Database stores data.";
+      const result = generator.generateDiagram(content, "c4_context", "Systems");
+      expect(result.mermaid_code).toBeTruthy();
+      expect(result.mermaid_code.length).toBeGreaterThan(20);
+    });
+
+    it("generates C4 container with components from headings", () => {
+      const content = "## Authentication Service\nHandles login and tokens.\n## API Gateway\nRoutes all requests.\n## Database Manager\nManages connections.";
+      const result = generator.generateDiagram(content, "c4_container", "Containers");
+      expect(result.mermaid_code).toBeTruthy();
+    });
+  });
+
+  describe("generateDiagram — Gantt with sections and parallel", () => {
+    it("generates Gantt chart with section headers and parallel markers", () => {
+      const content = "## Phase 1: Setup\n- [ ] [P] Configure CI\n- [ ] [P] Setup database\n## Phase 2: Features\n- [ ] Build login\n- [ ] Build dashboard";
+      const result = generator.generateDiagram(content, "gantt", "Implementation Plan");
+      expect(result.mermaid_code).toMatch(/^gantt/);
+    });
+  });
+
+  describe("generateDiagram — pie with REQ categories", () => {
+    it("generates pie chart from requirement category distribution", () => {
+      const content = "### REQ-AUTH-001\nLogin feature\n### REQ-AUTH-002\nLogout feature\n### REQ-DATA-001\nData export\n### REQ-DATA-002\nData import\n### REQ-DATA-003\nData validation";
+      const result = generator.generateDiagram(content, "pie", "Requirement Distribution");
+      expect(result.mermaid_code).toMatch(/^pie/);
+    });
+  });
+
+  describe("generateDiagram — mindmap with nested topics", () => {
+    it("generates mindmap with subtopics from nested headings", () => {
+      const content = "## Authentication\n### OAuth\n### JWT\n## Data Layer\n### PostgreSQL\n### Redis\n## API\n### REST\n### GraphQL";
+      const result = generator.generateDiagram(content, "mindmap", "Architecture Map");
+      expect(result.mermaid_code).toContain("mindmap");
+    });
+  });
+
+  describe("generateDiagram — sequence with multiple actors", () => {
+    it("generates sequence diagram with detected actor names", () => {
+      const content = "User sends login request to API. API validates with Auth Service. Auth Service checks Database. Database returns user record.";
+      const result = generator.generateDiagram(content, "sequence", "Login Sequence");
+      expect(result.mermaid_code).toMatch(/^sequenceDiagram/);
+    });
+  });
+
+  describe("generateDiagram — class with interface keywords", () => {
+    it("generates class diagram from interface and class names", () => {
+      const content = "interface UserRepository manages user data. class OrderService processes orders. interface PaymentGateway handles payments.";
+      const result = generator.generateDiagram(content, "class", "Class Diagram");
+      expect(result.mermaid_code).toContain("classDiagram");
+    });
+  });
+
+  describe("generateDiagram — state with state words", () => {
+    it("generates state diagram with detected state transitions", () => {
+      const content = "The record moves from pending to active. It can then transition to completed or be rejected. Rejected records may return to pending.";
+      const result = generator.generateDiagram(content, "state", "Record Lifecycle");
+      expect(result.mermaid_code).toContain("stateDiagram");
+    });
+  });
+
   describe("generateDiagram — unknown type fallback", () => {
     it("falls back to flowchart for unknown diagram type", () => {
       const result = generator.generateDiagram("content", "unknown_type" as never, "Fallback");

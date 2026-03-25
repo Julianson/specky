@@ -283,6 +283,41 @@ describe("TranscriptParser", () => {
     });
   });
 
+  // ── Duration estimation ──────────────────────────────────────────────────
+
+  describe("duration estimation", () => {
+    it("estimates duration from VTT timestamps", () => {
+      const result = parser.parse(VTT_CONTENT, "vtt");
+      expect(result.duration_estimate).toBeTruthy();
+      expect(result.duration_estimate).not.toBe("");
+    });
+
+    it("estimates duration from text volume when no timestamps", () => {
+      const result = parser.parse(PLAIN_TEXT, "txt");
+      expect(result.duration_estimate).toBeTruthy();
+    });
+
+    it("estimates duration from SRT timestamps", () => {
+      const result = parser.parse(SRT_CONTENT, "srt");
+      expect(result.duration_estimate).toBeTruthy();
+    });
+  });
+
+  // ── Constraint extraction ─────────────────────────────────────────────
+
+  describe("constraint extraction", () => {
+    it("extracts constraints with constraint keywords", () => {
+      const content = "Alice: The constraint is we have a maximum of 100ms response time. Bob: The limitation is 10GB storage.";
+      const result = parser.parse(content, "txt");
+      expect(result.constraints_mentioned.length).toBeGreaterThan(0);
+    });
+
+    it("extracts constraints from MD with PCI keyword", () => {
+      const result = parser.parse(MD_CONTENT, "md");
+      expect(result.constraints_mentioned.some(c => c.toLowerCase().includes("pci"))).toBe(true);
+    });
+  });
+
   // ── VTT with <v> tags ──────────────────────────────────────────────────
 
   describe("parse — VTT with v-tags", () => {
