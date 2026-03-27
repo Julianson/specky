@@ -4,8 +4,9 @@
 
 | Version | Supported |
 |---------|-----------|
-| 2.1.x   | ✅ Active  |
-| 2.0.x   | ✅ Security fixes only |
+| 3.0.x   | ✅ Active  |
+| 2.3.x   | ✅ Security fixes only |
+| 2.0.x   | ❌ End of life |
 | 1.0.x   | ❌ End of life |
 
 ## Reporting a Vulnerability
@@ -108,3 +109,77 @@ When using HTTP transport mode (`--http`), bind to `localhost` only. Do not expo
 - All schemas use `.strict()` — rejects unknown fields
 - `FileManager` is the sole I/O boundary — no direct `fs` calls in tools or other services
 - No shell command execution — branch names and PR payloads are data only, not executed
+
+## Security Best Practices for Users
+
+### Always Use These Practices
+
+| Practice | Details |
+|----------|---------|
+| **Use stdio mode by default** | `npx specky-sdd` — no network exposure, process-level isolation |
+| **Never expose HTTP mode publicly** | `--http` mode has no authentication or TLS. If you need remote access, place behind a reverse proxy (nginx, Caddy, Traefik) with TLS and authentication |
+| **Protect `.specs/` directory** | Contains architecture details, API contracts, security models. Add to `.gitignore` for sensitive projects, or use a private repository |
+| **Protect `.checkpoints/`** | Contains full copies of all spec artifacts. Treat like source code |
+| **Keep security-scan hook active** | `.claude/hooks/security-scan.sh` scans for hardcoded secrets and blocks commits (exit 2). Do not disable |
+| **Review auto-generated specs** | `sdd_turnkey_spec` and `sdd_auto_pipeline` generate from natural language — review before committing to ensure no sensitive details leaked |
+| **Use environment variables** | Never write actual secrets in spec artifacts. Reference them as `$VAR_NAME` |
+| **Run `npm audit` regularly** | Catches dependency vulnerabilities in the 2 runtime dependencies |
+
+### HTTP Deployment Checklist
+
+If you must use HTTP mode (`--http`):
+
+```
+1. [ ] Bind to localhost only (default behavior)
+2. [ ] Place behind reverse proxy with TLS (HTTPS)
+3. [ ] Add authentication to the reverse proxy
+4. [ ] Set firewall rules to restrict access
+5. [ ] Use a unique PORT via environment variable
+6. [ ] Monitor access logs on the reverse proxy
+```
+
+Example secure deployment with nginx:
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name specky.internal.company.com;
+
+    ssl_certificate     /etc/ssl/certs/specky.crt;
+    ssl_certificate_key /etc/ssl/private/specky.key;
+
+    # Require authentication
+    auth_basic "Specky MCP Server";
+    auth_basic_user_file /etc/nginx/.htpasswd;
+
+    location / {
+        proxy_pass http://127.0.0.1:3200;
+        proxy_set_header Host $host;
+    }
+}
+```
+
+### Data Sensitivity Classification
+
+| Data | Classification | Storage | Protection |
+|------|---------------|---------|------------|
+| CONSTITUTION.md | Internal | `.specs/` | Filesystem permissions |
+| SPECIFICATION.md | Business Confidential | `.specs/` | May contain business logic — review before sharing |
+| DESIGN.md | **Confidential** | `.specs/` | Contains architecture, API contracts, security model |
+| TASKS.md | Internal | `.specs/` | Implementation plan |
+| .checkpoints/*.json | **Confidential** | `.specs/.checkpoints/` | Full artifact snapshots |
+| .sdd-state.json | Internal | `.specs/` | Pipeline metadata only |
+| docs/journey-*.md | Business Confidential | `docs/` | Complete audit trail |
+| Routing payloads | Transient | Memory only | Never persisted by Specky |
+
+### What Specky Never Does
+
+These are **architectural guarantees**, not configuration options:
+
+- **Never makes outbound network calls** — zero HTTP/HTTPS/DNS from the Specky process
+- **Never executes shell commands** — no `exec()`, `spawn()`, `eval()`, `Function()`
+- **Never stores credentials** — no API keys, tokens, or passwords in any file
+- **Never reads outside workspace** — `FileManager.sanitizePath()` enforces boundary
+- **Never logs sensitive data** — logs go to stderr, contain only operational messages
+
+See [docs/SYSTEM-DESIGN.md](docs/SYSTEM-DESIGN.md) for the complete security architecture with threat model.

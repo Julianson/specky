@@ -995,12 +995,45 @@ Specky is built with enterprise adoption in mind.
 
 ### Security Posture
 
-- **2 runtime dependencies**.minimal attack surface (`@modelcontextprotocol/sdk`, `zod`)
-- **Zero outbound network requests**.all data stays local
-- **No `eval()` or dynamic code execution**.template rendering is string replacement only
+- **2 runtime dependencies** — minimal attack surface (`@modelcontextprotocol/sdk`, `zod`)
+- **Zero outbound network requests** — all data stays local
+- **No `eval()` or dynamic code execution** — template rendering is string replacement only
 - **Path traversal prevention**: FileManager sanitizes all paths, blocks `..` sequences
-- **Zod `.strict()` validation**.every tool input is schema-validated; unknown fields rejected
+- **Zod `.strict()` validation** — every tool input is schema-validated; unknown fields rejected
+- **security-scan hook** blocks commits containing hardcoded secrets (exit code 2)
 - See [SECURITY.md](SECURITY.md) for full OWASP Top 10 coverage
+- See [docs/SYSTEM-DESIGN.md](docs/SYSTEM-DESIGN.md) for complete security architecture
+
+### Security Best Practices
+
+When using Specky, follow these practices to protect your data:
+
+| Practice | Why | How |
+|----------|-----|-----|
+| **Use stdio mode for local development** | No network exposure | `npx specky-sdd` (default) |
+| **Never expose HTTP mode to public networks** | HTTP is unencrypted, no auth | If using `--http`, bind to localhost only. Use a reverse proxy (nginx, Caddy) with TLS and authentication for remote access |
+| **Protect the `.specs/` directory** | Contains your specification artifacts (architecture, API contracts, business logic) | Add `.specs/` to `.gitignore` if specs contain sensitive IP, or use a private repo |
+| **Protect checkpoints** | `.specs/{feature}/.checkpoints/` stores full artifact snapshots | Same as above — treat checkpoints like source code |
+| **Review auto-generated specs before committing** | Turnkey and auto-pipeline generate from natural language — may capture sensitive details | Review SPECIFICATION.md and DESIGN.md before `git add` |
+| **Keep the security-scan hook enabled** | Detects API keys, passwords, tokens in staged files | Comes pre-configured; don't disable `.claude/hooks/security-scan.sh` |
+| **Use environment variables for secrets** | Specky never stores credentials, but your specs might reference them | Write `$DATABASE_URL` in specs, never the actual connection string |
+| **Run `npm audit` regularly** | Catches dependency vulnerabilities | `npm audit` — CI runs this automatically on every PR |
+
+### Data Sensitivity Guide
+
+| What Specky creates | Contains | Sensitivity | Recommendation |
+|---------------------|----------|-------------|----------------|
+| `CONSTITUTION.md` | Project scope, principles | Low | Safe to commit |
+| `SPECIFICATION.md` | Requirements, acceptance criteria | Medium | Review before committing — may contain business logic details |
+| `DESIGN.md` | Architecture, API contracts, security model | **High** | May contain infrastructure details, auth flows, data schemas |
+| `TASKS.md` | Implementation plan, effort estimates | Low | Safe to commit |
+| `ANALYSIS.md` | Quality gate results, coverage | Low | Safe to commit |
+| `.sdd-state.json` | Pipeline phase timestamps | Low | Safe to commit |
+| `.checkpoints/*.json` | **Full copies of all artifacts** | **High** | Protect like source code — contains everything above |
+| `docs/journey-*.md` | Complete SDD audit trail with timestamps | Medium | Review before sharing externally |
+| Routing payloads | Branch names, PR bodies, work items | **Transient** (memory only) | Never persisted by Specky; forwarded to external MCPs by the AI client |
+
+> **Key principle:** Specky creates files **only on your local filesystem**. Nothing is sent to any cloud service unless **you** push to git or the AI client routes a payload to an external MCP server. You are always in control.
 
 ### Compliance Validation
 
@@ -1010,20 +1043,22 @@ Built-in compliance checking validates your specifications against industry fram
 |-----------|----------|----------|
 | HIPAA | 6 controls | Healthcare applications |
 | SOC 2 | 6 controls | SaaS and cloud services |
-| GDPR | 5 controls | EU data processing |
+| GDPR | 6 controls | EU data processing |
 | PCI-DSS | 6 controls | Payment card handling |
 | ISO 27001 | 6 controls | Enterprise security management |
 
 ### Audit Trail
 
-Every pipeline phase produces a traceable artifact in `.specs/NNN-feature/`. The complete specification-to-code journey is documented and reproducible.
+Every pipeline phase produces a traceable artifact in `.specs/NNN-feature/`. The complete specification-to-code journey is documented in the **SDD Journey** document (`docs/journey-{feature}.md`) with phase timestamps, gate decisions, and traceability metrics.
 
 ### Quality Gates
 
-- **EARS Validator**.programmatic requirement quality enforcement
-- **Cross-Artifact Analysis**.automatic alignment checking between spec, design, and tasks
-- **Phase Enforcement**.state machine blocks phase-skipping; required files gate advancement
-- **292 unit tests** with 89% code coverage; CI enforces thresholds on every push
+- **Phase Validation** — every tool validates it's being called in the correct pipeline phase
+- **Gate Enforcement** — `advancePhase()` blocks if gate decision is BLOCK or CHANGES_NEEDED
+- **EARS Validator** — programmatic requirement quality enforcement
+- **Cross-Artifact Analysis** — automatic alignment checking between spec, design, and tasks
+- **Phase Enforcement** — state machine blocks phase-skipping; required files gate advancement
+- **321 unit tests** — CI enforces thresholds on every push
 
 
 ## 🛠️ Development
