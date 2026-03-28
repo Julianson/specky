@@ -6,11 +6,18 @@
   <p>Agentic Spec-Driven Development</p>
 
   <p>
-    <a href="https://www.npmjs.com/package/specky-sdd"><img src="https://img.shields.io/npm/v/specky-sdd" alt="npm"/></a>
+    <img src="https://img.shields.io/badge/tools-53_MCP-7c3aed?style=flat-square" alt="53 Tools"/>
+    <img src="https://img.shields.io/badge/phases-10_enforced-6d28d9?style=flat-square" alt="10 Phases"/>
+    <img src="https://img.shields.io/badge/diagrams-17_types-5b21b6?style=flat-square" alt="17 Diagrams"/>
+    <img src="https://img.shields.io/badge/compliance-6_frameworks-4c1d95?style=flat-square" alt="6 Compliance"/>
+    <img src="https://img.shields.io/badge/license-MIT-a78bfa?style=flat-square" alt="MIT"/>
+  </p>
+
+  <p>
+    <a href="https://www.npmjs.com/package/specky-sdd"><img src="https://img.shields.io/npm/v/specky-sdd?style=flat-square&color=7c3aed" alt="npm"/></a>
     <a href="https://github.com/paulasilvatech/specky/actions/workflows/ci.yml"><img src="https://github.com/paulasilvatech/specky/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
     <a href="https://securityscorecards.dev/viewer/?uri=github.com/paulasilvatech/specky"><img src="https://api.securityscorecards.dev/projects/github.com/paulasilvatech/specky/badge" alt="OpenSSF Scorecard"/></a>
-    <a href="https://github.com/paulasilvatech/specky"><img src="https://img.shields.io/github/stars/paulasilvatech/specky?style=social" alt="Stars"/></a>
-    <a href="https://github.com/paulasilvatech/specky/blob/main/LICENSE"><img src="https://img.shields.io/github/license/paulasilvatech/specky" alt="License"/></a>
+    <a href="https://github.com/paulasilvatech/specky"><img src="https://img.shields.io/github/stars/paulasilvatech/specky?style=flat-square&color=6d28d9" alt="Stars"/></a>
   </p>
 
   <p>
@@ -24,22 +31,22 @@
 
 ## Table of Contents
 
-| Section | Description |
-|---------|-------------|
-| [What is Specky?](#what-is-specky) | Overview and ecosystem |
-| [Why Specifications Matter](#why-specifications-matter-in-the-ai-era) | Vibe coding vs deterministic development |
-| [GETTING-STARTED.md](GETTING-STARTED.md) | **Complete educational guide** (assumes no prior knowledge) |
-| [Quick Start](#quick-start) | Install via npm or Docker, connect to your IDE |
-| [Where Specifications Live](#where-specifications-live) | File structure and naming conventions |
-| [Input Methods](#input-methods-6-ways-to-start) | 6 ways to feed Specky |
-| [Three Project Types](#three-project-types-one-pipeline) | Greenfield, Brownfield, Modernization |
-| [Pipeline and LGTM Gates](#pipeline-and-lgtm-gates) | 10 phases with human review gates |
-| [All 53 Tools](#all-53-tools) | Complete tool reference by category |
-| [The Spec-Driven Development Platform](#the-spec-driven-development-platform) | Built on Spec-Kit, everything included |
-| [EARS Notation](#ears-notation) | The 6 requirement patterns |
-| [Compliance Frameworks](#compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
-| [Enterprise Ready](#enterprise-ready) | Security, audit trail, quality gates |
-| [Roadmap](#roadmap) | v3.0 (current), v2.4, future plans |
+| | Section | Description |
+|---|---------|-------------|
+| **Start** | [What is Specky?](#what-is-specky) | Overview and ecosystem |
+| | [Why Specifications Matter](#why-specifications-matter-in-the-ai-era) | Vibe coding vs deterministic development |
+| | [Getting Started](GETTING-STARTED.md) | Complete educational guide |
+| **Use** | [Quick Start](#quick-start) | Install via npm or Docker, connect to your IDE |
+| | [Where Specifications Live](#where-specifications-live) | File structure and naming conventions |
+| | [Input Methods](#input-methods-6-ways-to-start) | 6 ways to feed Specky |
+| | [Three Project Types](#three-project-types-one-pipeline) | Greenfield, Brownfield, Modernization |
+| **Pipeline** | [Pipeline and LGTM Gates](#pipeline-and-lgtm-gates) | 10 phases with human review gates |
+| | [All 53 Tools](#all-53-tools) | Complete tool reference by category |
+| | [EARS Notation](#ears-notation) | The 6 requirement patterns |
+| **Enterprise** | [Compliance Frameworks](#compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
+| | [Enterprise Ready](#enterprise-ready) | Security, audit trail, quality gates |
+| **Platform** | [The SDD Platform](#the-spec-driven-development-platform) | Built on Spec-Kit, everything included |
+| | [Roadmap](#roadmap) | v3.0 current, v3.1+ planned |
 
 
 ## What is Specky?
@@ -71,10 +78,10 @@ The result? Teams spend 40% of their time on rework because requirements were ne
 
 | Concept | What it is | Why it matters |
 |---------|-----------|----------------|
-| 📝 **Markdown** | The universal language that both humans and AI read fluently | All spec artifacts are `.md` files in your repo, versioned with Git |
-| 🔌 **MCP (Model Context Protocol)** | An open standard that lets AI assistants call external tools (like USB for AI) | Specky is an MCP server; any AI IDE can connect to it |
-| 📐 **EARS Notation** | A method for writing requirements that forces precision with 6 patterns | Eliminates vague statements like "the system should be fast" |
-| 🤖 **Agents and Skills** | Specialized AI roles that invoke Specky tools with domain expertise | Defined in `.github/agents/` and `.claude/commands/` |
+| **Markdown** | The universal language that both humans and AI read fluently | All spec artifacts are `.md` files in your repo, versioned with Git |
+| **MCP** | Model Context Protocol — an open standard that lets AI assistants call external tools | Specky is an MCP server; any AI IDE can connect to it |
+| **EARS Notation** | A method for writing requirements that forces precision with 6 patterns | Eliminates vague statements like "the system should be fast" |
+| **Agents and Skills** | Specialized AI roles that invoke Specky tools with domain expertise | Defined in `.github/agents/` and `.claude/commands/` |
 
 ### How Specky Enforces Determinism
 
@@ -125,7 +132,7 @@ Specky adds a **deterministic engine** between your intent and your code:
 ### Step 2: Install
 
 <details open>
-<summary><strong>📂 Per Workspace (recommended)</strong></summary>
+<summary><strong>Per Workspace: Per Workspace (recommended)</strong></summary>
 
 No global install needed. You add a config file to the repo and `npx` handles the rest.
 
@@ -162,12 +169,12 @@ claude mcp add specky -- npx -y specky-sdd
 }
 ```
 
-> 💡 Commit the config file to Git so every team member gets Specky automatically when they clone the repo.
+> **Tip:** Commit the config file to Git so every team member gets Specky automatically when they clone the repo.
 
 </details>
 
 <details>
-<summary><strong>🌐 Global (once, all repos)</strong></summary>
+<summary><strong>Global: Global (once, all repos)</strong></summary>
 
 Install globally and Specky is available everywhere on your machine:
 
@@ -216,7 +223,7 @@ claude mcp add specky -- specky-sdd
 </details>
 
 <details>
-<summary><strong>🐳 Docker (HTTP mode, no Node.js required)</strong></summary>
+<summary><strong>Docker: Docker (HTTP mode, no Node.js required)</strong></summary>
 
 Run Specky as an HTTP server in a container:
 
@@ -266,7 +273,7 @@ Specky creates the project structure and asks you 7 discovery questions. From he
 | Adding features to existing code | [Brownfield](#brownfield-project-add-features-to-existing-code) |
 | Upgrading a legacy system | [Modernization](#modernization-project-assess-and-upgrade-legacy-systems) |
 
-> 💡 **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/paulasilvatech/spec-kit). Just install Specky and the pipeline guides you through every phase with [educative outputs](#educative-outputs) that explain the concepts as you work.
+> **Tip:** **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/paulasilvatech/spec-kit). Just install Specky and the pipeline guides you through every phase with [educative outputs](#educative-outputs) that explain the concepts as you work.
 
 
 ## Where Specifications Live
@@ -534,7 +541,7 @@ The AI calls:
 
 The AI calls `sdd_export_work_items` + `sdd_create_pr` → generates work item payloads and PR body with full spec traceability.
 
-> 👉 **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 53 Tools](#all-53-tools) for a complete reference.
+> **Next:** **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 53 Tools](#all-53-tools) for a complete reference.
 
 
 ## Brownfield Project: Add Features to Existing Code
@@ -605,7 +612,7 @@ If you have multiple features specified:
 
 The AI calls `sdd_cross_analyze` → checks for contradictions, shared dependencies, and consistency issues across `.specs/001-*`, `.specs/002-*`, etc.
 
-> 👉 **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation, or [MCP integration](#mcp-integration-architecture) for routing to external tools.
+> **Next:** **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation, or [MCP integration](#mcp-integration-architecture) for routing to external tools.
 
 
 ## Modernization Project: Assess and Upgrade Legacy Systems
@@ -684,7 +691,7 @@ The AI calls:
 
 The AI calls `sdd_generate_onboarding` → creates a guide covering architecture decisions, codebase navigation, development workflow, and testing strategy.
 
-> 👉 **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation during modernization, or [project configuration](#project-configuration) to customize Specky for your team.
+> **Next:** **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation during modernization, or [project configuration](#project-configuration) to customize Specky for your team.
 
 
 ## Pipeline and LGTM Gates
@@ -1085,57 +1092,41 @@ curl http://localhost:3200/health
 
 ## Roadmap
 
-### v3.0 Highlights (current)
-
-| Feature | Description |
-|---------|-------------|
-| Enriched interactive responses | All tools return structured, interactive responses with contextual guidance |
-| 17 software engineering diagram types | Expanded from 10 to 17 Mermaid diagram types for full system visualization |
-| 12-section system design template | C4 model-based design template covering all architecture concerns |
-| Parallel documentation generation | Generate multiple doc types simultaneously for faster output |
-| Pipeline phase validation and gate enforcement | Strengthened gate enforcement with validation at every phase transition |
-
-### v2.3 (stable)
+### v3.0 (current)
 
 | Capability | Status |
 |------------|--------|
-| 53 MCP tools across 10 pipeline phases | ✅ Stable |
-| Turnkey spec from natural language (`sdd_turnkey_spec`) | ✅ New |
-| Property-based testing — fast-check + Hypothesis (`sdd_generate_pbt`) | ✅ New |
-| Checkpoint/restore for spec artifacts (`sdd_checkpoint`, `sdd_restore`) | ✅ New |
-| 6 executable hooks with Claude Code settings.json integration | ✅ New |
-| GitHub Actions SDD workflow (`sdd-hooks.yml`) | ✅ New |
-| 12 Claude Code commands + 5 Copilot agents with full workflows | ✅ New |
-| `.github/copilot-instructions.md` for Copilot project context | ✅ New |
-| State machine enforcement (no phase-skipping) | ✅ Stable |
-| EARS validation (6 patterns, vague term detection) | ✅ Stable |
-| 6 input types (transcript, PDF, DOCX, Figma, codebase, raw text) | ✅ Stable |
-| Compliance checking (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001) | ✅ Stable |
-| Test generation (vitest, jest, playwright, pytest, junit, xunit) | ✅ Stable |
-| MCP-to-MCP routing (GitHub, Azure DevOps, Jira, Terraform, Figma, Docker) | ✅ Stable |
-| 292 unit tests across 19 files | ✅ Stable |
+| 53 MCP tools across 10 enforced pipeline phases | Stable |
+| Phase validation on every tool with gate enforcement | Stable |
+| 17 software engineering diagram types (C4, sequence, ER, DFD, deployment, network) | Stable |
+| 12-section system design template (C4 model, security, infrastructure) | Stable |
+| Enriched interactive responses on all tools (progress, handoff, education) | Stable |
+| Parallel documentation generation (5 types via Promise.all) | Stable |
+| Turnkey spec from natural language (`sdd_turnkey_spec`) | Stable |
+| Property-based testing with fast-check and Hypothesis (`sdd_generate_pbt`) | Stable |
+| Checkpoint/restore for spec artifacts | Stable |
+| 7 automation hooks (security-scan blocks on secrets) | Stable |
+| 12 Claude Code commands + 5 Copilot agents | Stable |
+| 6 compliance frameworks (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001) | Stable |
+| 6 input types (transcript, PDF, DOCX, Figma, codebase, raw text) | Stable |
+| Test generation for 6 frameworks (vitest, jest, playwright, pytest, junit, xunit) | Stable |
+| MCP-to-MCP routing (GitHub, Azure DevOps, Jira, Terraform, Figma, Docker) | Stable |
+| 321 unit tests | Stable |
 
-### v2.4 (planned)
-
-| Feature | Description |
-|---------|-------------|
-| 🔐 HTTP authentication | Token-based auth for the HTTP transport (Docker/container mode) |
-| 📊 Observability | OpenTelemetry metrics and structured logging for tool invocations |
-| 🌐 Internationalization | Spec templates in multiple languages (PT-BR, ES, FR, DE, JA) |
-| Automated shrinking | Integrate fast-check/Hypothesis shrinking feedback into spec refinement |
-
-### v3.1+ (future)
+### v3.1+ (planned)
 
 | Feature | Description |
 |---------|-------------|
-| 👥 RBAC | Role-based access control for pipeline phase advancement |
-| 📝 Persistent audit log | Centralized audit trail beyond `.sdd-state.json` |
-| ⚡ Rate limiting | Request throttling for multi-tenant deployments |
-| 🔑 SSO/SAML | Enterprise identity provider integration |
-| 🏢 Multi-tenant | Isolated workspaces for multiple teams on a single server |
-| 📈 Analytics dashboard | Specification quality metrics over time |
+| HTTP authentication | Token-based auth for the HTTP transport |
+| Observability | OpenTelemetry metrics and structured logging |
+| Internationalization | Spec templates in PT-BR, ES, FR, DE, JA |
+| Automated shrinking | fast-check/Hypothesis shrinking feedback into spec refinement |
+| RBAC | Role-based access control for phase advancement |
+| Persistent audit log | Centralized audit trail beyond `.sdd-state.json` |
+| Multi-tenant | Isolated workspaces for multiple teams |
+| Analytics dashboard | Specification quality metrics over time |
 
-> 💡 Have a feature request? [Open an issue](https://github.com/paulasilvatech/specky/issues) on GitHub.
+Have a feature request? [Open an issue](https://github.com/paulasilvatech/specky/issues).
 
 
 ## Contributing
