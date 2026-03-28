@@ -28,7 +28,7 @@ Modern software projects fail not because developers can't build, but because **
 
 The system operates under three immutable constraints:
 
-- **Dual-tool compatibility:** Must work seamlessly with GitHub Copilot AND Claude Code (not just Claude)
+- **Dual-tool compatibility:** Must work natively with GitHub Copilot AND Claude Code (not just Claude)
 - **File-based state:** No runtime database or persistent service; all state lives in Markdown files
 - **AI-model agnostic:** Orchestration works with any frontier model (Claude Opus, Sonnet, Haiku, GPT-4, etc.)
 

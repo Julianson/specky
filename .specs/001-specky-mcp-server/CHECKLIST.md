@@ -23,7 +23,7 @@ mandatory_pass_rate: 100
 | ID | Check | Mandatory | Status | Evidence |
 |----|-------|-----------|--------|----------|
 | CHK-001 | All 14 MCP tools register and respond via stdio | Yes | ✅ Passed | MCP Inspector verification |
-| CHK-002 | Full pipeline (init → analyze) completes end-to-end | Yes | ✅ Passed | Integration test run |
+| CHK-002 | Complete pipeline (init → analyze) runs successfully | Yes | ✅ Passed | Integration test run |
 | CHK-003 | State machine enforces phase order — skipping returns error | Yes | ✅ Passed | StateMachine unit validation |
 | CHK-004 | `npx specky` starts server with zero config | Yes | ✅ Passed | npm bin entry verified |
 | CHK-005 | All generated spec files use EARS notation + YAML frontmatter | Yes | ✅ Passed | EarsValidator + template output |

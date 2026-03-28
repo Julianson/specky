@@ -135,7 +135,7 @@ Before writing any code, the following gates must pass. Each maps to a Constitut
 
 ## Phase 5: Integration (Agents + Commands)
 
-**Goal:** Updated agents and commands that reference MCP tools and work end-to-end.
+**Goal:** Updated agents and commands that reference MCP tools and work across the full pipeline.
 
 | ID | Task | [P] | Effort | Depends On | Traces To |
 |----|------|-----|--------|------------|-----------|

@@ -5,7 +5,7 @@ description: "Spec-Driven Development orchestrator — the open-source alternati
 
 # SDD Spec Engineer v3.0
 
-**A Spec-Driven Development system with MCP-powered tools for end-to-end specification engineering.**
+**A Spec-Driven Development system with MCP-powered tools for complete specification lifecycle engineering.**
 
 This skill orchestrates 52 MCP tools (`sdd_*`) to run a complete specification pipeline: from interactive discovery through quality gate analysis and implementation handoff. It produces EARS-notation requirements, Mermaid architecture diagrams, and traceable task breakdowns — all following Spec-Kit methodology and Anthropic best practices.
 
@@ -1000,7 +1000,7 @@ echo "Task $TASK_ID complete"
 **Title**: Password reset
 **Estimate**: 7 days
 **Acceptance Criteria**:
-- Works end-to-end
+- Works full pipeline
 ```
 
 ---

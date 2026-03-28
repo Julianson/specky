@@ -135,7 +135,7 @@
     <rect x="640" y="506" width="240" height="6" rx="3" fill="#FFB900"/>
   </g>
   <text x="760" y="536" text-anchor="middle" font-size="14" font-weight="700" fill="#BA7517">Specky MCP Server</text>
-  <text x="760" y="556" text-anchor="middle" font-size="10" fill="#5F5E5A">52 tools that enforce SDD. State</text>
+  <text x="760" y="556" text-anchor="middle" font-size="10" fill="#5F5E5A">53 tools that enforce SDD. State</text>
   <text x="760" y="572" text-anchor="middle" font-size="10" fill="#5F5E5A">machine, EARS validator, compliance</text>
   <text x="760" y="588" text-anchor="middle" font-size="10" fill="#5F5E5A">engine, test generator, IaC output.</text>
 
@@ -157,6 +157,6 @@
   <text x="700" y="674" text-anchor="middle" font-size="10" fill="#FFFFFF" opacity="0.7">Together they replace vibe coding with traceable, validated, deterministic specifications</text>
 
   <!-- Footer -->
-  <text x="700" y="720" text-anchor="middle" font-size="9" fill="#888780" font-style="italic">Specky v2.3 — built on the Spec-Kit SDD methodology — includes everything you need</text>
+  <text x="700" y="720" text-anchor="middle" font-size="9" fill="#888780" font-style="italic">Specky v3.0 — built on the Spec-Kit SDD methodology — includes everything you need</text>
 
 </svg>

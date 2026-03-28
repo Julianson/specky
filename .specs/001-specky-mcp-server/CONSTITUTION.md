@@ -19,7 +19,7 @@ amendment_count: 1
 
 ### 1.1 Vision Statement
 
-Democratize spec-driven development by providing a free, open-source tool that transforms natural language into production-grade specifications — giving every developer the rigor of enterprise requirement engineering without the overhead.
+Establish spec-driven development as an accessible practice by providing a free, open-source tool that transforms natural language into production-grade specifications — giving every developer the rigor of enterprise requirement engineering without the overhead.
 
 ### 1.2 Mission Statement
 
@@ -38,8 +38,8 @@ Build a professional, standalone MCP server that orchestrates the full SDD pipel
 ### 1.4 Success Criteria
 
 - **SC-001:** All 14 MCP tools register and respond correctly via stdio transport
-- **SC-002:** Full pipeline (init → analyze) completes end-to-end in VS Code with GitHub Copilot
-- **SC-003:** Full pipeline completes end-to-end in Claude Code via `/sdd:spec`
+- **SC-002:** Complete pipeline (init → analyze) runs successfully in VS Code with GitHub Copilot
+- **SC-003:** Complete pipeline runs successfully in Claude Code via `/sdd:spec`
 - **SC-004:** State machine enforces phase order — skipping phases returns actionable errors
 - **SC-005:** `npx specky` starts the server with zero configuration
 - **SC-006:** All generated spec files follow EARS notation and include YAML frontmatter

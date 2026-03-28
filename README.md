@@ -1,7 +1,9 @@
 <div align="center">
-  <h1>Specky</h1>
-  <h3>The Complete Spec-Driven Development Platform</h3>
+  <br>
+  <img src="media/specky-brand-logo.svg" alt="Specky" height="80">
+  <br><br>
   <p><strong>53 MCP tools. 10-phase pipeline. Works in any IDE.</strong></p>
+  <p>Agentic Spec-Driven Development</p>
 
   <p>
     <a href="https://www.npmjs.com/package/specky-sdd"><img src="https://img.shields.io/npm/v/specky-sdd" alt="npm"/></a>
@@ -10,39 +12,46 @@
     <a href="https://github.com/paulasilvatech/specky"><img src="https://img.shields.io/github/stars/paulasilvatech/specky?style=social" alt="Stars"/></a>
     <a href="https://github.com/paulasilvatech/specky/blob/main/LICENSE"><img src="https://img.shields.io/github/license/paulasilvatech/specky" alt="License"/></a>
   </p>
+
+  <p>
+    <a href="https://paulasilvatech.github.io/specky/">Website</a> ·
+    <a href="GETTING-STARTED.md">Getting Started</a> ·
+    <a href="https://www.npmjs.com/package/specky-sdd">npm</a> ·
+    <a href="SECURITY.md">Security</a>
+  </p>
 </div>
 
 
-## 📑 Table of Contents
+## Table of Contents
 
 | Section | Description |
 |---------|-------------|
-| [🔍 What is Specky?](#-what-is-specky) | Overview and ecosystem |
-| [🧠 Why Specifications Matter](#-why-specifications-matter-in-the-ai-era) | Vibe coding vs deterministic development |
-| [📖 GETTING-STARTED.md](GETTING-STARTED.md) | **Complete educational guide** (assumes no prior knowledge) |
-| [🚀 Quick Start](#-quick-start) | Install via npm or Docker, connect to your IDE |
-| [📁 Where Specifications Live](#-where-specifications-live) | File structure and naming conventions |
-| [📥 Input Methods](#-input-methods--6-ways-to-start) | 6 ways to feed Specky |
-| [🏗️ Three Project Types](#%EF%B8%8F-three-project-types--one-pipeline) | Greenfield, Brownfield, Modernization |
-| [⚙️ Pipeline and LGTM Gates](#%EF%B8%8F-pipeline-and-lgtm-gates) | 10 phases with human review gates |
-| [🧰 All 53 Tools](#-all-53-tools) | Complete tool reference by category |
-| [🏛️ The SDD Platform](#%EF%B8%8F-the-spec-driven-development-platform) | Built on Spec-Kit, everything included |
-| [📐 EARS Notation](#-ears-notation) | The 6 requirement patterns |
-| [🛡️ Compliance](#%EF%B8%8F-compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
-| [🏢 Enterprise Ready](#-enterprise-ready) | Security, audit trail, quality gates |
-| [🗺️ Roadmap](#%EF%B8%8F-roadmap) | v3.0 (current), v2.4, future plans |
+| [What is Specky?](#what-is-specky) | Overview and ecosystem |
+| [Why Specifications Matter](#why-specifications-matter-in-the-ai-era) | Vibe coding vs deterministic development |
+| [GETTING-STARTED.md](GETTING-STARTED.md) | **Complete educational guide** (assumes no prior knowledge) |
+| [Quick Start](#quick-start) | Install via npm or Docker, connect to your IDE |
+| [Where Specifications Live](#where-specifications-live) | File structure and naming conventions |
+| [Input Methods](#input-methods-6-ways-to-start) | 6 ways to feed Specky |
+| [Three Project Types](#three-project-types-one-pipeline) | Greenfield, Brownfield, Modernization |
+| [Pipeline and LGTM Gates](#pipeline-and-lgtm-gates) | 10 phases with human review gates |
+| [All 53 Tools](#all-53-tools) | Complete tool reference by category |
+| [The Spec-Driven Development Platform](#the-spec-driven-development-platform) | Built on Spec-Kit, everything included |
+| [EARS Notation](#ears-notation) | The 6 requirement patterns |
+| [Compliance Frameworks](#compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
+| [Enterprise Ready](#enterprise-ready) | Security, audit trail, quality gates |
+| [Roadmap](#roadmap) | v3.0 (current), v2.4, future plans |
 
 
-## 🔍 What is Specky?
+## What is Specky?
 
 Specky is an open-source **MCP server** that turns the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) SDD methodology into a **programmable enforcement engine** with 53 validated tools. It provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
 
 **Spec-Kit** provides the methodology: EARS notation, gated pipeline phases, constitution model, quality patterns. **Specky** reimplements all of it as MCP tools and adds programmatic enforcement: a state machine that blocks phase-skipping, an EARS validator, cross-artifact analysis, compliance engines, test generation, and MCP-to-MCP routing.
 
-**Install Specky and you get both.** The Spec-Kit methodology is already built in. It works inside any AI IDE that supports MCP, via `.github/agents/` or `.claude/commands/`, and natively in Cursor, Windsurf, or any MCP-compatible client. See how they [complement each other](#%EF%B8%8F-the-spec-driven-development-platform).
+**Install Specky and you get both.** The Spec-Kit methodology is already built in. It works inside any AI IDE that supports MCP, via `.github/agents/` or `.claude/commands/`, and natively in Cursor, Windsurf, or any MCP-compatible client. See how they [complement each other](#the-spec-driven-development-platform).
 
 
-## 🧠 Why Specifications Matter in the AI Era
+## Why Specifications Matter in the AI Era
 
 <p align="center">
   <img src="media/why-specifications-matter.svg" alt="Why Specifications Matter, From Vibe Coding to Deterministic Development" width="100%"/>
@@ -114,7 +123,7 @@ Specky adds a **deterministic engine** between your intent and your code:
 </details>
 
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -256,7 +265,7 @@ Open your AI IDE and type:
 
 The AI should list the 53 SDD tools. If you see them, Specky is working.
 
-### ✅ Try It Now
+### Try It Now
 
 Once connected, type this in your AI chat to see Specky in action:
 
@@ -268,14 +277,14 @@ Specky creates the project structure and asks you 7 discovery questions. From he
 
 | Your situation | Guide |
 |---------------|-------|
-| 🌱 Building something new | [Greenfield](#-greenfield-project-start-from-scratch) |
-| 🔧 Adding features to existing code | [Brownfield](#-brownfield-project-add-features-to-existing-code) |
-| 🔄 Upgrading a legacy system | [Modernization](#-modernization-project-assess-and-upgrade-legacy-systems) |
+| Building something new | [Greenfield](#greenfield-project-start-from-scratch) |
+| Adding features to existing code | [Brownfield](#brownfield-project-add-features-to-existing-code) |
+| Upgrading a legacy system | [Modernization](#modernization-project-assess-and-upgrade-legacy-systems) |
 
-> 💡 **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/paulasilvatech/spec-kit). Just install Specky and the pipeline guides you through every phase with [educative outputs](#-educative-outputs) that explain the concepts as you work.
+> 💡 **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/paulasilvatech/spec-kit). Just install Specky and the pipeline guides you through every phase with [educative outputs](#educative-outputs) that explain the concepts as you work.
 
 
-## 📁 Where Specifications Live
+## Where Specifications Live
 
 Every feature gets its own numbered directory inside `.specs/`. This keeps specifications, design documents, and quality reports together as a self-contained package.
 
@@ -304,7 +313,7 @@ your-project/
 **Naming convention:** `NNN-feature-name`, zero-padded number + kebab-case name. Each directory is independent; you can work on multiple features simultaneously.
 
 
-## 📥 Input Methods: 6 Ways to Start
+## Input Methods: 6 Ways to Start
 
 <p align="center">
   <img src="media/input-methods.svg" alt="Specky 6 Input Methods" width="100%"/>
@@ -429,7 +438,7 @@ No file? Just paste the content directly. Every import tool accepts a `raw_text`
 ```
 
 
-## 🏗️ Three Project Types: One Pipeline
+## Three Project Types, One Pipeline
 
 <p align="center">
   <img src="media/project-workflows.svg" alt="Greenfield, Brownfield, and Modernization Workflows" width="100%"/>
@@ -438,7 +447,7 @@ No file? Just paste the content directly. Every import tool accepts a `raw_text`
 Specky adapts to any project type. The pipeline is the same; the **starting point** is what changes.
 
 
-## 🌱 Greenfield Project: Start from Scratch
+## Greenfield Project: Start from Scratch
 
 **Scenario:** You're building a new application with no existing code.
 
@@ -540,10 +549,10 @@ The AI calls:
 
 The AI calls `sdd_export_work_items` + `sdd_create_pr` → generates work item payloads and PR body with full spec traceability.
 
-> 👉 **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [#all-53-tools](#-all-53-tools) for a complete reference.
+> 👉 **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 53 Tools](#all-53-tools) for a complete reference.
 
 
-## 🔧 Brownfield Project: Add Features to Existing Code
+## Brownfield Project: Add Features to Existing Code
 
 **Scenario:** You have a running application and need to add a new feature with proper specifications.
 
@@ -614,7 +623,7 @@ The AI calls `sdd_cross_analyze` → checks for contradictions, shared dependenc
 > 👉 **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation, or [MCP integration](#mcp-integration-architecture) for routing to external tools.
 
 
-## 🔄 Modernization Project: Assess and Upgrade Legacy Systems
+## Modernization Project: Assess and Upgrade Legacy Systems
 
 **Scenario:** You have a legacy system that needs assessment, documentation, and incremental modernization.
 
@@ -693,7 +702,7 @@ The AI calls `sdd_generate_onboarding` → creates a guide covering architecture
 > 👉 **Next:** See [compliance frameworks](#compliance-frameworks) for regulatory validation during modernization, or [project configuration](#project-configuration) to customize Specky for your team.
 
 
-## ⚙️ Pipeline and LGTM Gates
+## Pipeline and LGTM Gates
 
 <p align="center">
   <img src="media/pipeline-lgtm-gates.svg" alt="Pipeline with LGTM Quality Gates" width="100%"/>
@@ -730,12 +739,12 @@ The AI calls `sdd_advance_phase` → moves the pipeline forward if all prerequis
 | **Verify** | Drift detection, phantom task detection | VERIFICATION.md |
 | **Release** | PR generation, work item export, documentation | Complete package |
 
-All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). See [Input Methods](#input-methods--6-ways-to-start) for how to feed data into the pipeline.
+All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). See [Input Methods](#input-methods-6-ways-to-start) for how to feed data into the pipeline.
 
 
-## 🧰 All 53 Tools
+## All 53 Tools
 
-### 📥 Input and Conversion (5)
+### Input and Conversion (5)
 
 | Tool | Description |
 |------|-------------|
@@ -745,7 +754,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_batch_import` | Process folder of mixed documents |
 | `sdd_figma_to_spec` | Figma design to requirements specification |
 
-### 🔄 Pipeline Core (8)
+### Pipeline Core (8)
 
 | Tool | Description |
 |------|-------------|
@@ -758,7 +767,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_run_analysis` | Quality gate analysis with coverage heatmap |
 | `sdd_advance_phase` | Move to next pipeline phase |
 
-### ✅ Quality and Validation (5)
+### Quality and Validation (5)
 
 | Tool | Description |
 |------|-------------|
@@ -768,7 +777,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_cross_analyze` | Spec-design-tasks alignment with consistency score |
 | `sdd_validate_ears` | Batch EARS requirement validation |
 
-### 📊 Diagrams and Visualization (4) -- 17 Diagram Types
+### Diagrams and Visualization (4) -- 17 Diagram Types
 
 | Tool | Description |
 |------|-------------|
@@ -777,7 +786,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_generate_user_stories` | User stories with flow diagrams |
 | `sdd_figma_diagram` | FigJam-ready diagram via Figma MCP |
 
-### 🏗️ Infrastructure as Code (3)
+### Infrastructure as Code (3)
 
 | Tool | Description |
 |------|-------------|
@@ -785,7 +794,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_validate_iac` | Validation via Terraform MCP + Azure MCP |
 | `sdd_generate_dockerfile` | Dockerfile + docker-compose from tech stack |
 
-### 💻 Dev Environment (3)
+### Dev Environment (3)
 
 | Tool | Description |
 |------|-------------|
@@ -793,7 +802,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_setup_codespaces` | GitHub Codespaces configuration |
 | `sdd_generate_devcontainer` | .devcontainer/devcontainer.json generation |
 
-### 🔗 Integration and Export (5)
+### Integration and Export (5)
 
 | Tool | Description |
 |------|-------------|
@@ -803,7 +812,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_implement` | Ordered implementation plan with checkpoints |
 | `sdd_research` | Resolve unknowns in RESEARCH.md |
 
-### 📖 Documentation (4)
+### Documentation (4)
 
 | Tool | Description |
 |------|-------------|
@@ -812,7 +821,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_generate_runbook` | Operational runbook |
 | `sdd_generate_onboarding` | Developer onboarding guide |
 
-### 🔧 Utility (5)
+### Utility (5)
 
 | Tool | Description |
 |------|-------------|
@@ -822,7 +831,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_metrics` | Project metrics dashboard |
 | `sdd_amend` | Amend project constitution |
 
-### 🧪 Testing (3)
+### Testing (3)
 
 | Tool | Description |
 |------|-------------|
@@ -830,13 +839,13 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_verify_tests` | Verify test results against requirements, report traceability coverage |
 | `sdd_generate_pbt` | Generate property-based tests using fast-check (TypeScript) or Hypothesis (Python). Extracts invariants, round-trips, idempotence, state transitions, and negative properties from EARS requirements |
 
-### ⚡ Turnkey Specification (1)
+### Turnkey Specification (1)
 
 | Tool | Description |
 |------|-------------|
 | `sdd_turnkey_spec` | Generate a complete EARS specification from a natural language description. Auto-extracts requirements, classifies all 5 EARS patterns, generates acceptance criteria, infers non-functional requirements, and identifies clarification questions |
 
-### 💾 Checkpointing (3)
+### Checkpointing (3)
 
 | Tool | Description |
 |------|-------------|
@@ -844,14 +853,14 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_restore` | Restore spec artifacts from a previous checkpoint (auto-creates backup before restoring) |
 | `sdd_list_checkpoints` | List all available checkpoints for a feature with labels, dates, and phases |
 
-### 🔌 Ecosystem (1)
+### Ecosystem (1)
 
 | Tool | Description |
 |------|-------------|
 | `sdd_check_ecosystem` | Report recommended MCP servers with install commands |
 
 
-## 🏛️ The Spec-Driven Development Platform
+## The Spec-Driven Development Platform
 
 <p align="center">
   <img src="media/specky-speckit-integration.svg" alt="How Spec-Kit and Specky Work Together in the GitHub + Microsoft Ecosystem" width="100%"/>
@@ -892,7 +901,7 @@ Together they form the **SDD layer** of the GitHub + Microsoft enterprise platfo
 ```
 
 
-## ⚙️ Project Configuration
+## Project Configuration
 
 Create `.specky/config.yml` in your project root to customize Specky:
 
@@ -907,7 +916,7 @@ audit_enabled: true                  # Enable audit trail
 When `templates_path` is set, Specky uses your custom templates instead of the built-in ones. When `audit_enabled` is true, tool invocations are logged locally.
 
 
-## 🔗 MCP Integration Architecture
+## MCP Integration Architecture
 
 <p align="center">
   <img src="media/architecture-mcp-ecosystem.svg" alt="Specky MCP Ecosystem Architecture" width="100%"/>
@@ -939,7 +948,7 @@ Specky --> sdd_figma_to_spec(file_key: "abc123") --> Figma request
 | **Docker MCP** | Local dev environments |
 
 
-## 📐 EARS Notation
+## EARS Notation
 
 Every requirement in Specky follows EARS (Easy Approach to Requirements Syntax):
 
@@ -955,7 +964,7 @@ Every requirement in Specky follows EARS (Easy Approach to Requirements Syntax):
 The EARS validator programmatically checks every requirement against these 6 patterns. Vague terms like "fast", "good", "easy" are flagged automatically.
 
 
-## 🛡️ Compliance Frameworks
+## Compliance Frameworks
 
 Built-in compliance checking against:
 
@@ -966,7 +975,7 @@ Built-in compliance checking against:
 - **ISO 27001**: Security policies, access control, cryptography, incident management
 
 
-## 💡 Educative Outputs
+## Educative Outputs
 
 Every tool response includes structured guidance:
 
@@ -980,16 +989,16 @@ Every tool response includes structured guidance:
 ```
 
 
-## 🔄 End-to-End Flow
+## Complete Pipeline Flow
 
 <p align="center">
-  <img src="media/end-to-end-flow.svg" alt="Specky End-to-End Development Flow" width="100%"/>
+  <img src="media/end-to-end-flow.svg" alt="Specky Complete Pipeline Development Flow" width="100%"/>
 </p>
 
-From any [input](#input-methods--6-ways-to-start) to production.fully automated, [MCP-orchestrated](#mcp-integration-architecture), with artifacts and diagrams generated at every step. All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live).
+From any [input](#input-methods-6-ways-to-start) to production -- fully automated, [MCP-orchestrated](#mcp-integration-architecture), with artifacts and diagrams generated at every step. All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live).
 
 
-## 🏢 Enterprise Ready
+## Enterprise Ready
 
 Specky is built with enterprise adoption in mind.
 
@@ -1061,7 +1070,7 @@ Every pipeline phase produces a traceable artifact in `.specs/NNN-feature/`. The
 - **321 unit tests** — CI enforces thresholds on every push
 
 
-## 🛠️ Development
+## Development
 
 ```bash
 # Clone and setup
@@ -1091,7 +1100,7 @@ curl http://localhost:3200/health
 ```
 
 
-## 🗺️ Roadmap
+## Roadmap
 
 ### v3.0 Highlights (current)
 
@@ -1130,7 +1139,7 @@ curl http://localhost:3200/health
 | 🔐 HTTP authentication | Token-based auth for the HTTP transport (Docker/container mode) |
 | 📊 Observability | OpenTelemetry metrics and structured logging for tool invocations |
 | 🌐 Internationalization | Spec templates in multiple languages (PT-BR, ES, FR, DE, JA) |
-| 🧠 AI-powered shrinking | Integrate fast-check/Hypothesis shrinking feedback into spec refinement |
+| Automated shrinking | Integrate fast-check/Hypothesis shrinking feedback into spec refinement |
 
 ### v3.1+ (future)
 
@@ -1146,12 +1155,12 @@ curl http://localhost:3200/health
 > 💡 Have a feature request? [Open an issue](https://github.com/paulasilvatech/specky/issues) on GitHub.
 
 
-## 🤝 Contributing
+## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add tools, templates, or services.
 
 
-## 📎 Links
+## Links
 
 - [CHANGELOG.md](CHANGELOG.md): Version history and release notes
 - [SECURITY.md](SECURITY.md): Vulnerability disclosure policy and OWASP Top 10 coverage
@@ -1161,6 +1170,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add t
 - [npm package](https://www.npmjs.com/package/specky-sdd): `specky-sdd` on npm
 
 
-## 📄 License
+## License
 
 MIT. Created by [Paula Silva](https://github.com/paulasilvatech) | Americas Software GBB, Microsoft

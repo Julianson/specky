@@ -105,7 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `sdd_verify_tests` tool — verifies test results JSON against specification requirements, reports traceability coverage
 - `.specky/config.yml` support — project-local configuration for templates path, default framework, compliance frameworks, audit toggle
 - `src/config.ts` — centralized configuration loader with simple YAML parsing
-- MCP integration test (`tests/integration/pipeline-e2e.test.ts`) — end-to-end pipeline validation with real FileManager
+- MCP integration test (`tests/integration/pipeline-e2e.test.ts`) — full pipeline validation with real FileManager
 - Unit tests for 6 additional services: DocGenerator, GitManager, IacGenerator, WorkItemExporter, TranscriptParser, DocumentConverter
 - OpenSSF Scorecard workflow (`.github/workflows/scorecard.yml`)
 - SBOM generation (CycloneDX) in CI pipeline
