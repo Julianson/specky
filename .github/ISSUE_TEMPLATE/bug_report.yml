@@ -27,8 +27,8 @@ body:
     id: version
     attributes:
       label: Specky Version
-      description: Run `npx specky-sdd --version` or check package.json
-      placeholder: "2.1.0"
+      description: Run `specky-sdd --version` or check package.json
+      placeholder: "3.2.0"
     validations:
       required: true
 

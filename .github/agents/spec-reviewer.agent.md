@@ -2,7 +2,7 @@
 name: SDD Spec Reviewer
 description: >-
   Audits specifications for quality, completeness, traceability, and compliance
-  using 53 MCP tools. Runs quality gates with pipeline phase validation and gate
+  using 57 MCP tools. Runs quality gates with pipeline phase validation and gate
   enforcement, detects drift, validates EARS notation, verifies test coverage,
   and checks regulatory compliance (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001).
 ---

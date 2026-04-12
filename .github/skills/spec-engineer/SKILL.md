@@ -1,13 +1,13 @@
 ---
-name: SDD Spec Engineer v3.0
+name: SDD Spec Engineer v3.2
 description: "Spec-Driven Development orchestrator — transforms natural language into production-grade specs through interactive discovery. Auto-scans codebases, generates EARS-notation requirements, creates Mermaid architecture diagrams, produces sequenced task plans with [P] parallel markers and pre-implementation gates, runs quality gates with traceability matrices, and hands off to coding agents. Works in GitHub Copilot (.github/agents/) AND Claude Code (.claude/commands/). USE THIS when the user mentions: spec, requirements, plan feature, user stories, acceptance criteria, technical design, architect solution, implementation plan, SDD, \"spec this\", \"plan this\", \"break into tasks\", PRD, constitution, bugfix spec, quality gate, spec sync, or any variation of spec-driven development."
 ---
 
-# SDD Spec Engineer v3.0
+# SDD Spec Engineer v3.2
 
 **A Spec-Driven Development system with MCP-powered tools for complete specification lifecycle engineering.**
 
-This skill orchestrates 52 MCP tools (`sdd_*`) to run a complete specification pipeline: from interactive discovery through quality gate analysis and implementation handoff. It produces EARS-notation requirements, Mermaid architecture diagrams, and traceable task breakdowns — all following Spec-Kit methodology and Anthropic best practices.
+This skill orchestrates 57 MCP tools (`sdd_*`) to run a complete specification pipeline: from interactive discovery through quality gate analysis and implementation handoff. It produces EARS-notation requirements, Mermaid architecture diagrams, and traceable task breakdowns — all following Spec-Kit methodology and Anthropic best practices.
 
 ## MCP Tool Integration
 
@@ -713,7 +713,7 @@ $ touch templates/emails/password-reset.hbs
 **Output**: `HANDOFF_SCRIPTS.sh`
 ```bash
 #!/bin/bash
-# SDD Spec Engineer v3.0 - Task Execution Script
+# SDD Spec Engineer v3.2 - Task Execution Script
 # Usage: ./handoff.sh [task-id] [--test] [--deploy]
 
 set -e

@@ -3,7 +3,7 @@ name: SDD Task Planner
 description: >-
   Decomposes approved designs into sequenced implementation tasks with effort
   estimates, DependencyGraph-based parallel execution analysis, work item export,
-  and test generation. Manages 53 MCP tools. Includes checkpointing for safe
+  and test generation. Manages 57 MCP tools. Includes checkpointing for safe
   task reorganization.
 ---
 

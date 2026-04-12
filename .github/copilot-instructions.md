@@ -1,4 +1,4 @@
-# Specky v3.0.0 — GitHub Copilot Instructions
+# Specky v3.2.0 — GitHub Copilot Instructions
 
 This project uses **Spec-Driven Development (SDD)** via the Specky MCP server.
 
@@ -60,10 +60,12 @@ Hooks fire automatically during the SDD pipeline. Three hook types:
 | `changelog` | Session end | Advisory — reminds to update CHANGELOG.md |
 | `auto-checkpoint` | After spec writes | Advisory — suggests checkpointing spec artifacts |
 
-## 53 MCP Tools Available
+## 57 MCP Tools Available
 
 Pipeline (8), Utility (6), Transcript (3), Input (3), Quality (5), Visualization (4),
 Infrastructure (3), Environment (3), Integration (5), Documentation (4), Ecosystem (1),
-Testing (3), PBT (1), Turnkey (1), Checkpointing (3).
+Testing (3), PBT (1), Turnkey (1), Checkpointing (3), Model Routing (1), Context Tiering (1), RBAC (1).
+
+**New in v3.2.0:** `sdd_check_access` — RBAC role diagnostics. Enterprise security features (rate limiting, HMAC state integrity, hash-chained audit) are opt-in via `.specky/config.yml`.
 
 See CLAUDE.md for the full tool reference.
