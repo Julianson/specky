@@ -48,6 +48,8 @@ import { PbtGenerator } from "./services/pbt-generator.js";
 import { registerPbtTools } from "./tools/pbt.js";
 import { loadConfig } from "./config.js";
 import { AuditLogger } from "./services/audit-logger.js";
+import { MetricsGenerator } from "./services/metrics-generator.js";
+import { registerMetricsTools } from "./tools/metrics.js";
 
 // Resolve workspace root
 const workspaceRoot = process.env["SDD_WORKSPACE"] || process.cwd();
@@ -84,6 +86,7 @@ const gitManager = new GitManager(fileManager);
 const testGenerator = new TestGenerator(fileManager);
 const pbtGenerator = new PbtGenerator(fileManager);
 const auditLogger = new AuditLogger(workspaceRoot, config.audit_enabled);
+const metricsGenerator = new MetricsGenerator(fileManager);
 
 // Register all tools (53 total)
 // v1 tools
@@ -104,6 +107,7 @@ registerTestingTools(server, fileManager, stateMachine, testGenerator);
 registerCheckpointTools(server, fileManager, stateMachine);
 registerTurnkeyTools(server, fileManager, stateMachine, templateEngine, earsValidator);
 registerPbtTools(server, fileManager, stateMachine, pbtGenerator);
+registerMetricsTools(server, fileManager, stateMachine, metricsGenerator);
 
 // Graceful shutdown
 let isShuttingDown = false;
