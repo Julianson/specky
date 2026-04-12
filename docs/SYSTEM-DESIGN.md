@@ -643,8 +643,7 @@ curl http://localhost:3200/health
 {
   "mcpServers": {
     "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"]
+      "command": "specky-sdd"
     }
   }
 }
@@ -657,8 +656,7 @@ curl http://localhost:3200/health
 {
   "github.copilot.chat.mcpServers": {
     "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"]
+      "command": "specky-sdd"
     }
   }
 }

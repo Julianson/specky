@@ -18,8 +18,8 @@
 ## Install in 30 Seconds
 
 ```bash
-# npm (recommended)
-npx specky-sdd
+# Global install (recommended)
+npm install -g specky-sdd
 
 # Or Docker
 docker run -p 3200:3200 -v $(pwd):/workspace ghcr.io/paulasilvatech/specky:latest

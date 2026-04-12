@@ -237,7 +237,8 @@ describe("StateMachine", () => {
       const state = makeState(Phase.Clarify);
       await sm.saveState(".specs", state);
 
-      expect(fm.writeSpecFile).toHaveBeenCalledOnce();
+      // saveState now writes 2 files: .sdd-state.json + .sdd-state.json.sig
+      expect(fm.writeSpecFile).toHaveBeenCalledTimes(2);
       const [, , json] = fm.writeSpecFile.mock.calls[0];
       const parsed = JSON.parse(json);
       expect(parsed.current_phase).toBe(Phase.Clarify);

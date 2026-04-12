@@ -58,6 +58,9 @@ import { CognitiveDebtEngine } from "./services/cognitive-debt-engine.js";
 import { IntentDriftEngine } from "./services/intent-drift-engine.js";
 import { TestResultParser } from "./services/test-result-parser.js";
 import { TestTraceabilityMapper } from "./services/test-traceability-mapper.js";
+import { RateLimiter } from "./services/rate-limiter.js";
+import { RbacEngine } from "./services/rbac-engine.js";
+import { registerRbacTools } from "./tools/rbac.js";
 
 // Resolve workspace root
 const workspaceRoot = process.env["SDD_WORKSPACE"] || process.cwd();
@@ -76,7 +79,7 @@ const server = new McpServer({
 
 // Initialize services (v1)
 const fileManager = new FileManager(workspaceRoot);
-const stateMachine = new StateMachine(fileManager);
+const stateMachine = new StateMachine(fileManager, workspaceRoot);
 const templateEngine = new TemplateEngine(fileManager, config.templates_path || undefined);
 const earsValidator = new EarsValidator();
 const codebaseScanner = new CodebaseScanner(fileManager);
@@ -93,7 +96,16 @@ const docGenerator = new DocGenerator(fileManager, stateMachine);
 const gitManager = new GitManager(fileManager);
 const testGenerator = new TestGenerator(fileManager);
 const pbtGenerator = new PbtGenerator(fileManager);
-const auditLogger = new AuditLogger(workspaceRoot, config.audit_enabled);
+const auditLogger = new AuditLogger(
+  workspaceRoot,
+  config.audit_enabled,
+  config.audit.export_format,
+  config.audit.max_file_size_mb,
+);
+const rbacEngine = new RbacEngine(
+  config.rbac.enabled ?? false,
+  config.rbac.default_role ?? "contributor",
+);
 const metricsGenerator = new MetricsGenerator(fileManager);
 const modelRoutingEngine = new ModelRoutingEngine();
 const contextTieringEngine = new ContextTieringEngine();
@@ -102,7 +114,7 @@ const intentDriftEngine = new IntentDriftEngine();
 const testResultParser = new TestResultParser();
 const testTraceabilityMapper = new TestTraceabilityMapper();
 
-// Register all tools (53 total)
+// Register all tools (57 total)
 // v1 tools
 registerPipelineTools(server, fileManager, stateMachine, templateEngine, earsValidator);
 registerAnalysisTools(server, fileManager, stateMachine, templateEngine, intentDriftEngine);
@@ -124,6 +136,7 @@ registerPbtTools(server, fileManager, stateMachine, pbtGenerator);
 registerMetricsTools(server, fileManager, stateMachine, metricsGenerator, cognitiveDebtEngine, intentDriftEngine);
 registerRoutingTools(server, modelRoutingEngine);
 registerContextTools(server, fileManager, stateMachine, contextTieringEngine);
+registerRbacTools(server, rbacEngine);
 
 // Graceful shutdown
 let isShuttingDown = false;
@@ -161,8 +174,41 @@ async function main(): Promise<void> {
     });
     await server.connect(transport);
 
+    // Rate limiter — only active in HTTP mode when enabled in config
+    const rateLimiter = config.rate_limit.enabled
+      ? new RateLimiter(
+          config.rate_limit.max_requests_per_minute ?? 60,
+          config.rate_limit.burst ?? 10,
+        )
+      : null;
+
+    if (rateLimiter) {
+      console.error(
+        `[specky] Rate limiting enabled: ${config.rate_limit.max_requests_per_minute} rpm, burst ${config.rate_limit.burst}`,
+      );
+    }
+
     const httpServer = http.createServer(async (req, res) => {
       if (req.url === "/mcp") {
+        // Apply rate limiting before forwarding to MCP handler
+        if (rateLimiter) {
+          const clientId = req.socket.remoteAddress ?? "unknown";
+          const check = rateLimiter.checkRateLimit(clientId);
+          if (!check.allowed) {
+            const retryAfterSec = Math.ceil((check.retry_after_ms ?? 1000) / 1000);
+            res.writeHead(429, {
+              "Content-Type": "application/json",
+              "Retry-After": String(retryAfterSec),
+            });
+            res.end(
+              JSON.stringify({
+                error: "Too Many Requests",
+                retry_after_ms: check.retry_after_ms,
+              }),
+            );
+            return;
+          }
+        }
         await transport.handleRequest(req, res);
       } else if (req.url === "/health") {
         res.writeHead(200, { "Content-Type": "application/json" });

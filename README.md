@@ -132,51 +132,9 @@ Specky adds a **deterministic engine** between your intent and your code:
 ### Step 2: Install
 
 <details open>
-<summary><strong>Per Workspace: Per Workspace (recommended)</strong></summary>
+<summary><strong>Global (recommended): Install once, use everywhere</strong></summary>
 
-No global install needed. You add a config file to the repo and `npx` handles the rest.
-
-**For VS Code with GitHub Copilot** create `.vscode/mcp.json` in the repo root:
-
-```json
-{
-  "servers": {
-    "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"],
-      "env": {
-        "SDD_WORKSPACE": "${workspaceFolder}"
-      }
-    }
-  }
-}
-```
-
-**For Claude Code** run this once inside the repo:
-
-```bash
-claude mcp add specky -- npx -y specky-sdd
-```
-
-**For Cursor** add to MCP settings (Settings > MCP Servers):
-
-```json
-{
-  "specky": {
-    "command": "npx",
-    "args": ["-y", "specky-sdd"]
-  }
-}
-```
-
-> **Tip:** Commit the config file to Git so every team member gets Specky automatically when they clone the repo.
-
-</details>
-
-<details>
-<summary><strong>Global: Global (once, all repos)</strong></summary>
-
-Install globally and Specky is available everywhere on your machine:
+Install globally so `specky-sdd` is always available — no re-download on every run:
 
 ```bash
 npm install -g specky-sdd
@@ -223,6 +181,33 @@ claude mcp add specky -- specky-sdd
 </details>
 
 <details>
+<summary><strong>Per Workspace (alternative): npx, no global install</strong></summary>
+
+Add a config file to the repo so teammates get Specky automatically on clone — no global install needed.
+
+**VS Code** (`.vscode/mcp.json`):
+```json
+{
+  "servers": {
+    "specky": {
+      "command": "npx",
+      "args": ["-y", "specky-sdd"],
+      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
+    }
+  }
+}
+```
+
+**Claude Code**:
+```bash
+claude mcp add specky -- npx -y specky-sdd
+```
+
+> Commit `.vscode/mcp.json` to Git so every team member gets Specky automatically.
+
+</details>
+
+<details>
 <summary><strong>Docker: Docker (HTTP mode, no Node.js required)</strong></summary>
 
 Run Specky as an HTTP server in a container:
@@ -255,7 +240,7 @@ Open your AI IDE and type:
 > What tools does Specky have?
 ```
 
-The AI should list the 53 SDD tools. If you see them, Specky is working.
+The AI should list the 56 SDD tools. If you see them, Specky is working.
 
 ### Try It Now
 
@@ -883,13 +868,13 @@ Together they form the **SDD layer** of the GitHub + Microsoft enterprise platfo
 {
   "servers": {
     "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"]
+      "command": "specky-sdd"
     }
   }
 }
 ```
 
+> **Note:** This example assumes `specky-sdd` is installed globally (`npm install -g specky-sdd`). See the [Installation](#installation) section for per-workspace and Docker alternatives.
 
 ## Project Configuration
 

@@ -1,4 +1,4 @@
-# Specky v3.1.0 -- Claude Code Project Instructions
+# Specky v3.2.0 -- Claude Code Project Instructions
 
 **Auto-loaded by Claude Code when working in this directory.**
 
@@ -6,7 +6,7 @@
 
 ## 1. Project Overview
 
-Specky v3.1.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **56 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 26 services, 22 templates, 5 Custom Agents, 12 Claude Code commands, and 10 executable automation hooks.
+Specky v3.2.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **57 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 29 services, 22 templates, 5 Custom Agents, 12 Claude Code commands, and 10 executable automation hooks.
 
 **Goal:** Close the gap between specification and code through continuous validation, preventing drift and ensuring acceptance criteria are met.
 
@@ -17,6 +17,8 @@ Specky v3.1.0 is an **MCP server for Spec-Driven Development (SDD)** that enforc
 **What changed in v3.0.0:** Pipeline enforcement with phase validation on all tools, gate decision enforcement, 17 diagram types (was 10), 12-section design template (was 6), enriched interactive responses on all 53 tools, parallel documentation generation, MethodologyGuide and DependencyGraph services, 7 active hooks, 12 fully interactive commands.
 
 **What changed in v3.1.0:** Intelligence layer across all 55 tool responses. `model_routing_hint` and `context_load_summary` injected on every tool response. New tools: `sdd_model_routing` (#54) and `sdd_context_status` (#55). Cognitive debt metrics (LGTM-without-modification detection), intent drift detection with `drift_amendment_suggestion` in `sdd_amend`, enhanced `sdd_verify_tests` with `TestResultParser` (Vitest/pytest/JUnit XML) + `TestTraceabilityMapper` (per-requirement coverage + failure details). 6 new services. 507 unit tests (was 321).
+
+**What changed in v3.2.0:** Enterprise security hardening — all new features opt-in via `.specky/config.yml`. New tool: `sdd_check_access` (#57) for RBAC diagnostics. 3 new services: `RateLimiter` (token bucket, HTTP-only), `RbacEngine` (viewer/contributor/admin), enhanced `AuditLogger` (hash-chaining, syslog RFC 5424, log rotation). `StateMachine` now writes HMAC-SHA256 signature alongside `.sdd-state.json` for tamper detection. Config parser upgraded for nested YAML keys. Global npm install promoted as default (replaces npx). NPX supply chain risk + CoSAI/OWASP MCP compliance tables added to SECURITY.md. 561 unit tests (was 507).
 
 ---
 
@@ -597,7 +599,8 @@ PORT=3200                               # HTTP transport port (--http mode)
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 3.1.0 | 2026-04-12 | 56 tools (+sdd_model_routing, +sdd_context_status), 24 services (+ModelRoutingEngine, +ContextTieringEngine, +CognitiveDebtEngine, +IntentDriftEngine, +TestResultParser, +TestTraceabilityMapper), model_routing_hint + context_load_summary on all tool responses, cognitive debt gate instrumentation, intent drift detection + drift_amendment_suggestion, enhanced sdd_verify_tests with JUnit XML parsing + per-requirement traceability, 507 unit tests |
+| 3.2.0 | 2026-04-12 | 57 tools (+sdd_check_access), 29 services (+RateLimiter, +RbacEngine, enhanced AuditLogger), HMAC-SHA256 state integrity, hash-chained audit log, syslog/rotation export, opt-in RBAC, npm-as-default migration, supply chain + CoSAI/OWASP MCP compliance docs, 561 unit tests |
+| 3.1.0 | 2026-04-12 | 56 tools (+sdd_model_routing, +sdd_context_status), 26 services (+ModelRoutingEngine, +ContextTieringEngine, +CognitiveDebtEngine, +IntentDriftEngine, +TestResultParser, +TestTraceabilityMapper), model_routing_hint + context_load_summary on all tool responses, cognitive debt gate instrumentation, intent drift detection + drift_amendment_suggestion, enhanced sdd_verify_tests with JUnit XML parsing + per-requirement traceability, 507 unit tests |
 | 3.0.0 | 2026-03-26 | 53 tools, 17 diagram types, 12-section design template, enriched interactive responses on all tools, pipeline phase validation, gate enforcement, parallel documentation, MethodologyGuide + DependencyGraph services, 7 active hooks (auto-checkpoint new), 12 fully interactive commands rewritten, 321 unit tests |
 | 2.3.1 | 2026-03-24 | 52 tools (+sdd_turnkey_spec, sdd_generate_pbt, sdd_checkpoint, sdd_restore, sdd_list_checkpoints), turnkey EARS spec from natural language, property-based testing (fast-check/hypothesis), checkpoint/restore for spec artifacts, 12 Claude Code commands (+5), 6 executable hooks with settings.json integration, 4 agents updated to Extended Toolset v2.3, 292 unit tests |
 | 2.2.0 | 2026-03-24 | 47 tools (+sdd_generate_tests, sdd_verify_tests), test generation for 6 frameworks, .specky/config.yml support, 211 unit tests, 89% coverage, OpenSSF Scorecard, SBOM generation |
@@ -607,6 +610,6 @@ PORT=3200                               # HTTP transport port (--http mode)
 
 ---
 
-**Last Updated:** 2026-03-26
+**Last Updated:** 2026-04-12
 **Maintainer:** Paula Silva
 **License:** MIT

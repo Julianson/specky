@@ -116,7 +116,7 @@ When using HTTP transport mode (`--http`), bind to `localhost` only. Do not expo
 
 | Practice | Details |
 |----------|---------|
-| **Use stdio mode by default** | `npx specky-sdd` — no network exposure, process-level isolation |
+| **Use stdio mode by default** | `specky-sdd` (global install) — no network exposure, process-level isolation |
 | **Never expose HTTP mode publicly** | `--http` mode has no authentication or TLS. If you need remote access, place behind a reverse proxy (nginx, Caddy, Traefik) with TLS and authentication |
 | **Protect `.specs/` directory** | Contains architecture details, API contracts, security models. Add to `.gitignore` for sensitive projects, or use a private repository |
 | **Protect `.checkpoints/`** | Contains full copies of all spec artifacts. Treat like source code |
@@ -183,3 +183,62 @@ These are **architectural guarantees**, not configuration options:
 - **Never logs sensitive data** — logs go to stderr, contain only operational messages
 
 See [docs/SYSTEM-DESIGN.md](docs/SYSTEM-DESIGN.md) for the complete security architecture with threat model.
+
+## NPX Supply Chain Risk
+
+Running `npx specky-sdd` without a pinned version downloads the latest package from npm on every invocation. This creates a supply-chain exposure: a compromised npm registry entry or a typosquat could execute malicious code in your environment before Specky even starts.
+
+**Recommended mitigations:**
+
+| Approach | Risk reduction | Notes |
+|----------|---------------|-------|
+| `npm install -g specky-sdd` | **High** — fetches once, runs offline after | Recommended default |
+| `npm install -g specky-sdd@3.2.0` | **Higher** — version-pinned, no silent upgrades | Best for reproducible environments |
+| Docker (`ghcr.io/paulasilvatech/specky:3.2.0`) | **Highest** — immutable image by digest | Best for CI/CD and air-gapped |
+| `npx specky-sdd` (unversioned) | **Baseline** — re-downloads on each invocation | Avoid in production pipelines |
+
+**Workspace isolation pattern** (CI/CD):
+
+```bash
+# Install into a local vendor directory — no global write permissions needed
+npm install specky-sdd@3.2.0 --prefix ./vendor --ignore-scripts
+./vendor/node_modules/.bin/specky-sdd
+```
+
+The `--ignore-scripts` flag prevents npm lifecycle scripts from running during install, which is a common supply-chain attack vector.
+
+## MCP Security Framework Compliance
+
+### CoSAI MCP Security White Paper — Threat Category Coverage
+
+Specky addresses the 12 threat categories from the CoSAI MCP Security White Paper:
+
+| ID | Threat Category | Specky Mitigation |
+|----|----------------|-------------------|
+| T-01 | Tool Poisoning | Zod `.strict()` on all 57 tool inputs — no unknown fields accepted |
+| T-02 | Prompt Injection via Tool Results | No user-controlled data interpolated into tool responses |
+| T-03 | Excessive Tool Permissions | Thin Tools pattern — each tool does exactly one operation |
+| T-04 | Insecure Data Storage | FileManager enforces workspace boundary; no secrets in files |
+| T-05 | Insufficient Input Validation | All inputs validated with Zod schemas before reaching service layer |
+| T-06 | Uncontrolled Resource Consumption | Rate limiter (opt-in) for HTTP mode; stdio is single-session |
+| T-07 | Broken Access Control | RBAC engine (opt-in) — viewer/contributor/admin roles; path sanitization |
+| T-08 | Supply Chain Compromise | 2 runtime deps only; Dependabot enabled; global install recommended |
+| T-09 | Credential Leakage | No secrets in logs (stderr only); no credentials in spec artifacts |
+| T-10 | Insecure Communication | stdio mode has zero network exposure; HTTP mode binds to localhost |
+| T-11 | State Manipulation | HMAC-SHA256 signature on `.sdd-state.json`; tamper detection on load |
+| T-12 | Audit Trail Integrity | Hash-chained JSONL audit log; rotation; syslog/OTLP export (opt-in) |
+
+### OWASP MCP Top 10 Coverage
+
+| # | OWASP MCP Risk | Specky Mitigation |
+|---|---------------|-------------------|
+| M1 | Prompt Injection | No dynamic content in tool descriptions; outputs are structured JSON |
+| M2 | Insecure Tool Design | Thin Tools / Fat Services — tools are pure input/output wrappers |
+| M3 | Excessive Agency | No shell execution, no outbound network, no code eval |
+| M4 | Insufficient Authentication | HTTP mode delegates to reverse proxy; stdio is process-isolated |
+| M5 | Broken Object-Level Authorization | RBAC engine enforces per-tool access by role (opt-in) |
+| M6 | Sensitive Data Exposure | FileManager path boundary; no credential logging; workspace-scoped I/O |
+| M7 | Insecure Plugin Composition | Fixed tool set at startup — no dynamic plugin loading |
+| M8 | Improper Error Handling | All service errors caught; tools return structured error responses |
+| M9 | Insufficient Logging | Hash-chained audit trail; syslog export available |
+| M10 | Vulnerable Dependencies | 2 runtime deps; `npm audit` in CI; Dependabot on GitHub |

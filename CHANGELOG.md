@@ -5,6 +5,57 @@ All notable changes to Specky are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-04-12
+
+### Enterprise Security Hardening
+
+#### Rate Limiting (opt-in)
+- **`RateLimiter` service**: Token bucket algorithm — no external deps, pure TypeScript
+- HTTP transport now supports `rate_limit.enabled: true` in `.specky/config.yml`
+- Config: `max_requests_per_minute` (default 60), `burst` (default 10)
+- Returns HTTP 429 with `Retry-After` header when limit exceeded
+- stdio mode bypasses rate limiting by design (single-session, process-isolated)
+
+#### State File Integrity
+- **`StateMachine.saveState()`** now writes HMAC-SHA256 signature to `.sdd-state.json.sig`
+- **`StateMachine.loadState()`** verifies signature on every load — tamper warning to stderr on mismatch
+- Key: `SDD_STATE_KEY` env var, or derived from workspace path using SHA-256
+- Missing `.sig` treated as unverified (no warning) — backward-compatible with pre-v3.2.0 state files
+
+#### Enhanced Audit Logger
+- **Hash-chaining**: every `AuditEntry` includes `previous_hash` (SHA-256 of previous line, seed `specky-audit-v1`)
+- **Log rotation**: rotates `.audit.jsonl` → `.audit.jsonl.1` when `audit.max_file_size_mb` exceeded (default 10 MB)
+- **Syslog export**: RFC 5424 format written to `.audit.syslog` when `audit.export_format: syslog`
+- **OTLP stub**: `audit.export_format: otlp` logs placeholder — implementation in next release
+
+#### RBAC Foundation (opt-in)
+- **`RbacEngine` service**: `viewer` / `contributor` / `admin` roles; disabled by default
+- **`sdd_check_access`** (NEW tool #57): Returns active role, per-tool access check, full role summary
+- Role enforcement via `SDD_ROLE` env var or `rbac.default_role` in config
+- Viewer: read-only tools only; Contributor: all except `sdd_create_pr`; Admin: all 57 tools
+- Config: `rbac.enabled: true`, `rbac.default_role: contributor`
+
+#### Config Extension
+- `.specky/config.yml` now supports nested blocks: `rate_limit:`, `audit:`, `rbac:`
+- Parser upgraded to handle indented YAML child keys (dot-notation flattening)
+- All new options opt-in with safe defaults — existing behavior unchanged from v3.1.0
+
+### NPM-as-Default Migration
+- Global install (`npm install -g specky-sdd`) is now the recommended installation method
+- npx retained as an "alternative" option for per-workspace and convenience use
+- All docs updated: README.md, GETTING-STARTED.md, SYSTEM-DESIGN.md, ONBOARDING.md, SECURITY.md
+- New "Enterprise Installation Methods" section in GETTING-STARTED.md
+- New "NPX Supply Chain Risk" + "MCP Security Framework Compliance" sections in SECURITY.md
+
+### Security Documentation
+- **CoSAI MCP Security White Paper** — full T-01 through T-12 threat coverage table in SECURITY.md
+- **OWASP MCP Top 10** — M1 through M10 coverage table in SECURITY.md
+
+### Tests
+- 561 tests (+54): `rate-limiter.test.ts` (11), `state-integrity.test.ts` (8), `audit-enhanced.test.ts` (12), `rbac-engine.test.ts` (15), plus existing suite maintained at 100%
+
+---
+
 ## [3.1.0] - 2026-04-12
 
 ### Intelligence Layer (Specs 003–007)

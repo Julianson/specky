@@ -8,17 +8,51 @@ import type { SddState, PhaseStatus, TransitionResult, GateDecision, GateHistory
 import type { FileManager } from "./file-manager.js";
 import { join } from "node:path";
 import { stat } from "node:fs/promises";
+import { createHmac, createHash } from "node:crypto";
+
+const SIG_FILE = ".sdd-state.json.sig";
 
 export class StateMachine {
-  constructor(private fileManager: FileManager) {}
+  constructor(
+    private fileManager: FileManager,
+    private workspaceRoot: string = process.cwd(),
+  ) {}
+
+  /** Derive a workspace-specific HMAC key when SDD_STATE_KEY is not set */
+  private deriveKey(): string {
+    return createHash("sha256")
+      .update(`specky-state-v1:${this.workspaceRoot}`)
+      .digest("hex");
+  }
+
+  /** Compute HMAC-SHA256 signature for state JSON */
+  private computeSig(json: string): string {
+    const key = process.env["SDD_STATE_KEY"] ?? this.deriveKey();
+    return createHmac("sha256", key).update(json).digest("hex");
+  }
 
   /**
    * Load state from .sdd-state.json, or return a default "not initialized" state.
+   * Verifies HMAC signature if .sdd-state.json.sig exists.
+   * A missing .sig file is treated as unverified (no tamper_warning).
+   * A mismatched .sig file logs a tamper warning to stderr.
    */
   async loadState(specDir: string = DEFAULT_SPEC_DIR): Promise<SddState> {
     const statePath = join(specDir, STATE_FILE);
     try {
       const raw = await this.fileManager.readProjectFile(statePath);
+
+      // Verify signature if .sig file exists
+      try {
+        const storedSig = await this.fileManager.readProjectFile(join(specDir, SIG_FILE));
+        const expectedSig = this.computeSig(raw);
+        if (storedSig.trim() !== expectedSig) {
+          console.error("[specky] WARNING: State file tamper detected — .sdd-state.json signature mismatch.");
+        }
+      } catch {
+        // .sig not found — first write or pre-v3.2.0 state — skip verification silently
+      }
+
       const parsed = JSON.parse(raw) as SddState;
 
       // v1 → v2 migration: add missing phases for 10-phase pipeline
@@ -29,8 +63,6 @@ export class StateMachine {
           }
         }
         parsed.version = "4.0.0";
-        // Auto-save migrated state
-        const statePath = join(specDir, STATE_FILE);
         await this.fileManager.writeSpecFile(
           specDir,
           STATE_FILE,
@@ -46,16 +78,14 @@ export class StateMachine {
   }
 
   /**
-   * Save state to .sdd-state.json.
+   * Save state to .sdd-state.json and write HMAC-SHA256 signature to .sdd-state.json.sig.
    */
   async saveState(specDir: string, state: SddState): Promise<void> {
-    const statePath = join(specDir, STATE_FILE);
-    await this.fileManager.writeSpecFile(
-      specDir,
-      STATE_FILE,
-      JSON.stringify(state, null, 2),
-      true // always overwrite state file
-    );
+    const json = JSON.stringify(state, null, 2);
+    await this.fileManager.writeSpecFile(specDir, STATE_FILE, json, true);
+    // Write tamper-detection signature
+    const sig = this.computeSig(json);
+    await this.fileManager.writeSpecFile(specDir, SIG_FILE, sig, true);
   }
 
   /**

@@ -13,7 +13,7 @@ export const VERSION = _pkg.version;
 export const SERVER_NAME = "specky";
 
 /** Total tool count for ecosystem check */
-export const TOTAL_TOOLS = 56;
+export const TOTAL_TOOLS = 57;
 
 /**
  * MCP Ecosystem — Recommended external MCP servers.
@@ -276,6 +276,8 @@ export const TOOL_NAMES = {
   MODEL_ROUTING: "sdd_model_routing",
   // Context Tiering
   CONTEXT_STATUS: "sdd_context_status",
+  // RBAC
+  CHECK_ACCESS: "sdd_check_access",
 } as const;
 
 // Input & Conversion

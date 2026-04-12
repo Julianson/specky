@@ -167,6 +167,51 @@ Specky validates every requirement against these patterns. If a requirement does
 
 ## 4. Installing Specky
 
+### Enterprise Installation Methods
+
+For enterprise deployments or CI/CD pipelines that require supply-chain security, choose one of these hardened options:
+
+#### Method 1: Global install (recommended for most users)
+
+```bash
+npm install -g specky-sdd
+```
+
+Installs a pinned version offline after the first download. Subsequent invocations never hit the npm registry.
+
+#### Method 2: Workspace isolation (air-gapped or locked environments)
+
+Pre-install once, then run offline:
+
+```bash
+# Pre-install into a local cache
+npm install specky-sdd --prefix ./vendor
+
+# Run from the local cache — no outbound network
+./vendor/node_modules/.bin/specky-sdd
+```
+
+Or use npm's offline flag to prevent any registry access after install:
+
+```bash
+npm install -g specky-sdd
+npx --offline specky-sdd   # fails fast if not cached
+```
+
+#### Method 3: Docker (no Node.js required)
+
+```bash
+# Pull and verify with cosign (optional, for supply-chain compliance)
+docker pull ghcr.io/paulasilvatech/specky:3.2.0
+
+# Run — workspace mapped at /workspace inside container
+docker run -p 3200:3200 -v $(pwd):/workspace ghcr.io/paulasilvatech/specky:3.2.0
+```
+
+Docker images are pinned by digest on each release tag, providing a fully reproducible environment independent of npm.
+
+---
+
 ### Prerequisites
 
 - **Node.js 18 or later**:[Download from nodejs.org](https://nodejs.org/)
@@ -179,22 +224,21 @@ node --version
 # Must be v18.0.0 or higher
 ```
 
-### Option A: npx (recommended, no install required)
+### Option A: Global npm install (recommended)
+
+```bash
+npm install -g specky-sdd
+```
+
+This installs Specky globally so `specky-sdd` is always available — no re-download on every invocation. Recommended for reliability and supply-chain security (version is pinned after install).
+
+### Option B: npx (alternative, no install required)
 
 ```bash
 npx specky-sdd
 ```
 
-npx downloads and runs Specky on demand. Nothing is installed globally. This is the recommended approach for most users.
-
-### Option B: Global npm install
-
-```bash
-npm install -g specky-sdd
-specky
-```
-
-This installs Specky globally so the `specky` command is always available.
+npx downloads and runs Specky on demand. Nothing is installed globally. Convenient for one-off use, but downloads the package fresh each time.
 
 ### Option C: Docker
 
@@ -242,8 +286,7 @@ In your project root, create `.vscode/mcp.json`:
 {
   "servers": {
     "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"],
+      "command": "specky-sdd",
       "env": {
         "SDD_WORKSPACE": "${workspaceFolder}"
       }
@@ -252,12 +295,13 @@ In your project root, create `.vscode/mcp.json`:
 }
 ```
 
+> **Note:** This uses the globally-installed `specky-sdd` command (`npm install -g specky-sdd`). If you prefer per-workspace npx instead, use `"command": "npx"` with `"args": ["-y", "specky-sdd"]`.
+
 **What each field does:**
 
 | Field | Purpose |
 |-------|---------|
-| `command` | The executable to run. `npx` downloads and runs Specky automatically. |
-| `args` | `-y` auto-confirms the npx install prompt. `specky-sdd` is the package name. |
+| `command` | The executable to run. `specky-sdd` uses the global install. |
 | `env.SDD_WORKSPACE` | Tells Specky where your project root is. VS Code substitutes `${workspaceFolder}` with the actual path. |
 
 ### Step 2: Restart VS Code
@@ -297,10 +341,10 @@ Invoke them in Copilot Chat:
 ### Quick setup (one command)
 
 ```bash
-claude mcp add specky npx -y specky-sdd --env SDD_WORKSPACE=$(pwd)
+claude mcp add specky -- specky-sdd --env SDD_WORKSPACE=$(pwd)
 ```
 
-This registers Specky as an MCP server for your current project directory.
+This registers Specky as an MCP server for your current project directory (requires global install).
 
 ### Manual configuration
 
@@ -310,8 +354,7 @@ Add the following to your Claude Code MCP settings file:
 {
   "mcpServers": {
     "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"],
+      "command": "specky-sdd",
       "env": {
         "SDD_WORKSPACE": "/absolute/path/to/your/project"
       }
@@ -352,8 +395,7 @@ Add the Specky server:
 {
   "mcpServers": {
     "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"],
+      "command": "specky-sdd",
       "env": {
         "SDD_WORKSPACE": "/absolute/path/to/your/project"
       }
