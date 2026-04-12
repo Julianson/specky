@@ -7,6 +7,8 @@ import { Phase, PHASE_ORDER } from "../constants.js";
 import type { PhaseStatus, HandoffContext, ParallelHint } from "../types.js";
 import { MethodologyGuide } from "../services/methodology.js";
 import { DependencyGraph } from "../services/dependency-graph.js";
+import { routingEngine } from "../utils/routing-helper.js";
+import { buildDefaultContextSummary } from "../utils/context-helper.js";
 
 interface PhaseContext {
   current_phase: Phase;
@@ -75,6 +77,8 @@ export function buildToolResponse(
     parallel_opportunities: parallelOpportunities,
     educational_note: toolExplanation.why_it_matters,
     methodology_tip: phaseExplanation.sdd_principle,
+    model_routing_hint: routingEngine.getHint(currentPhase),
+    context_load_summary: buildDefaultContextSummary(),
   };
 }
 

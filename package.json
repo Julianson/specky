@@ -15,7 +15,8 @@
     "clean": "rm -rf dist",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "generate:api-ref": "tsx scripts/generate-api-ref.ts"
   },
   "icon": "media/specky-icon-256.png",
   "files": [

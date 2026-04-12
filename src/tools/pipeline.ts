@@ -11,6 +11,7 @@ import type { StateMachine } from "../services/state-machine.js";
 import type { TemplateEngine } from "../services/template-engine.js";
 import type { EarsValidator } from "../services/ears-validator.js";
 import { enrichResponse } from "./response-builder.js";
+import { routingEngine } from "../utils/routing-helper.js";
 import {
   initInputSchema,
   discoverInputSchema,
@@ -834,13 +835,29 @@ export function registerPipelineTools(
     },
     async ({ spec_dir, feature_number }) => {
       try {
+        // Capture phase before advancing for gate instrumentation
+        const priorState = await stateMachine.loadState(spec_dir);
+        const completedPhase = priorState.current_phase;
+
         const state = await stateMachine.advancePhase(spec_dir, feature_number);
         const currentIndex = PHASE_ORDER.indexOf(state.current_phase);
         const nextPhase = currentIndex < PHASE_ORDER.length - 1
           ? PHASE_ORDER[currentIndex + 1]
           : null;
 
-        const result = {
+        // Gate instrumentation: record whether artifact was modified before approval
+        const features = await fileManager.listFeatures(spec_dir);
+        const feature = features.find((f) => f.number === feature_number);
+        let gateEntry;
+        if (feature) {
+          const requiredFiles = stateMachine.getRequiredFiles(completedPhase);
+          const artifactPath = requiredFiles[0]
+            ? `${feature.directory}/${requiredFiles[0]}`
+            : feature.directory;
+          gateEntry = await stateMachine.recordGateEvent(spec_dir, completedPhase, artifactPath);
+        }
+
+        const result: Record<string, unknown> = {
           status: "phase_advanced",
           current_phase: state.current_phase,
           next_phase: nextPhase,
@@ -848,7 +865,14 @@ export function registerPipelineTools(
           next_action: nextPhase
             ? `Proceed with ${nextPhase} phase.`
             : "Pipeline is complete.",
+          next_phase_routing: nextPhase ? routingEngine.getHint(nextPhase) : null,
         };
+
+        // Cognitive debt warning when artifact was not modified before approval
+        if (gateEntry && !gateEntry.was_modified) {
+          result.cognitive_debt_warning =
+            "Artifact approved without modification. Consider whether the AI-generated content reflects your actual requirements. Unmodified approvals are a leading indicator of cognitive debt (arXiv:2603.22106).";
+        }
 
         const enriched = await enrichResponse("sdd_advance_phase", result, stateMachine, spec_dir);
         return { content: [{ type: "text" as const, text: JSON.stringify(enriched, null, 2) }] };

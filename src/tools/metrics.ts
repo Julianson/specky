@@ -7,6 +7,8 @@ import { CHARACTER_LIMIT } from "../constants.js";
 import type { FileManager } from "../services/file-manager.js";
 import type { StateMachine } from "../services/state-machine.js";
 import type { MetricsGenerator } from "../services/metrics-generator.js";
+import type { CognitiveDebtEngine } from "../services/cognitive-debt-engine.js";
+import type { IntentDriftEngine } from "../services/intent-drift-engine.js";
 import { metricsInputSchema } from "../schemas/metrics.js";
 import { enrichResponse } from "./response-builder.js";
 
@@ -24,6 +26,8 @@ export function registerMetricsTools(
   fileManager: FileManager,
   stateMachine: StateMachine,
   metricsGenerator: MetricsGenerator,
+  cognitiveDebtEngine?: CognitiveDebtEngine,
+  intentDriftEngine?: IntentDriftEngine,
 ): void {
   server.registerTool(
     "sdd_metrics",
@@ -73,6 +77,24 @@ export function registerMetricsTools(
             checklist_pass_rate: metricsResult.test_coverage_percent,
           },
           phases: metricsResult.phases,
+          cognitive_debt: await (async () => {
+            if (!cognitiveDebtEngine) return undefined;
+            try {
+              const state = await stateMachine.loadState(spec_dir);
+              return cognitiveDebtEngine.computeMetrics(state.gate_history ?? []);
+            } catch { return undefined; }
+          })(),
+          intent_drift: await (async () => {
+            if (!intentDriftEngine) return undefined;
+            try {
+              const state = await stateMachine.loadState(spec_dir);
+              const lastSnapshot = (state.drift_history ?? []).at(-1);
+              const trend = intentDriftEngine.computeTrend(state.drift_history ?? []);
+              return lastSnapshot
+                ? { intent_drift_score: lastSnapshot.score, drift_trend: trend }
+                : undefined;
+            } catch { return undefined; }
+          })(),
           next_steps:
             `Open ${metricsResult.html_path} in a browser to view the metrics dashboard. ` +
             "Share with stakeholders as a standalone HTML file — it requires no external dependencies.",

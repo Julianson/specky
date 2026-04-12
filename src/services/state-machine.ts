@@ -4,9 +4,10 @@
  */
 
 import { Phase, PHASE_ORDER, PHASE_REQUIRED_FILES, STATE_FILE, DEFAULT_SPEC_DIR } from "../constants.js";
-import type { SddState, PhaseStatus, TransitionResult, GateDecision } from "../types.js";
+import type { SddState, PhaseStatus, TransitionResult, GateDecision, GateHistoryEntry } from "../types.js";
 import type { FileManager } from "./file-manager.js";
 import { join } from "node:path";
+import { stat } from "node:fs/promises";
 
 export class StateMachine {
   constructor(private fileManager: FileManager) {}
@@ -199,6 +200,47 @@ export class StateMachine {
       completed_at: new Date().toISOString(),
     };
     await this.saveState(specDir, state);
+  }
+
+  /**
+   * Record a gate instrumentation event on sdd_advance_phase.
+   * Compares artifact mtime against phase start time to detect unmodified approvals.
+   */
+  async recordGateEvent(
+    specDir: string,
+    phase: Phase,
+    artifactPath: string,
+    reqCount?: number,
+  ): Promise<GateHistoryEntry> {
+    const state = await this.loadState(specDir);
+    const phaseStatus = state.phases[phase];
+    const phaseStarted = phaseStatus?.started_at;
+
+    let wasModified = true;
+    try {
+      const fileStat = await stat(artifactPath);
+      if (phaseStarted) {
+        wasModified = fileStat.mtimeMs > new Date(phaseStarted).getTime();
+      }
+    } catch {
+      // file not found — treat as modified (first write)
+    }
+
+    const entry: GateHistoryEntry = {
+      phase,
+      timestamp: new Date().toISOString(),
+      artifact: artifactPath,
+      was_modified: wasModified,
+      ...(reqCount !== undefined ? { req_count: reqCount } : {}),
+    };
+
+    const history = state.gate_history ?? [];
+    const MAX_ENTRIES = 1000;
+    const updated = [...history, entry].slice(-MAX_ENTRIES);
+    state.gate_history = updated;
+    await this.saveState(specDir, state);
+
+    return entry;
   }
 
   /** Get required files for a given phase */
