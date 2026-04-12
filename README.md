@@ -41,7 +41,7 @@
 | | [Input Methods](#input-methods-6-ways-to-start) | 6 ways to feed Specky |
 | | [Three Project Types](#three-project-types-one-pipeline) | Greenfield, Brownfield, Modernization |
 | **Pipeline** | [Pipeline and LGTM Gates](#pipeline-and-lgtm-gates) | 10 phases with human review gates |
-| | [All 56 Tools](#all-53-tools) | Complete tool reference by category |
+| | [All 56 Tools](#all-56-tools) | Complete tool reference by category |
 | | [EARS Notation](#ears-notation) | The 6 requirement patterns |
 | **Enterprise** | [Compliance Frameworks](#compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
 | | [Enterprise Ready](#enterprise-ready) | Security, audit trail, quality gates |
@@ -51,7 +51,7 @@
 
 ## What is Specky?
 
-Specky is an open-source **MCP server** that turns the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) SDD methodology into a **programmable enforcement engine** with 53 validated tools. It provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
+Specky is an open-source **MCP server** that turns the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) SDD methodology into a **programmable enforcement engine** with 56 validated tools. It provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
 
 **Spec-Kit** provides the methodology: EARS notation, gated pipeline phases, constitution model, quality patterns. **Specky** reimplements all of it as MCP tools and adds programmatic enforcement: a state machine that blocks phase-skipping, an EARS validator, cross-artifact analysis, compliance engines, test generation, and MCP-to-MCP routing.
 
@@ -541,7 +541,7 @@ The AI calls:
 
 The AI calls `sdd_export_work_items` + `sdd_create_pr` → generates work item payloads and PR body with full spec traceability.
 
-> **Next:** **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 56 Tools](#all-53-tools) for a complete reference.
+> **Next:** **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 56 Tools](#all-56-tools) for a complete reference.
 
 
 ## Brownfield Project: Add Features to Existing Code
@@ -1057,7 +1057,7 @@ Every pipeline phase produces a traceable artifact in `.specs/NNN-feature/`. The
 - **EARS Validator** — programmatic requirement quality enforcement
 - **Cross-Artifact Analysis** — automatic alignment checking between spec, design, and tasks
 - **Phase Enforcement** — state machine blocks phase-skipping; required files gate advancement
-- **321 unit tests** — CI enforces thresholds on every push
+- **507 unit tests** — CI enforces thresholds on every push
 
 
 ## Development
@@ -1071,7 +1071,7 @@ npm install
 # Build
 npm run build
 
-# Run tests (292 tests coverage)
+# Run tests (507 tests)
 npm test
 
 # Run tests with coverage report
@@ -1092,7 +1092,7 @@ curl http://localhost:3200/health
 
 ## Roadmap
 
-### v3.0 (current)
+### v3.1 (current)
 
 | Capability | Status |
 |------------|--------|
@@ -1105,15 +1105,22 @@ curl http://localhost:3200/health
 | Turnkey spec from natural language (`sdd_turnkey_spec`) | Stable |
 | Property-based testing with fast-check and Hypothesis (`sdd_generate_pbt`) | Stable |
 | Checkpoint/restore for spec artifacts | Stable |
-| 7 automation hooks (security-scan blocks on secrets) | Stable |
+| Intelligence layer: model routing hints on all tools | Stable |
+| Context tiering: Hot/Domain/Cold with token savings | Stable |
+| Cognitive debt metrics at LGTM gates | Stable |
+| Test traceability: REQ-ID → test coverage mapping | Stable |
+| Intent drift detection with amendment suggestions | Stable |
+| 10 automation hooks (2 blocking) | Stable |
 | 12 Claude Code commands + 5 Copilot agents | Stable |
 | 6 compliance frameworks (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001) | Stable |
 | 6 input types (transcript, PDF, DOCX, Figma, codebase, raw text) | Stable |
 | Test generation for 6 frameworks (vitest, jest, playwright, pytest, junit, xunit) | Stable |
 | MCP-to-MCP routing (GitHub, Azure DevOps, Jira, Terraform, Figma, Docker) | Stable |
-| 321 unit tests | Stable |
+| SBOM + cosign signing on Docker image | Stable |
+| JSONL audit logger (optional) | Stable |
+| 507 unit tests | Stable |
 
-### v3.1+ (planned)
+### v3.2+ (planned)
 
 | Feature | Description |
 |---------|-------------|
@@ -1122,9 +1129,10 @@ curl http://localhost:3200/health
 | Internationalization | Spec templates in PT-BR, ES, FR, DE, JA |
 | Automated shrinking | fast-check/Hypothesis shrinking feedback into spec refinement |
 | RBAC | Role-based access control for phase advancement |
-| Persistent audit log | Centralized audit trail beyond `.sdd-state.json` |
+| Centralized audit log | SIEM-integrated tamper-evident audit trail |
 | Multi-tenant | Isolated workspaces for multiple teams |
-| Analytics dashboard | Specification quality metrics over time |
+| Rate limiting | Request throttling for HTTP transport |
+| SSO / SAML | Federated identity for enterprise auth |
 
 Have a feature request? [Open an issue](https://github.com/paulasilvatech/specky/issues).
 

@@ -6,7 +6,7 @@
 
 ## 1. Project Overview
 
-Specky v3.1.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **56 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 24 services, 22 templates, 5 Custom Agents, 12 Claude Code commands, and 7 executable automation hooks.
+Specky v3.1.0 is an **MCP server for Spec-Driven Development (SDD)** that enforces traceability between requirements, design, implementation, and tests. It exposes **56 tools** across a **10-phase pipeline**, uses EARS notation for requirement statements, and includes 26 services, 22 templates, 5 Custom Agents, 12 Claude Code commands, and 10 executable automation hooks.
 
 **Goal:** Close the gap between specification and code through continuous validation, preventing drift and ensuring acceptance criteria are met.
 
@@ -331,7 +331,7 @@ specky/
 │   │   ├── sdd-export.md            NEW: Work item export + PR/branch
 │   │   ├── sdd-diagrams.md          NEW: Mermaid diagram generation
 │   │   └── sdd-iac.md               NEW: Infrastructure as Code generation
-│   └── hooks/                        7 executable hook scripts
+│   └── hooks/                        10 executable hook scripts
 │       ├── spec-sync.sh             PostToolUse: Detect spec-code drift
 │       ├── auto-test.sh             TaskCompleted: Remind to generate tests
 │       ├── auto-docs.sh             PostToolUse: Flag doc updates needed

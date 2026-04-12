@@ -22,7 +22,7 @@ Thank you for your interest in contributing to Specky. This guide covers the v3.
 
 ## Architecture Overview
 
-Specky v3.0.0 is an MCP server that exposes **53 tools** organized into a 10-phase Spec-Driven Development pipeline. The codebase comprises **47 source files**, **21 templates**, and is structured as follows:
+Specky v3.1.0 is an MCP server that exposes **56 tools** organized into a 10-phase Spec-Driven Development pipeline. The codebase comprises **66 source files**, **23 templates**, and is structured as follows:
 
 ```
 src/
@@ -40,7 +40,7 @@ src/
 │   ├── infrastructure.ts     Schemas for IaC generation and validation
 │   ├── environment.ts        Schemas for dev environment setup
 │   └── integration.ts        Schemas for Git, work items, PR, implement, research
-├── services/                 18 service classes (business logic)
+├── services/                 26 service classes (business logic)
 │   ├── file-manager.ts       All disk I/O (atomic writes, path sanitization)
 │   ├── state-machine.ts      10-phase pipeline enforcement
 │   ├── template-engine.ts    Markdown template rendering with {{variables}}
