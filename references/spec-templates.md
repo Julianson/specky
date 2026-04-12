@@ -379,7 +379,7 @@ Acceptance Criteria:
 - Response time <500ms (p99)
 
 Test:
-  GET /auth/login { email: "sarah@company.com", password: "correct123" }
+  GET /auth/login { email: "sarah@company.com", password: "****" }
   → 200 OK + token
 ```
 
