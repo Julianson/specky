@@ -47,6 +47,7 @@ import { registerTurnkeyTools } from "./tools/turnkey.js";
 import { PbtGenerator } from "./services/pbt-generator.js";
 import { registerPbtTools } from "./tools/pbt.js";
 import { loadConfig } from "./config.js";
+import { AuditLogger } from "./services/audit-logger.js";
 
 // Resolve workspace root
 const workspaceRoot = process.env["SDD_WORKSPACE"] || process.cwd();
@@ -66,7 +67,7 @@ const server = new McpServer({
 // Initialize services (v1)
 const fileManager = new FileManager(workspaceRoot);
 const stateMachine = new StateMachine(fileManager);
-const templateEngine = new TemplateEngine(fileManager);
+const templateEngine = new TemplateEngine(fileManager, config.templates_path || undefined);
 const earsValidator = new EarsValidator();
 const codebaseScanner = new CodebaseScanner(fileManager);
 const transcriptParser = new TranscriptParser(fileManager);
@@ -82,6 +83,7 @@ const docGenerator = new DocGenerator(fileManager, stateMachine);
 const gitManager = new GitManager(fileManager);
 const testGenerator = new TestGenerator(fileManager);
 const pbtGenerator = new PbtGenerator(fileManager);
+const auditLogger = new AuditLogger(workspaceRoot, config.audit_enabled);
 
 // Register all tools (53 total)
 // v1 tools

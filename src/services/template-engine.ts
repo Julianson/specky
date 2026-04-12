@@ -16,7 +16,14 @@ const __dirname = dirname(__filename);
 const TEMPLATES_DIR = join(__dirname, "..", "..", "templates");
 
 export class TemplateEngine {
-  constructor(private fileManager: FileManager) {}
+  /** Optional path to project-local templates directory (from .specky/config.yml) */
+  private customTemplatesDir: string;
+
+  constructor(private fileManager: FileManager, customTemplatesPath?: string) {
+    this.customTemplatesDir = customTemplatesPath
+      ? join(fileManager.workspaceRoot, customTemplatesPath)
+      : "";
+  }
 
   /**
    * Load and render a template with variable replacement.
@@ -113,7 +120,8 @@ export class TemplateEngine {
   }
 
   /**
-   * Load raw template from templates/ directory.
+   * Load raw template — checks .specky/templates/ first, then built-in templates/.
+   * This implements T-066: customizable templates via project-local directory.
    */
   private async loadTemplate(name: TemplateName): Promise<string> {
     if (!TEMPLATE_NAMES.includes(name)) {
@@ -121,9 +129,19 @@ export class TemplateEngine {
     }
     // Map template name to file: sync_report -> sync-report.md
     const fileName = name.replace(/_/g, "-") + ".md";
-    const templatePath = join(TEMPLATES_DIR, fileName);
+
+    // Try custom templates directory first (T-066)
+    if (this.customTemplatesDir) {
+      try {
+        return await readFile(join(this.customTemplatesDir, fileName), "utf-8");
+      } catch {
+        // Custom template not found — fall through to built-in
+      }
+    }
+
+    // Fall back to built-in templates
     try {
-      return await readFile(templatePath, "utf-8");
+      return await readFile(join(TEMPLATES_DIR, fileName), "utf-8");
     } catch {
       throw new Error(`Template file not found: ${fileName}. Ensure templates/ directory exists.`);
     }

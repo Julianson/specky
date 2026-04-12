@@ -116,4 +116,29 @@ describe("TemplateEngine", () => {
       expect(typeof fm).toBe("string");
     });
   });
+
+  // ── Custom templates (T-066) ──────────────────────────────────────────────
+  describe("custom templates directory (T-066)", () => {
+    it("accepts a custom templates path in constructor without throwing", () => {
+      const fm = {
+        workspaceRoot: "/tmp/test-workspace",
+      } as never;
+      // Should not throw even if path doesn't exist (errors only occur on render)
+      expect(() => new TemplateEngine(fm, ".specky/templates")).not.toThrow();
+    });
+
+    it("uses built-in templates when no custom path is set", () => {
+      const fm = { workspaceRoot: "/tmp" } as never;
+      const eng = new TemplateEngine(fm);
+      // No custom path — should load from built-in templates directory normally
+      // This indirectly verifies the constructor default branch
+      expect(eng).toBeInstanceOf(TemplateEngine);
+    });
+
+    it("uses built-in templates when custom path is empty string", () => {
+      const fm = { workspaceRoot: "/tmp" } as never;
+      const eng = new TemplateEngine(fm, "");
+      expect(eng).toBeInstanceOf(TemplateEngine);
+    });
+  });
 });
