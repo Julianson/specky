@@ -21,7 +21,7 @@
   </p>
 
   <p>
-    <a href="https://paulasilvatech.github.io/specky/">Website</a> ·
+    <a href="https://paulasilvatech.github.io/specky-site/">Website</a> ·
     <a href="GETTING-STARTED.md">Getting Started</a> ·
     <a href="https://www.npmjs.com/package/specky-sdd">npm</a> ·
     <a href="SECURITY.md">Security</a>
