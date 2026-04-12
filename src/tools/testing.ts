@@ -7,6 +7,8 @@ import { CHARACTER_LIMIT } from "../constants.js";
 import type { FileManager } from "../services/file-manager.js";
 import type { StateMachine } from "../services/state-machine.js";
 import type { TestGenerator } from "../services/test-generator.js";
+import type { TestResultParser } from "../services/test-result-parser.js";
+import type { TestTraceabilityMapper } from "../services/test-traceability-mapper.js";
 import { generateTestsInputSchema, verifyTestsInputSchema } from "../schemas/testing.js";
 import { enrichResponse } from "./response-builder.js";
 
@@ -24,6 +26,8 @@ export function registerTestingTools(
   fileManager: FileManager,
   stateMachine: StateMachine,
   testGenerator: TestGenerator,
+  testResultParser?: TestResultParser,
+  testTraceabilityMapper?: TestTraceabilityMapper,
 ): void {
   server.registerTool(
     "sdd_generate_tests",
@@ -154,13 +158,53 @@ export function registerTestingTools(
           test_results_json,
         );
 
+        // Enhanced traceability using TestResultParser + TestTraceabilityMapper
+        let coverageReport: Record<string, unknown> | undefined;
+        let failureDetails: unknown[] | undefined;
+        if (testResultParser && testTraceabilityMapper) {
+          try {
+            const parsedResults = testResultParser.parse(test_results_json);
+            let specContent = "";
+            try { specContent = await fileManager.readSpecFile(feature.directory, "SPECIFICATION.md"); } catch { /* ok */ }
+            const reqIds = [...specContent.matchAll(/### (REQ-[A-Z]+-\d{3})/g)].map((r) => r[1]);
+
+            const testFileContents: Record<string, string> = {};
+            try {
+              const testFiles = await fileManager.listSpecFiles(feature.directory);
+              for (const tf of testFiles) {
+                if (/\.(test|spec)\.(ts|js|py)$|_test\.py$/.test(tf)) {
+                  try { testFileContents[tf] = await fileManager.readSpecFile(feature.directory, tf); } catch { /* skip */ }
+                }
+              }
+            } catch { /* no test files yet */ }
+
+            const report = testTraceabilityMapper.buildCoverageReport(testFileContents, parsedResults, reqIds);
+            failureDetails = testTraceabilityMapper.buildFailureDetails(parsedResults, testFileContents);
+            coverageReport = {
+              overall_percent: report.overall_percent,
+              failing_requirements: report.failing_requirements,
+              untested_requirements: report.untested_requirements,
+              per_requirement: report.per_requirement,
+            };
+          } catch { /* fall back to legacy result */ }
+        }
+
+        const effectiveCoverage = coverageReport
+          ? (coverageReport["overall_percent"] as number)
+          : verification.coverage_percentage;
+        const uncoveredReqs: string[] = coverageReport
+          ? (coverageReport["untested_requirements"] as string[])
+          : verification.uncovered_requirements;
+
         const result = {
           status: verification.error ? "error" : "verified",
           ...verification,
+          ...(coverageReport ? { enhanced_coverage: coverageReport } : {}),
+          ...(failureDetails && failureDetails.length > 0 ? { failure_details: failureDetails } : {}),
           next_steps:
-            verification.coverage_percentage === 100
+            effectiveCoverage === 100
               ? "All requirements are covered by tests. Proceed to sdd_advance_phase."
-              : `${verification.uncovered_requirements.length} requirements lack test coverage. Write tests for: ${verification.uncovered_requirements.join(", ")}.`,
+              : `${uncoveredReqs.length} requirements lack test coverage. Write tests for: ${uncoveredReqs.join(", ")}.`,
           learning_note:
             "Requirement-test traceability closes the quality loop. " +
             "Each requirement (REQ-XXX-NNN) should have at least one test that references it by ID. " +

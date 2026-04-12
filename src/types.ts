@@ -33,6 +33,22 @@ export interface Amendment {
   articles_affected: string[];
 }
 
+/** Drift snapshot — stored after every sdd_check_sync call */
+export interface DriftSnapshot {
+  timestamp: string;
+  score: number;
+  orphaned_count: number;
+}
+
+/** Gate instrumentation record — appended on every sdd_advance_phase call */
+export interface GateHistoryEntry {
+  phase: string;
+  timestamp: string;
+  artifact: string;
+  was_modified: boolean;
+  req_count?: number;
+}
+
 /** Full pipeline state persisted in .sdd-state.json */
 export interface SddState {
   version: string;
@@ -42,6 +58,8 @@ export interface SddState {
   features: string[];
   amendments: Amendment[];
   gate_decision: GateDecision | null;
+  gate_history?: GateHistoryEntry[];
+  drift_history?: DriftSnapshot[];
 }
 
 /** Information about a feature directory */

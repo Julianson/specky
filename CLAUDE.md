@@ -472,19 +472,22 @@ Use in Copilot Chat with: `@spec-engineer [prompt]` (or any of the 4 agents)
 
 ## 13. Hooks and Automation
 
-Seven hooks run automatically after code changes or task completion (see `hooks/` directory):
+Ten hooks run automatically after code changes or task completion (see `hooks/` directory):
 
-| Hook | Trigger | Action |
-|------|---------|--------|
-| **auto-test** | Task completion | Generate test stubs from acceptance criteria |
-| **auto-docs** | Code changes | Update README, API docs to match implementation |
-| **security-scan** | Pre-merge | OWASP Top 10 + secrets check |
-| **spec-sync** | Code changes | Flag spec-code drift in SYNC_REPORT.md |
-| **changelog** | Release tag | Generate CHANGELOG.md entry |
-| **srp-validator** | Code changes | Flag SRP violations; suggest decomposition |
-| **auto-checkpoint** | Spec artifact write | Suggest checkpoint for spec artifact changes |
+| Hook | Trigger | Type | Action |
+|------|---------|------|--------|
+| **auto-test** | Task completion | Advisory | Generate test stubs from acceptance criteria |
+| **auto-docs** | Code changes | Advisory | Update README, API docs to match implementation |
+| **security-scan** | Pre-merge | **Blocking** | OWASP Top 10 + secrets check |
+| **spec-sync** | Code changes | Advisory | Flag spec-code drift in SYNC_REPORT.md |
+| **changelog** | Release tag | Advisory | Generate CHANGELOG.md entry |
+| **srp-validator** | Code changes | Advisory | Flag SRP violations; suggest decomposition |
+| **auto-checkpoint** | Spec artifact write | Advisory | Suggest checkpoint for spec artifact changes |
+| **spec-quality** | After `sdd_write_spec` | Advisory | Check req count ≥ 5, AC coverage, REQ-ID format |
+| **task-tracer** | After `sdd_write_tasks` | Advisory | Detect tasks missing REQ-* traceability |
+| **release-gate** | Before `sdd_create_pr` | **Blocking** | Enforce VERIFICATION.md + CHECKLIST.md + pass rate ≥ 90% |
 
-All hooks use **claude-haiku-3.5** for speed and determinism. Hooks run asynchronously and log results in `reports/`.
+Advisory hooks coach without blocking. Blocking hooks (security-scan, release-gate) exit 2 to prevent the triggering tool from running. All hooks run synchronously within the Claude Code hook pipeline.
 
 ---
 

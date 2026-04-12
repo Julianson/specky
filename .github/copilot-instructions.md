@@ -43,6 +43,23 @@ Each phase requires its predecessor. Use `sdd_advance_phase` to move forward.
 - **Traceability** — Every requirement → design → task → test chain must be complete
 - **Files on disk** — All artifacts live in `.specs/NNN-feature-name/`
 
+## Automation Hooks (10)
+
+Hooks fire automatically during the SDD pipeline. Three hook types:
+
+| Hook | When | Type |
+|------|------|------|
+| `spec-quality` | After `sdd_write_spec` | Advisory — checks req count, AC coverage, REQ-ID format |
+| `task-tracer` | After `sdd_write_tasks` | Advisory — detects tasks missing REQ-* traceability |
+| `release-gate` | Before `sdd_create_pr` | **Blocking** — enforces VERIFICATION.md + CHECKLIST.md + pass rate ≥ 90% |
+| `security-scan` | Session end | **Blocking** — OWASP Top 10 + secrets scan |
+| `spec-sync` | After file edits | Advisory — detects spec-code drift |
+| `srp-validator` | After file edits | Advisory — detects SRP violations |
+| `auto-docs` | After file edits | Advisory — flags doc updates needed |
+| `auto-test` | Task completion | Advisory — reminds to generate test stubs |
+| `changelog` | Session end | Advisory — reminds to update CHANGELOG.md |
+| `auto-checkpoint` | After spec writes | Advisory — suggests checkpointing spec artifacts |
+
 ## 53 MCP Tools Available
 
 Pipeline (8), Utility (6), Transcript (3), Input (3), Quality (5), Visualization (4),

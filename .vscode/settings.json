@@ -65,5 +65,6 @@
         "copilot/accounts/msft/routers/yaqq2gxh"
       ]
     }
-  }
+  },
+  "chat.useClaudeHooks": true
 }

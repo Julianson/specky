@@ -47,6 +47,17 @@ import { registerTurnkeyTools } from "./tools/turnkey.js";
 import { PbtGenerator } from "./services/pbt-generator.js";
 import { registerPbtTools } from "./tools/pbt.js";
 import { loadConfig } from "./config.js";
+import { AuditLogger } from "./services/audit-logger.js";
+import { MetricsGenerator } from "./services/metrics-generator.js";
+import { registerMetricsTools } from "./tools/metrics.js";
+import { ModelRoutingEngine } from "./services/model-routing-engine.js";
+import { registerRoutingTools } from "./tools/routing.js";
+import { ContextTieringEngine } from "./services/context-tiering-engine.js";
+import { registerContextTools } from "./tools/context.js";
+import { CognitiveDebtEngine } from "./services/cognitive-debt-engine.js";
+import { IntentDriftEngine } from "./services/intent-drift-engine.js";
+import { TestResultParser } from "./services/test-result-parser.js";
+import { TestTraceabilityMapper } from "./services/test-traceability-mapper.js";
 
 // Resolve workspace root
 const workspaceRoot = process.env["SDD_WORKSPACE"] || process.cwd();
@@ -66,7 +77,7 @@ const server = new McpServer({
 // Initialize services (v1)
 const fileManager = new FileManager(workspaceRoot);
 const stateMachine = new StateMachine(fileManager);
-const templateEngine = new TemplateEngine(fileManager);
+const templateEngine = new TemplateEngine(fileManager, config.templates_path || undefined);
 const earsValidator = new EarsValidator();
 const codebaseScanner = new CodebaseScanner(fileManager);
 const transcriptParser = new TranscriptParser(fileManager);
@@ -82,12 +93,20 @@ const docGenerator = new DocGenerator(fileManager, stateMachine);
 const gitManager = new GitManager(fileManager);
 const testGenerator = new TestGenerator(fileManager);
 const pbtGenerator = new PbtGenerator(fileManager);
+const auditLogger = new AuditLogger(workspaceRoot, config.audit_enabled);
+const metricsGenerator = new MetricsGenerator(fileManager);
+const modelRoutingEngine = new ModelRoutingEngine();
+const contextTieringEngine = new ContextTieringEngine();
+const cognitiveDebtEngine = new CognitiveDebtEngine();
+const intentDriftEngine = new IntentDriftEngine();
+const testResultParser = new TestResultParser();
+const testTraceabilityMapper = new TestTraceabilityMapper();
 
 // Register all tools (53 total)
 // v1 tools
 registerPipelineTools(server, fileManager, stateMachine, templateEngine, earsValidator);
-registerAnalysisTools(server, fileManager, stateMachine, templateEngine);
-registerUtilityTools(server, fileManager, stateMachine, templateEngine, codebaseScanner);
+registerAnalysisTools(server, fileManager, stateMachine, templateEngine, intentDriftEngine);
+registerUtilityTools(server, fileManager, stateMachine, templateEngine, codebaseScanner, intentDriftEngine);
 registerTranscriptTools(server, fileManager, stateMachine, templateEngine, earsValidator, transcriptParser);
 
 // v2+ tools
@@ -98,10 +117,13 @@ registerInfrastructureTools(server, fileManager, stateMachine, iacGenerator);
 registerEnvironmentTools(server, fileManager, stateMachine, iacGenerator, codebaseScanner);
 registerIntegrationTools(server, fileManager, stateMachine, templateEngine, gitManager, workItemExporter);
 registerDocumentationTools(server, fileManager, stateMachine, docGenerator);
-registerTestingTools(server, fileManager, stateMachine, testGenerator);
+registerTestingTools(server, fileManager, stateMachine, testGenerator, testResultParser, testTraceabilityMapper);
 registerCheckpointTools(server, fileManager, stateMachine);
 registerTurnkeyTools(server, fileManager, stateMachine, templateEngine, earsValidator);
 registerPbtTools(server, fileManager, stateMachine, pbtGenerator);
+registerMetricsTools(server, fileManager, stateMachine, metricsGenerator, cognitiveDebtEngine, intentDriftEngine);
+registerRoutingTools(server, modelRoutingEngine);
+registerContextTools(server, fileManager, stateMachine, contextTieringEngine);
 
 // Graceful shutdown
 let isShuttingDown = false;

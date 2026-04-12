@@ -204,6 +204,18 @@ When the user needs a domain-specific quality checklist:
 2. Review checklist items: pass/fail/pending status.
 3. Present mandatory items that must pass before proceeding.
 
+## Automation Hooks — Passive Quality Layer
+
+Three hooks run automatically alongside this agent's active review:
+
+| Hook | Trigger | What it checks |
+|------|---------|----------------|
+| `spec-quality.sh` | After `sdd_write_spec` | Req count ≥ 5, AC coverage, REQ-CATEGORY-NNN format |
+| `task-tracer.sh` | After `sdd_write_tasks` | Each task row references at least one REQ-* |
+| `release-gate.sh` | Before `sdd_create_pr` | VERIFICATION.md + CHECKLIST.md + pass_rate ≥ 90% |
+
+These hooks are advisory (spec-quality, task-tracer) or blocking (release-gate). When hooks report warnings, investigate and resolve before advancing the pipeline.
+
 ## Review Quality Standards
 
 - Gate decisions are data-driven, never subjective, with pipeline phase validation and gate enforcement at every transition.

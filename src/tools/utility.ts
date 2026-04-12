@@ -5,6 +5,11 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { join } from "node:path";
 import { z } from "zod";
+import { routingEngine } from "../utils/routing-helper.js";
+import { tieringEngine } from "../utils/context-helper.js";
+import { CognitiveDebtEngine } from "../services/cognitive-debt-engine.js";
+
+const cognitiveDebtEngine = new CognitiveDebtEngine();
 import { CHARACTER_LIMIT, PHASE_ORDER, DEFAULT_EXCLUDE_PATTERNS, VERSION, MCP_ECOSYSTEM, TOTAL_TOOLS } from "../constants.js";
 import type { FileManager } from "../services/file-manager.js";
 import type { StateMachine } from "../services/state-machine.js";
@@ -20,6 +25,7 @@ import {
 import { MethodologyGuide } from "../services/methodology.js";
 import { DependencyGraph } from "../services/dependency-graph.js";
 import { enrichResponse, enrichStateless } from "./response-builder.js";
+import type { IntentDriftEngine } from "../services/intent-drift-engine.js";
 
 function formatError(toolName: string, error: Error): string {
   return `[${toolName}] Error: ${error.message}`;
@@ -35,7 +41,8 @@ export function registerUtilityTools(
   fileManager: FileManager,
   stateMachine: StateMachine,
   templateEngine: TemplateEngine,
-  codebaseScanner: CodebaseScanner
+  codebaseScanner: CodebaseScanner,
+  intentDriftEngine?: IntentDriftEngine,
 ): void {
   // ─── sdd_get_status ───
   server.registerTool(
@@ -109,6 +116,21 @@ export function registerUtilityTools(
             sequential_tools: parallelGroups.sequential,
             parallel_groups: parallelGroups.parallel_groups,
           },
+          routing_savings: routingEngine.calculateCostSavings(10),
+          context_tier_summary: tieringEngine.getTierTable(),
+          ...((() => {
+            const debtMetrics = cognitiveDebtEngine.computeMetrics(state.gate_history ?? []);
+            if (debtMetrics.lgtm_without_modification_rate > 70) {
+              return {
+                cognitive_debt_alert: {
+                  rate: debtMetrics.lgtm_without_modification_rate,
+                  message: "High cognitive surrender rate detected. Developers are approving AI-generated artifacts without modification. Review spec artifacts manually before next phase advance. Evidence: arXiv:2603.22106.",
+                  recommended_action: "Review spec artifacts manually before next phase advance",
+                },
+              };
+            }
+            return {};
+          })()),
         };
 
         const enriched = await enrichResponse("sdd_get_status", result, stateMachine, spec_dir);
@@ -320,12 +342,39 @@ export function registerUtilityTools(
         });
         await stateMachine.saveState(spec_dir, state);
 
+        // Drift-aware amendment suggestion
+        let driftAmendmentSuggestion: Record<string, unknown> | undefined;
+        if (intentDriftEngine) {
+          try {
+            const freshState = await stateMachine.loadState(spec_dir);
+            const lastSnapshot = (freshState.drift_history ?? []).at(-1);
+            if (lastSnapshot && lastSnapshot.score > 40) {
+              const principles = intentDriftEngine.extractPrinciples(constitution);
+              let specContent = "";
+              try { specContent = await fileManager.readSpecFile(feature.directory, "SPECIFICATION.md"); } catch { /* ok */ }
+              let tasksContent = "";
+              try { tasksContent = await fileManager.readSpecFile(feature.directory, "TASKS.md"); } catch { /* ok */ }
+              const driftReport = intentDriftEngine.computeCoverage(principles, specContent, tasksContent);
+              driftAmendmentSuggestion = {
+                current_drift_score: lastSnapshot.score,
+                drift_label: driftReport.intent_drift_label,
+                orphaned_principles: driftReport.orphaned_principles.map((p) => p.heading),
+                recommended_actions: driftReport.orphaned_principles.map((p) =>
+                  `Add requirement referencing "${p.heading}" to SPECIFICATION.md`
+                ),
+                note: "High intent drift detected. Consider adding requirements that address orphaned constitutional principles.",
+              };
+            }
+          } catch { /* non-critical */ }
+        }
+
         const result = {
           status: "amendment_added",
           amendment_number: nextNumber,
           rationale,
           articles_affected,
           changes_description,
+          ...(driftAmendmentSuggestion ? { drift_amendment_suggestion: driftAmendmentSuggestion } : {}),
         };
 
         const enriched = await enrichResponse("sdd_amend", result, stateMachine, spec_dir);

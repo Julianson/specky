@@ -32,7 +32,7 @@ jobs:
 
       - name: Get version from package.json
         id: pkg
-        run: echo "version=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -52,3 +52,28 @@ jobs:
         run: |
           docker push ghcr.io/paulasilvatech/specky:latest
           docker push ghcr.io/paulasilvatech/specky:${{ steps.pkg.outputs.version }}
+
+      # T-082: Sign Docker image with cosign (requires COSIGN_PRIVATE_KEY + COSIGN_PASSWORD secrets)
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign Docker image
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          IMAGE_VERSION: ${{ steps.pkg.outputs.version }}
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY \
+            ghcr.io/paulasilvatech/specky:latest
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY \
+            "ghcr.io/paulasilvatech/specky:${IMAGE_VERSION}"
+
+      # T-083: Generate SBOM in CycloneDX format and attach as release artifact
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ghcr.io/paulasilvatech/specky:${{ steps.pkg.outputs.version }}
+          format: cyclonedx-json
+          output-file: sbom.cyclonedx.json
+          upload-artifact: true
+          artifact-name: sbom-${{ steps.pkg.outputs.version }}
