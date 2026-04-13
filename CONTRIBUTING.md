@@ -1,6 +1,6 @@
 # Contributing to Specky
 
-Thank you for your interest in contributing to Specky. This guide covers the v3.0.0 architecture, development patterns, and submission process.
+Thank you for your interest in contributing to Specky. This guide covers the v3.2.x architecture, development patterns, and submission process.
 
 ---
 

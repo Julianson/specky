@@ -112,7 +112,7 @@ Specky adds a **deterministic engine** between your intent and your code:
 | Phantom task detection | Catches tasks marked done with no code evidence |
 | Property-based testing | fast-check (TypeScript) and Hypothesis (Python) |
 | Checkpoint/restore | Persistent snapshots of all spec artifacts |
-| 7 automation hooks | Tests, docs, security scan, spec sync, SRP, changelog, checkpoint |
+| 10 automation hooks (2 blocking) | Security scan, release gate, spec sync, checkpoint, quality, EARS, task trace, drift, cognitive debt, metrics |
 | Works in any MCP host | VS Code + Copilot, Claude Code, Cursor, Windsurf, or any MCP client |
 | Zero outbound network calls | Fully air-gapped, code never leaves your machine |
 | MIT open source | Fork it, extend it, audit it. No vendor lock, no seat pricing |
@@ -871,14 +871,14 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 
 **[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is the open-source SDD methodology: EARS notation, gated pipeline phases, constitution model, 25+ specialized agents, and Markdown prompt templates. It defines **what** to do.
 
-**Specky** is the MCP engine that reimplements that methodology as 53 enforceable tools with programmatic validation. It enforces **how** to do it.
+**Specky** is the MCP engine that reimplements that methodology as 57 enforceable tools with programmatic validation. It enforces **how** to do it.
 
 | | Spec-Kit (Methodology) | Specky (Engine) |
 |--|------------------------|-----------------|
-| **What it is** | Prompt templates + agent definitions | MCP server with 55 tools |
+| **What it is** | Prompt templates + agent definitions | MCP server with 57 tools |
 | **How it works** | AI reads `.md` templates and follows instructions | AI calls tools that validate, enforce, and generate |
 | **Validation** | AI tries to follow the prompts | State machine, EARS regex, Zod schemas |
-| **Install** | Copy `.github/agents/` and `.claude/commands/` | `npx specky-sdd` (includes methodology built-in) |
+| **Install** | Copy `.github/agents/` and `.claude/commands/` | `copilot plugin install specky-sdd@specky` or `npm install -g specky-sdd` |
 | **Works standalone** | Yes, in any AI IDE | Yes, includes all Spec-Kit patterns |
 | **Best for** | Learning SDD, lightweight adoption | Production enforcement, enterprise, compliance |
 
@@ -1113,7 +1113,7 @@ For contributors, see [CONTRIBUTING.md](CONTRIBUTING.md).
 | Test traceability: REQ-ID → test coverage mapping | Stable |
 | Intent drift detection with amendment suggestions | Stable |
 | 10 automation hooks (2 blocking) | Stable |
-| 12 Claude Code commands + 5 Copilot agents | Stable |
+| 7 Copilot agents + 19 prompts + 6 skills (via plugin) | Stable |
 | 6 compliance frameworks (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001) | Stable |
 | 6 input types (transcript, PDF, DOCX, Figma, codebase, raw text) | Stable |
 | Test generation for 6 frameworks (vitest, jest, playwright, pytest, junit, xunit) | Stable |

@@ -1,7 +1,7 @@
 {
   "name": "specky-sdd",
   "description": "57 MCP tools for Spec-Driven Development. 10-phase pipeline with EARS notation, model routing, cognitive debt metrics, and enterprise security.",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "keywords": [
     "mcp",
     "spec-driven-development",

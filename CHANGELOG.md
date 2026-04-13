@@ -5,6 +5,18 @@ All notable changes to Specky are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.2] - 2026-04-13
+
+### Documentation (npm republish)
+
+- **Plugin-first Quick Start**: README now leads with plugin installation (`copilot plugin install`), MCP-only as alternative
+- **`mcpServers` key**: All JSON config examples updated from `servers` to `mcpServers`
+- **Stale counts fixed**: Tool count (53/55/56 → 57), hook count (7 → 10), agent count (5 → 7), skill count (6) across README, SECURITY, CONTRIBUTING
+- **SDD Platform table**: Updated to 57 tools, plugin install command
+- **GETTING-STARTED.md**: Full English rewrite with plugin-first installation, use cases, model routing, hooks, FAQ
+- **CONTRIBUTING.md**: Added Plugin Structure section; version reference updated to v3.2.x
+- **No runtime changes** — MCP server code is identical to v3.2.1
+
 ## [3.2.1] - 2026-04-13
 
 ### Plugin Marketplace
