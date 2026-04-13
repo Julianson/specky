@@ -11,7 +11,13 @@ The **plugin** is the enterprise-grade way to install Specky. It includes *every
 ### Via Copilot CLI
 
 ```bash
-copilot plugin marketplace add paulasilvatech/specky
+copilot plugin install paulasilvatech/specky
+```
+
+Or via marketplace:
+
+```bash
+copilot plugin marketplace add paulasilvatech/specky   # one-time
 copilot plugin install specky-sdd@specky
 ```
 
@@ -448,7 +454,7 @@ A: The `@implementer` (Phase 6) generates detailed implementation plans, test st
 
 ## Next Steps
 
-1. Install the plugin: `copilot plugin marketplace add paulasilvatech/specky && copilot plugin install specky-sdd@specky`
+1. Install the plugin: `copilot plugin install paulasilvatech/specky`
 2. Or install manually: `bash <(curl -sL https://raw.githubusercontent.com/paulasilvatech/specky/main/plugins/specky-sdd/install.sh)`
 3. Start with `/specky-pipeline-status` to see if there are active features, or
 4. Use `/specky-greenfield` (new project) or `/specky-brownfield` (existing feature) to begin

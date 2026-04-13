@@ -144,7 +144,13 @@ The **Specky plugin** is the enterprise-grade installation method. It bundles ev
 #### Via Copilot CLI
 
 ```bash
-copilot plugin marketplace add paulasilvatech/specky
+copilot plugin install paulasilvatech/specky
+```
+
+Or via marketplace:
+
+```bash
+copilot plugin marketplace add paulasilvatech/specky   # one-time
 copilot plugin install specky-sdd@specky
 ```
 
@@ -891,7 +897,13 @@ Together they form the **SDD layer** of the GitHub + Microsoft enterprise platfo
 The recommended way to adopt this stack is via the [Specky plugin](plugins/specky-sdd/), which bundles the MCP server, agents, skills, and hooks into a single installable package:
 
 ```bash
-copilot plugin marketplace add paulasilvatech/specky
+copilot plugin install paulasilvatech/specky
+```
+
+Or via marketplace:
+
+```bash
+copilot plugin marketplace add paulasilvatech/specky   # one-time
 copilot plugin install specky-sdd@specky
 ```
 

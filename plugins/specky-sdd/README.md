@@ -118,7 +118,13 @@ Specky SDD includes an MCP server configuration (`.mcp.json`) that runs the
 ### Via Copilot CLI
 
 ```bash
-copilot plugin marketplace add paulasilvatech/specky
+copilot plugin install paulasilvatech/specky
+```
+
+Or via marketplace:
+
+```bash
+copilot plugin marketplace add paulasilvatech/specky   # one-time
 copilot plugin install specky-sdd@specky
 ```
 
