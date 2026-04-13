@@ -286,10 +286,8 @@ In your project root, create `.vscode/mcp.json`:
 {
   "servers": {
     "specky": {
-      "command": "specky-sdd",
-      "env": {
-        "SDD_WORKSPACE": "${workspaceFolder}"
-      }
+      "type": "stdio",
+      "command": "specky-sdd"
     }
   }
 }
@@ -301,8 +299,8 @@ In your project root, create `.vscode/mcp.json`:
 
 | Field | Purpose |
 |-------|---------|
+| `type` | Transport protocol. Always `stdio` for local usage. |
 | `command` | The executable to run. `specky-sdd` uses the global install. |
-| `env.SDD_WORKSPACE` | Tells Specky where your project root is. VS Code substitutes `${workspaceFolder}` with the actual path. |
 
 ### Step 2: Restart VS Code
 
@@ -316,7 +314,7 @@ Open GitHub Copilot Chat and type:
 What SDD tools are available?
 ```
 
-Copilot should list all 56 Specky tools. If it does not, check the VS Code Output panel (View > Output > select "MCP" from the dropdown) for connection errors.
+Copilot should list all 57 Specky tools. If it does not, check the VS Code Output panel (View > Output > select "MCP" from the dropdown) for connection errors.
 
 ### Using with Copilot Custom Agents
 
@@ -324,7 +322,7 @@ Specky ships with four custom agents for GitHub Copilot in the `.github/agents/`
 
 | Agent | Role |
 |-------|------|
-| `@spec-engineer` | Full pipeline orchestrator:uses all 56 tools |
+| `@spec-engineer` | Full pipeline orchestrator — uses all 57 tools |
 | `@design-architect` | Architecture and design phase specialist |
 | `@task-planner` | Task decomposition and estimation |
 | `@spec-reviewer` | Quality audit, compliance, and analysis |
@@ -341,7 +339,7 @@ Invoke them in Copilot Chat:
 ### Quick setup (one command)
 
 ```bash
-claude mcp add specky -- specky-sdd --env SDD_WORKSPACE=$(pwd)
+claude mcp add specky -- specky-sdd
 ```
 
 This registers Specky as an MCP server for your current project directory (requires global install).
@@ -354,16 +352,11 @@ Add the following to your Claude Code MCP settings file:
 {
   "mcpServers": {
     "specky": {
-      "command": "specky-sdd",
-      "env": {
-        "SDD_WORKSPACE": "/absolute/path/to/your/project"
-      }
+      "command": "specky-sdd"
     }
   }
 }
 ```
-
-Replace `/absolute/path/to/your/project` with the actual path to your project directory.
 
 ### Claude Code slash commands
 
@@ -395,10 +388,7 @@ Add the Specky server:
 {
   "mcpServers": {
     "specky": {
-      "command": "specky-sdd",
-      "env": {
-        "SDD_WORKSPACE": "/absolute/path/to/your/project"
-      }
+      "command": "specky-sdd"
     }
   }
 }

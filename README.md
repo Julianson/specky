@@ -148,8 +148,7 @@ Then configure your IDE to use the global install:
   "servers": {
     "specky": {
       "type": "stdio",
-      "command": "specky-sdd",
-      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
+      "command": "specky-sdd"
     }
   }
 }
@@ -172,8 +171,7 @@ claude mcp add specky -- specky-sdd
 {
   "mcpServers": {
     "specky": {
-      "command": "specky-sdd",
-      "env": { "SDD_WORKSPACE": "/path/to/your/project" }
+      "command": "specky-sdd"
     }
   }
 }
@@ -192,8 +190,7 @@ Add a config file to the repo so teammates get Specky automatically on clone —
   "servers": {
     "specky": {
       "type": "stdio",
-      "command": "specky-sdd",
-      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
+      "command": "specky-sdd"
     }
   }
 }
@@ -878,8 +875,7 @@ Together they form the **SDD layer** of the GitHub + Microsoft enterprise platfo
   "servers": {
     "specky": {
       "type": "stdio",
-      "command": "specky-sdd",
-      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
+      "command": "specky-sdd"
     }
   }
 }
