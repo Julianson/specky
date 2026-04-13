@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "specky": {
+      "type": "stdio",
+      "command": "specky-sdd"
+    }
+  }
+}
