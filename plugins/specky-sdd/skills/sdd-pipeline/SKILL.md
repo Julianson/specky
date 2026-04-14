@@ -135,3 +135,66 @@ Hooks can trigger external tools, log metrics, or invoke custom CI/CD pipelines.
 - **Emergency** — Jump to Phase 5 if architecture and design are pre-existing; focus on tasks and implementation
 
 Use the `/specky:check` command to validate artifact completeness before advancing phases.
+
+## Branching Strategy
+
+Every spec gets its own branch. Work progresses through environments before reaching production:
+
+```
+spec/001-user-auth ──→ develop ──→ stage ──→ main
+spec/002-payments  ──→    ↑
+spec/003-notifs    ──→    ↑
+```
+
+### Branch-to-Phase Mapping
+
+| Branch | Phases | Artifacts Created | When to Merge |
+|--------|--------|-------------------|---------------|
+| `spec/NNN-feature-name` | 0-7 | CONSTITUTION.md, .sdd-state.json, RESEARCH.md, SPECIFICATION.md, DESIGN.md, TASKS.md, CHECKLIST.md, VERIFICATION.md, CROSS_ANALYSIS.md | After Phase 7 passes |
+| `develop` | 8 (Review) | ANALYSIS.md, COMPLIANCE.md | After integration review |
+| `stage` | 8-9 (QA + Gates) | Release docs, changelog | After blocking gates pass |
+| `main` | Production | — | Protected; deploy-ready |
+
+### Rules
+
+1. Each spec MUST have its own branch: `spec/NNN-feature-name`
+2. Create spec branch from `develop`, never from `main`
+3. All `.specs/` artifacts are created on the spec branch (Phases 0-7)
+4. Merge to `develop` only after Phase 7 (verify) passes
+5. Merge to `stage` only after integration review on develop
+6. Merge to `main` only after blocking gates pass on stage
+7. Delete spec branch after successful merge to develop
+
+### Git Commands
+
+**Starting a new spec:**
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b spec/001-user-authentication
+# Run @sdd-init / /specky-greenfield
+```
+
+**After Phase 7 passes:**
+```bash
+git checkout develop
+git merge --no-ff spec/001-user-authentication
+git branch -d spec/001-user-authentication
+git push origin develop
+```
+
+**Promoting to stage:**
+```bash
+git checkout stage
+git merge --no-ff develop
+git push origin stage
+# Run @release-engineer for blocking gates
+```
+
+**Releasing to production:**
+```bash
+git checkout main
+git merge --no-ff stage
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin main --tags
+```

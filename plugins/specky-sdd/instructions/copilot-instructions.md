@@ -9,6 +9,7 @@ This project uses Spec-Driven Development (SDD) via the Specky pipeline.
 3. **Model routing matters.** Use Haiku for scaffolding (Phase 0, 9), Sonnet for iteration (Phase 1, 5-7), Opus for reasoning (Phase 2-4, 8).
 4. **Never skip hooks.** Blocking hooks (security-scan, release-gate) must pass before release.
 5. **Artifacts live in `.specs/NNN-feature/`.** CONSTITUTION.md, RESEARCH.md, SPECIFICATION.md, DESIGN.md, TASKS.md, VERIFICATION.md, ANALYSIS.md.
+6. **One branch per spec.** Create `spec/NNN-feature-name` from `develop` for all pipeline work (Phases 0-7). All `.specs/` artifacts are created on this branch. Merge to `develop` after verification, then `stage` for QA and release gates, then `main` for production. Never commit spec work directly to develop, stage, or main.
 
 ## Available Agents
 

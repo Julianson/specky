@@ -66,6 +66,21 @@ DESIGN.md, TASKS.md, VERIFICATION.md, ANALYSIS.md).
 | `@test-verifier` | 7 | Verify test coverage and detect spec drift |
 | `@release-engineer` | 9 | Prepare features for release |
 
+## Branching Strategy
+
+Each spec gets its own branch following the Gitflow-SDD model:
+
+| Branch | Phases | Merge Target |
+|--------|--------|--------------|
+| `spec/NNN-feature-name` | 0-7 (all spec work + artifacts) | → `develop` |
+| `develop` | 8 (integration review) | → `stage` |
+| `stage` | 8-9 (QA + blocking gates) | → `main` |
+| `main` | Production | Protected |
+
+All `.specs/` artifacts (CONSTITUTION.md, SPECIFICATION.md, DESIGN.md, etc.) are
+created on the `spec/NNN-*` branch. See [GETTING-STARTED.md](GETTING-STARTED.md#branching-strategy)
+for git commands and detailed workflow.
+
 ## Commands
 
 | Command | Description |

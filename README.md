@@ -317,6 +317,8 @@ your-project/
 
 **Naming convention:** `NNN-feature-name`, zero-padded number + kebab-case name. Each directory is independent; you can work on multiple features simultaneously.
 
+**Branching convention:** Each spec directory maps to a branch: `spec/NNN-feature-name`. All artifacts for a feature are created on this branch. After Phase 7 passes, merge to `develop`, then `stage` for QA/gates, then `main` for production. Never commit spec work directly to develop, stage, or main.
+
 
 ## Input Methods: 6 Ways to Start
 
@@ -458,6 +460,14 @@ Specky adapts to any project type. The pipeline is the same; the **starting poin
 
 ### Step 1: Initialize and discover
 
+First, create your spec branch from develop:
+
+```bash
+git checkout develop && git checkout -b spec/001-task-management
+```
+
+Then in Copilot Chat:
+
 ```
 > I'm building a task management API. Initialize a Specky project and help
   me define the scope.
@@ -553,6 +563,8 @@ The AI calls:
 ```
 
 The AI calls `sdd_export_work_items` + `sdd_create_pr` → generates work item payloads and PR body with full spec traceability.
+
+The PR targets `develop` (not `main`). After integration review on develop, promote to `stage` for QA and blocking gates, then to `main` for production.
 
 > **Next:** **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 57 Tools](#all-57-tools) for a complete reference.
 

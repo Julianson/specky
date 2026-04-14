@@ -11,3 +11,4 @@ Please:
 1. Call @sdd-init with project_type=brownfield
 2. Run @research-analyst to scan the codebase and detect the tech stack
 3. Show me what was detected and suggest next steps
+4. Create branch `spec/NNN-[feature]` from `develop` for all pipeline work

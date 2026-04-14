@@ -55,18 +55,22 @@ Open Copilot Chat (`Ctrl+Alt+I`) and type:
 
 ## Pipeline Phases
 
-| # | Phase | Prompt | Agent |
-|---|-------|--------|-------|
-| 0 | Init | /specky-greenfield | @sdd-init |
-| 1 | Research | /specky-research | @research-analyst |
-| 2 | Clarify | /specky-clarify | @sdd-clarify |
-| 3 | Specify | /specky-specify | — |
-| 4 | Design | /specky-design | — |
-| 5 | Tasks | /specky-tasks | — |
-| 6 | Implement | /specky-implement | @implementer |
-| 7 | Verify | /specky-verify | @test-verifier |
-| 8 | Review | — | — |
-| 9 | Release | /specky-release | @release-engineer |
+Artifacts are created **progressively** — each phase produces its own files inside `.specs/NNN-feature/`:
+
+| # | Phase | Prompt | Agent | Artifacts Created |
+|---|-------|--------|-------|-------------------|
+| 0 | Init | /specky-greenfield | @sdd-init | CONSTITUTION.md, .sdd-state.json |
+| 1 | Research | /specky-research | @research-analyst | RESEARCH.md |
+| 2 | Clarify | /specky-clarify | @sdd-clarify | (updates RESEARCH.md) |
+| 3 | Specify | /specky-specify | — | SPECIFICATION.md |
+| 4 | Design | /specky-design | — | DESIGN.md |
+| 5 | Tasks | /specky-tasks | — | TASKS.md, CHECKLIST.md |
+| 6 | Implement | /specky-implement | @implementer | src/ code, test stubs |
+| 7 | Verify | /specky-verify | @test-verifier | VERIFICATION.md, CROSS_ANALYSIS.md |
+| 8 | Review | — | — | ANALYSIS.md, COMPLIANCE.md |
+| 9 | Release | /specky-release | @release-engineer | PR, changelog, docs |
+
+> **Note:** You don't need to run every phase. Skip Research (Phase 1) if requirements are clear. Skip Design (Phase 4) if architecture is pre-existing. The pipeline adapts to your needs — but artifacts only appear when their phase runs.
 
 ## What the Plugin Installs
 
@@ -92,6 +96,43 @@ your-project/
 │   └── settings.json          ← Copilot + hook settings
 └── ...
 ```
+
+## Branching Strategy
+
+Every spec gets its own branch. Work progresses through environments before reaching production:
+
+```
+spec/001-user-auth ──→ develop ──→ stage ──→ main
+spec/002-payments  ──→    ↑
+spec/003-notifs    ──→    ↑
+```
+
+| Branch | Phases | Artifacts Created | When to Merge |
+|--------|--------|-------------------|---------------|
+| `spec/NNN-feature-name` | 0-7 | CONSTITUTION.md, .sdd-state.json, RESEARCH.md, SPECIFICATION.md, DESIGN.md, TASKS.md, CHECKLIST.md, VERIFICATION.md, CROSS_ANALYSIS.md | After Phase 7 passes |
+| `develop` | 8 (Review) | ANALYSIS.md, COMPLIANCE.md | After integration review |
+| `stage` | 8-9 (QA + Gates) | Release docs, changelog | After blocking gates pass |
+| `main` | Production | — | Protected; deploy-ready |
+
+**Starting a new spec:**
+
+```bash
+git checkout develop
+git pull origin develop
+git checkout -b spec/001-user-authentication
+```
+
+Then run `@workspace /specky-greenfield` in Copilot Chat.
+
+**After Phase 7 passes:**
+
+```bash
+git checkout develop
+git merge --no-ff spec/001-user-authentication
+git branch -d spec/001-user-authentication
+```
+
+> **Rule:** Never commit spec work directly to develop, stage, or main. Always go spec/NNN → develop → stage → main.
 
 ## EARS Notation
 

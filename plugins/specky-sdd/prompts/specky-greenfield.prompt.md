@@ -13,3 +13,4 @@ Please:
 1. Call @requirements-engineer to extract FRD and NFRD
 2. Then @sdd-init to initialize the pipeline and create CONSTITUTION.md
 3. Show me the feature number (NNN) and the path `.specs/NNN-[feature]/`
+4. Create branch `spec/NNN-[feature]` from `develop` for all pipeline work

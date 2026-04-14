@@ -169,7 +169,13 @@ Approvals:
 - [x] Product review
 ```
 
-Set PR to merge to main (or release branch per Git flow), require 2+ approvals.
+Set PR to merge following the Gitflow-SDD branching strategy:
+
+- From `spec/NNN-*` branch → target `develop` (after Phase 7 verification)
+- From `develop` → target `stage` (after integration review)
+- From `stage` → target `main` (after all blocking gates pass)
+
+Require 2+ approvals. Never merge a spec branch directly to main or stage.
 
 ## Work Item Export
 

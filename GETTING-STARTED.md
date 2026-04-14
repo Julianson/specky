@@ -299,8 +299,8 @@ Criteria that concern me: gateway timeout scenario (REQ-002-PAY-009)
 
 Example:
 ```
-Branch: feature/002-payment-gateway
-Target: main
+Branch: spec/002-payment-gateway
+Target: develop (then stage → main after gates pass)
 Deploy: canary (10% → 50% → 100% over 24h)
 Observability: Grafana dashboards already configured
 ```

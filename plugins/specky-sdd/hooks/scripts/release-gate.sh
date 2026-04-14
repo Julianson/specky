@@ -9,6 +9,21 @@ FAILS=0
 
 echo "🚦 Release Gate Check"
 
+# Branch validation (advisory — warning only)
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+if [[ "$CURRENT_BRANCH" == "main" ]]; then
+  echo "⚠️  WARNING: You are on 'main'. Spec work should be on spec/NNN-* branches."
+  echo "   Expected flow: spec/NNN-* → develop → stage → main"
+elif [[ "$CURRENT_BRANCH" == "develop" ]] || [[ "$CURRENT_BRANCH" == "stage" ]]; then
+  echo "ℹ️  Branch: $CURRENT_BRANCH (integration/release branch)"
+elif [[ "$CURRENT_BRANCH" == spec/* ]]; then
+  echo "ℹ️  Branch: $CURRENT_BRANCH (spec branch → PR targets develop)"
+else
+  echo "⚠️  WARNING: Branch '$CURRENT_BRANCH' does not follow naming convention."
+  echo "   Expected: spec/NNN-feature-name, develop, stage, or main"
+fi
+echo ""
+
 # Find active feature
 LATEST=$(ls -td .specs/*/ 2>/dev/null | head -1)
 [ -z "$LATEST" ] && { echo "❌ No .specs/ directory found"; exit 2; }

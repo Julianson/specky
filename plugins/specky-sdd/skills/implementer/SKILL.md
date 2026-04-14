@@ -12,6 +12,7 @@ Phase 6 transforms specification and design artifacts into a structured implemen
 ## Prerequisites Check
 
 Before starting implementation, verify:
+- You are on the correct `spec/NNN-*` branch (not develop, stage, or main)
 - SPECIFICATION.md is complete with EARS notation requirements
 - DESIGN.md includes architecture, API contracts, and data schema
 - TASKS.md has work breakdown structure with dependencies

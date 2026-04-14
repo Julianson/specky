@@ -29,6 +29,34 @@ hooks:
     - "metrics-dashboard"
 specs_dir: ".specs"
 skills_dir: ".github/plugin/specky/skills"
+branching:
+  strategy: "gitflow-sdd"
+  branches:
+    feature: "spec/{NNN}-{feature-name}"
+    develop: "develop"
+    stage: "stage"
+    production: "main"
+  phase_mapping:
+    spec_branch: [0, 1, 2, 3, 4, 5, 6, 7]   # All spec work
+    develop: [8]                               # Integration + review
+    stage: [8, 9]                              # QA + release gates
+    main: []                                   # Production only
+  artifacts_per_phase:
+    0: ["CONSTITUTION.md", ".sdd-state.json"]
+    1: ["RESEARCH.md"]
+    3: ["SPECIFICATION.md"]
+    4: ["DESIGN.md"]
+    5: ["TASKS.md", "CHECKLIST.md"]
+    7: ["VERIFICATION.md", "CROSS_ANALYSIS.md"]
+    8: ["ANALYSIS.md", "COMPLIANCE.md"]
+  rules:
+    - "Each spec MUST have its own branch: spec/NNN-feature-name"
+    - "Create spec branch from develop, never from main"
+    - "All .specs/ artifacts are created on the spec branch (Phases 0-7)"
+    - "Merge to develop only after Phase 7 (verify) passes"
+    - "Merge to stage only after integration review on develop"
+    - "Merge to main only after blocking gates pass on stage"
+    - "Delete spec branch after successful merge to develop"
 model_routing:
   phase_0: "claude-haiku-4-5"
   phase_1: "claude-sonnet-4-6"
