@@ -1,6 +1,6 @@
 # Contributing to Specky
 
-Thank you for your interest in contributing to Specky. This guide covers the v3.0.0 architecture, development patterns, and submission process.
+Thank you for your interest in contributing to Specky. This guide covers the v3.2.x architecture, development patterns, and submission process.
 
 ---
 
@@ -22,7 +22,7 @@ Thank you for your interest in contributing to Specky. This guide covers the v3.
 
 ## Architecture Overview
 
-Specky v3.1.0 is an MCP server that exposes **56 tools** organized into a 10-phase Spec-Driven Development pipeline. The codebase comprises **66 source files**, **23 templates**, and is structured as follows:
+Specky v3.2.1 is an MCP server that exposes **57 tools** organized into a 10-phase Spec-Driven Development pipeline. The codebase comprises **66 source files**, **23 templates**, and is structured as follows:
 
 ```
 src/
@@ -88,6 +88,26 @@ templates/                    21 Markdown templates with {{variable}} placeholde
 6. **Logging to stderr only** -- stdout is reserved for JSON-RPC.
 7. **Educative outputs** -- Every tool response includes `next_steps` and `learning_note` fields to guide the AI client.
 8. **MCP-to-MCP routing** -- Integration tools produce payloads designed for forwarding to other MCP servers (GitHub, Docker, Terraform).
+
+### Plugin Structure
+
+The repository also ships a **Copilot plugin** at `plugins/specky-sdd/` that bundles agents, skills, prompts, hooks, and the MCP server config into a single installable package. Key files:
+
+```
+plugins/specky-sdd/
+├── .github/plugin/plugin.json   ← Claude Code spec (agents, commands, skills)
+├── .mcp.json                    ← MCP server config (mcpServers key)
+├── README.md                    ← Plugin documentation
+├── agents/                      ← 7 agent .agent.md files
+├── prompts/                     ← 19 prompt .prompt.md files
+├── skills/                      ← 6 SKILL.md directories
+├── hooks/                       ← sdd-hooks.json + 10 shell scripts
+├── instructions/                ← copilot-instructions.md
+├── config.yml                   ← Pipeline configuration
+└── install.sh                   ← Manual installer script
+```
+
+The marketplace manifest at `.github/plugin/marketplace.json` registers the repo as a plugin marketplace. Changes to agents, prompts, or skills should be made in `plugins/specky-sdd/` and kept in sync with the Claude Code equivalents in `.claude/`.
 
 ### Service Layer
 

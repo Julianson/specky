@@ -47,6 +47,12 @@ references/
 ARCHITECTURE.md
 apm.yml
 
+# ── Plugin content overrides (must be tracked) ───────────
+!plugins/specky-sdd/hooks/
+!plugins/specky-sdd/hooks/**
+!plugins/specky-sdd/skills/**/references/
+!plugins/specky-sdd/skills/**/references/**
+
 # ── Build, test, packaging config (internal) ─────────────
 templates/
 tests/
@@ -65,3 +71,4 @@ ONBOARDING.md
 # ── Internal brand & reports ──────────────────────────────
 brand/
 reports/
+svg-paulasilvatech/

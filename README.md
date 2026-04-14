@@ -2,11 +2,11 @@
   <br>
   <img src="media/specky-brand-logo.svg" alt="Specky" height="80">
   <br><br>
-  <p><strong>56 MCP tools. 10-phase pipeline. Works in any IDE.</strong></p>
+  <p><strong>57 MCP tools. 10-phase pipeline. Works in any IDE.</strong></p>
   <p>Agentic Spec-Driven Development</p>
 
   <p>
-    <img src="https://img.shields.io/badge/tools-56_MCP-7c3aed?style=flat-square" alt="56 Tools"/>
+    <img src="https://img.shields.io/badge/tools-57_MCP-7c3aed?style=flat-square" alt="57 Tools"/>
     <img src="https://img.shields.io/badge/phases-10_enforced-6d28d9?style=flat-square" alt="10 Phases"/>
     <img src="https://img.shields.io/badge/diagrams-17_types-5b21b6?style=flat-square" alt="17 Diagrams"/>
     <img src="https://img.shields.io/badge/compliance-6_frameworks-4c1d95?style=flat-square" alt="6 Compliance"/>
@@ -21,8 +21,9 @@
   </p>
 
   <p>
-    <a href="https://paulasilvatech.github.io/specky/">Website</a> ·
+    <a href="https://paulasilvatech.github.io/specky-site/">Website</a> ·
     <a href="GETTING-STARTED.md">Getting Started</a> ·
+    <a href="plugins/specky-sdd/">Plugin</a> ·
     <a href="https://www.npmjs.com/package/specky-sdd">npm</a> ·
     <a href="SECURITY.md">Security</a>
   </p>
@@ -36,26 +37,28 @@
 | **Start** | [What is Specky?](#what-is-specky) | Overview and ecosystem |
 | | [Why Specifications Matter](#why-specifications-matter-in-the-ai-era) | Vibe coding vs deterministic development |
 | | [Getting Started](GETTING-STARTED.md) | Complete educational guide |
-| **Use** | [Quick Start](#quick-start) | Install via npm or Docker, connect to your IDE |
-| | [Where Specifications Live](#where-specifications-live) | File structure and naming conventions |
+| **Install** | [Quick Start](#quick-start) | Install plugin or MCP server, connect to your IDE |
+| | [Plugin (recommended)](#install-as-plugin-recommended) | Enterprise-grade: agents, skills, hooks, MCP — all in one |
+| | [MCP Server Only](#install-mcp-server-only) | Lightweight: just the 57 MCP tools |
+| **Use** | [Where Specifications Live](#where-specifications-live) | File structure and naming conventions |
 | | [Input Methods](#input-methods-6-ways-to-start) | 6 ways to feed Specky |
 | | [Three Project Types](#three-project-types-one-pipeline) | Greenfield, Brownfield, Modernization |
 | **Pipeline** | [Pipeline and LGTM Gates](#pipeline-and-lgtm-gates) | 10 phases with human review gates |
-| | [All 56 Tools](#all-56-tools) | Complete tool reference by category |
+| | [All 57 Tools](#all-57-tools) | Complete tool reference by category |
 | | [EARS Notation](#ears-notation) | The 6 requirement patterns |
 | **Enterprise** | [Compliance Frameworks](#compliance-frameworks) | HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001 |
 | | [Enterprise Ready](#enterprise-ready) | Security, audit trail, quality gates |
 | **Platform** | [The SDD Platform](#the-spec-driven-development-platform) | Built on Spec-Kit, everything included |
-| | [Roadmap](#roadmap) | v3.0 current, v3.1+ planned |
+| | [Roadmap](#roadmap) | v3.2 current, v3.3+ planned |
 
 
 ## What is Specky?
 
-Specky is an open-source **MCP server** that turns the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) SDD methodology into a **programmable enforcement engine** with 56 validated tools. It provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
+Specky is an open-source **MCP server** that turns the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) SDD methodology into a **programmable enforcement engine** with 57 validated tools. It provides a deterministic pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
 
 **Spec-Kit** provides the methodology: EARS notation, gated pipeline phases, constitution model, quality patterns. **Specky** reimplements all of it as MCP tools and adds programmatic enforcement: a state machine that blocks phase-skipping, an EARS validator, cross-artifact analysis, compliance engines, test generation, and MCP-to-MCP routing.
 
-**Install Specky and you get both.** The Spec-Kit methodology is already built in. It works inside any AI IDE that supports MCP, via `.github/agents/` or `.claude/commands/`, and natively in Cursor, Windsurf, or any MCP-compatible client. See how they [complement each other](#the-spec-driven-development-platform).
+**Install the Specky plugin and you get everything.** The Spec-Kit methodology is built in. The plugin bundles 13 agents, 22 prompts, 8 skills, 14 automation hooks, and the MCP server — all configured automatically. It works inside VS Code with Copilot, Claude Code, Cursor, Windsurf, or any MCP-compatible client. See the [plugin documentation](plugins/specky-sdd/) or how Spec-Kit and Specky [complement each other](#the-spec-driven-development-platform).
 
 
 ## Why Specifications Matter in the AI Era
@@ -98,8 +101,8 @@ Specky adds a **deterministic engine** between your intent and your code:
 
 | Capability | Specky |
 |---|---|
-| Any input (PDF, DOCX, PPTX, transcript, Figma) to spec | 56 MCP tools handle all input formats |
-| EARS validation (programmatic, not AI guessing) | 5 patterns enforced at schema level |
+| Any input (PDF, DOCX, PPTX, transcript, Figma) to spec | 57 MCP tools handle all input formats |
+| EARS validation (programmatic, not AI guessing) | 6 patterns enforced at schema level |
 | Enforced pipeline (not suggestions) | 10 phases with actual gates that block advancement |
 | 17 diagram types generated automatically | C4 (4 levels), sequence, ER, activity, use case, DFD, deployment, network |
 | Infrastructure as Code | Terraform, Bicep, Dockerfile from DESIGN.md |
@@ -109,7 +112,7 @@ Specky adds a **deterministic engine** between your intent and your code:
 | Phantom task detection | Catches tasks marked done with no code evidence |
 | Property-based testing | fast-check (TypeScript) and Hypothesis (Python) |
 | Checkpoint/restore | Persistent snapshots of all spec artifacts |
-| 7 automation hooks | Tests, docs, security scan, spec sync, SRP, changelog, checkpoint |
+| 10 automation hooks (2 blocking) | Security scan, release gate, spec sync, checkpoint, quality, EARS, task trace, drift, cognitive debt, metrics |
 | Works in any MCP host | VS Code + Copilot, Claude Code, Cursor, Windsurf, or any MCP client |
 | Zero outbound network calls | Fully air-gapped, code never leaves your machine |
 | MIT open source | Fork it, extend it, audit it. No vendor lock, no seat pricing |
@@ -122,33 +125,88 @@ Specky adds a **deterministic engine** between your intent and your code:
 - **Node.js 18+**: [Download here](https://nodejs.org/)
 - **An AI IDE**: VS Code with Copilot, Claude Code, Claude Desktop, Cursor, or Windsurf
 
-### Step 1: Choose Your Installation Scope
+### Install as Plugin (recommended)
 
-| Scope | What it does | Best for |
-|-------|-------------|----------|
-| **Per workspace** (recommended) | Config file lives inside the repo, shared with the team via Git | Teams, open-source projects |
-| **Global (once)** | Installed on your machine, available in every repo automatically | Personal use, quick setup |
+The **Specky plugin** bundles everything: 13 agents, 22 prompts, 8 skills, 14 automation hooks, and the MCP server. There are two ways to install — choose based on your needs:
 
-### Step 2: Install
+| What you get | MCP Only | Plugin (global) | Plugin (per-project) |
+|-------------|:-:|:-:|:-:|
+| 57 MCP tools | ✅ | ✅ | ✅ |
+| 8 domain skills | — | ✅ | ✅ |
+| 13 agents in Copilot Chat | — | — | ✅ |
+| 22 slash-command prompts | — | — | ✅ |
+| 14 automation hooks | — | — | ✅ |
+| Pipeline orchestrator | — | — | ✅ |
+| MCP server auto-configured | — | — | ✅ |
+| Team sharing via Git | — | — | ✅ |
 
-<details open>
-<summary><strong>Global (recommended): Install once, use everywhere</strong></summary>
+#### Via VS Code UI (global — skills only)
 
-Install globally so `specky-sdd` is always available — no re-download on every run:
+1. Open the **Extensions** sidebar (`Cmd+Shift+X`)
+2. Expand **Agent Plugins - Installed**
+3. Click the **+** button
+4. Type `paulasilvatech/specky` and press Enter
+
+This installs **8 skills globally** across all your projects. For the full experience (agents, prompts, hooks), use the per-project install below.
+
+#### Via Copilot CLI (global — skills only)
+
+```bash
+copilot plugin install paulasilvatech/specky
+```
+
+Same as VS Code UI — installs skills globally. Agents and prompts require per-project files.
+
+#### Per-Project Install (full experience — recommended)
+
+```bash
+cd your-project/
+bash <(curl -sL https://raw.githubusercontent.com/paulasilvatech/specky/main/plugins/specky-sdd/install.sh)
+```
+
+This creates **workspace files** that VS Code Copilot Chat discovers automatically:
+
+```
+your-project/
+├── .github/plugin/specky/          ← Full plugin (agents, skills, hooks, prompts)
+│   ├── agents/                     ← 7 specialized Copilot agents
+│   ├── prompts/                    ← 19 reusable prompts
+│   ├── skills/                     ← 6 domain skills
+│   ├── hooks/scripts/              ← 10 automation hooks
+│   ├── instructions/
+│   │   └── copilot-instructions.md ← SDD rules + agents + prompts
+│   ├── config.yml                  ← Pipeline configuration
+│   ├── README.md
+│   ├── GETTING-STARTED.md
+│   └── LICENSE
+├── .vscode/
+│   ├── mcp.json                    ← MCP server configuration
+│   └── settings.json               ← Copilot + hook settings
+└── ...
+```
+
+> **Tip:** Commit `.github/plugin/` and `.vscode/` to Git so every team member gets Specky automatically on clone.
+
+See the full [plugin documentation](plugins/specky-sdd/README.md) for details.
+
+### Install MCP Server Only
+
+If you only need the 57 MCP tools without agents, skills, and hooks, install the MCP server directly.
+
+<details>
+<summary><strong>Global (npm)</strong></summary>
 
 ```bash
 npm install -g specky-sdd
 ```
 
-Then configure your IDE to use the global install:
-
 **VS Code** (`.vscode/mcp.json`):
 ```json
 {
-  "servers": {
-    "specky": {
-      "command": "specky-sdd",
-      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
+  "mcpServers": {
+    "specky-sdd": {
+      "type": "stdio",
+      "command": "specky-sdd"
     }
   }
 }
@@ -156,23 +214,15 @@ Then configure your IDE to use the global install:
 
 **Claude Code**:
 ```bash
-claude mcp add specky -- specky-sdd
+claude mcp add specky-sdd -- specky-sdd
 ```
 
 **Claude Desktop** (`claude_desktop_config.json`):
-
-| OS | Config location |
-|----|----------------|
-| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Linux | `~/.config/Claude/claude_desktop_config.json` |
-| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
-
 ```json
 {
   "mcpServers": {
-    "specky": {
-      "command": "specky-sdd",
-      "env": { "SDD_WORKSPACE": "/path/to/your/project" }
+    "specky-sdd": {
+      "command": "specky-sdd"
     }
   }
 }
@@ -181,26 +231,19 @@ claude mcp add specky -- specky-sdd
 </details>
 
 <details>
-<summary><strong>Per Workspace (alternative): npx, no global install</strong></summary>
-
-Add a config file to the repo so teammates get Specky automatically on clone — no global install needed.
+<summary><strong>Per Workspace (npx)</strong></summary>
 
 **VS Code** (`.vscode/mcp.json`):
 ```json
 {
-  "servers": {
-    "specky": {
+  "mcpServers": {
+    "specky-sdd": {
+      "type": "stdio",
       "command": "npx",
-      "args": ["-y", "specky-sdd"],
-      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
+      "args": ["-y", "specky-sdd@latest"]
     }
   }
 }
-```
-
-**Claude Code**:
-```bash
-claude mcp add specky -- npx -y specky-sdd
 ```
 
 > Commit `.vscode/mcp.json` to Git so every team member gets Specky automatically.
@@ -208,31 +251,17 @@ claude mcp add specky -- npx -y specky-sdd
 </details>
 
 <details>
-<summary><strong>Docker: Docker (HTTP mode, no Node.js required)</strong></summary>
-
-Run Specky as an HTTP server in a container:
+<summary><strong>Docker (HTTP mode, no Node.js required)</strong></summary>
 
 ```bash
 docker run -d --name specky -p 3200:3200 -v $(pwd):/workspace ghcr.io/paulasilvatech/specky:latest
 ```
 
-Verify it's running:
-
-```bash
-curl http://localhost:3200/health
-```
-
 Point any MCP client that supports HTTP to `http://localhost:3200/mcp`
-
-Stop when done:
-
-```bash
-docker stop specky && docker rm specky
-```
 
 </details>
 
-### Step 3: Verify
+### Verify
 
 Open your AI IDE and type:
 
@@ -240,11 +269,11 @@ Open your AI IDE and type:
 > What tools does Specky have?
 ```
 
-The AI should list the 56 SDD tools. If you see them, Specky is working.
+The AI should list the 57 SDD tools. If you see them, Specky is working.
 
 ### Try It Now
 
-Once connected, type this in your AI chat to see Specky in action:
+Once connected, type this in your AI chat:
 
 ```
 > Initialize a Specky project for a todo API and help me define the scope
@@ -288,6 +317,8 @@ your-project/
 ```
 
 **Naming convention:** `NNN-feature-name`, zero-padded number + kebab-case name. Each directory is independent; you can work on multiple features simultaneously.
+
+**Branching convention:** Each spec directory maps to a branch: `spec/NNN-feature-name`. All artifacts for a feature are created on this branch. After Phase 7 passes, merge to `develop`, then `stage` for QA/gates, then `main` for production. Never commit spec work directly to develop, stage, or main.
 
 
 ## Input Methods: 6 Ways to Start
@@ -430,6 +461,14 @@ Specky adapts to any project type. The pipeline is the same; the **starting poin
 
 ### Step 1: Initialize and discover
 
+First, create your spec branch from develop:
+
+```bash
+git checkout develop && git checkout -b spec/001-task-management
+```
+
+Then in Copilot Chat:
+
 ```
 > I'm building a task management API. Initialize a Specky project and help
   me define the scope.
@@ -526,7 +565,9 @@ The AI calls:
 
 The AI calls `sdd_export_work_items` + `sdd_create_pr` → generates work item payloads and PR body with full spec traceability.
 
-> **Next:** **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 56 Tools](#all-56-tools) for a complete reference.
+The PR targets `develop` (not `main`). After integration review on develop, promote to `stage` for QA and blocking gates, then to `main` for production.
+
+> **Next:** **Next:** Learn about [EARS notation](#ears-notation) to understand the requirement patterns, or see [All 57 Tools](#all-57-tools) for a complete reference.
 
 
 ## Brownfield Project: Add Features to Existing Code
@@ -719,9 +760,9 @@ The AI calls `sdd_advance_phase` → moves the pipeline forward if all prerequis
 All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). See [Input Methods](#input-methods-6-ways-to-start) for how to feed data into the pipeline.
 
 
-## All 56 Tools
+## All 57 Tools
 
-### Input and Conversion (5)
+### Input and Conversion (6)
 
 | Tool | Description |
 |------|-------------|
@@ -729,9 +770,10 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_import_transcript` | Parse meeting transcripts (Teams, Zoom, Google Meet) |
 | `sdd_auto_pipeline` | Any input to complete spec pipeline (all documents) |
 | `sdd_batch_import` | Process folder of mixed documents |
+| `sdd_batch_transcripts` | Process folder of meeting transcripts |
 | `sdd_figma_to_spec` | Figma design to requirements specification |
 
-### Pipeline Core (8)
+### Pipeline Core (9)
 
 | Tool | Description |
 |------|-------------|
@@ -741,6 +783,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_clarify` | Resolve ambiguities with decision tree |
 | `sdd_write_design` | 12-section system design (C4 model) with sequence diagrams, ERD, API flow |
 | `sdd_write_tasks` | Task breakdown with dependency graph |
+| `sdd_write_bugfix` | Bugfix specification from issue description |
 | `sdd_run_analysis` | Quality gate analysis with coverage heatmap |
 | `sdd_advance_phase` | Move to next pipeline phase |
 
@@ -779,7 +822,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_setup_codespaces` | GitHub Codespaces configuration |
 | `sdd_generate_devcontainer` | .devcontainer/devcontainer.json generation |
 
-### Integration and Export (5)
+### Integration and Export (7)
 
 | Tool | Description |
 |------|-------------|
@@ -788,17 +831,20 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_create_pr` | PR payload with spec summary |
 | `sdd_implement` | Ordered implementation plan with checkpoints |
 | `sdd_research` | Resolve unknowns in RESEARCH.md |
+| `sdd_check_sync` | Detect drift between specification and implementation |
+| `sdd_detect_drift` | Intent drift detection with amendment suggestions |
 
-### Documentation (4)
+### Documentation (5)
 
 | Tool | Description |
 |------|-------------|
 | `sdd_generate_docs` | Complete auto-documentation |
+| `sdd_generate_all_docs` | Generate all documentation types in parallel |
 | `sdd_generate_api_docs` | API documentation from design |
 | `sdd_generate_runbook` | Operational runbook |
 | `sdd_generate_onboarding` | Developer onboarding guide |
 
-### Utility (5)
+### Utility (8)
 
 | Tool | Description |
 |------|-------------|
@@ -807,6 +853,9 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 | `sdd_scan_codebase` | Detect tech stack and structure |
 | `sdd_metrics` | Project metrics dashboard |
 | `sdd_amend` | Amend project constitution |
+| `sdd_context_status` | Context tiering status (Hot/Domain/Cold) |
+| `sdd_model_routing` | Model routing guidance for current task |
+| `sdd_check_access` | RBAC access check for current role |
 
 ### Testing (3)
 
@@ -847,14 +896,14 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 
 **[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is the open-source SDD methodology: EARS notation, gated pipeline phases, constitution model, 25+ specialized agents, and Markdown prompt templates. It defines **what** to do.
 
-**Specky** is the MCP engine that reimplements that methodology as 53 enforceable tools with programmatic validation. It enforces **how** to do it.
+**Specky** is the MCP engine that reimplements that methodology as 57 enforceable tools with programmatic validation. It enforces **how** to do it.
 
 | | Spec-Kit (Methodology) | Specky (Engine) |
 |--|------------------------|-----------------|
-| **What it is** | Prompt templates + agent definitions | MCP server with 55 tools |
+| **What it is** | Prompt templates + agent definitions | MCP server with 57 tools |
 | **How it works** | AI reads `.md` templates and follows instructions | AI calls tools that validate, enforce, and generate |
 | **Validation** | AI tries to follow the prompts | State machine, EARS regex, Zod schemas |
-| **Install** | Copy `.github/agents/` and `.claude/commands/` | `npx specky-sdd` (includes methodology built-in) |
+| **Install** | Copy `.github/agents/` and `.claude/commands/` | `copilot plugin install specky-sdd@specky` or `npm install -g specky-sdd` |
 | **Works standalone** | Yes, in any AI IDE | Yes, includes all Spec-Kit patterns |
 | **Best for** | Learning SDD, lightweight adoption | Production enforcement, enterprise, compliance |
 
@@ -864,17 +913,33 @@ When you install Specky, you get the full Spec-Kit methodology reimplemented as 
 
 Together they form the **SDD layer** of the GitHub + Microsoft enterprise platform. Specky reimplements the Spec-Kit methodology as enforceable MCP tools with compliance, traceability, and automation built in.
 
+The recommended way to adopt this stack is via the [Specky plugin](plugins/specky-sdd/), which bundles the MCP server, agents, skills, and hooks into a single installable package:
+
+```bash
+copilot plugin install paulasilvatech/specky
+```
+
+Or via marketplace:
+
+```bash
+copilot plugin marketplace add paulasilvatech/specky   # one-time
+copilot plugin install specky-sdd@specky
+```
+
+Or configure the MCP server directly:
+
 ```json
 {
-  "servers": {
-    "specky": {
+  "mcpServers": {
+    "specky-sdd": {
+      "type": "stdio",
       "command": "specky-sdd"
     }
   }
 }
 ```
 
-> **Note:** This example assumes `specky-sdd` is installed globally (`npm install -g specky-sdd`). See the [Installation](#installation) section for per-workspace and Docker alternatives.
+> **Note:** This example assumes `specky-sdd` is installed globally (`npm install -g specky-sdd`). See the [Quick Start](#quick-start) section for plugin installation, per-workspace, and Docker alternatives.
 
 ## Project Configuration
 
@@ -986,7 +1051,7 @@ Specky is built with enterprise adoption in mind.
 - **Zod `.strict()` validation** — every tool input is schema-validated; unknown fields rejected
 - **security-scan hook** blocks commits containing hardcoded secrets (exit code 2)
 - See [SECURITY.md](SECURITY.md) for full OWASP Top 10 coverage
-- See [docs/SYSTEM-DESIGN.md](docs/SYSTEM-DESIGN.md) for complete security architecture
+- See [SECURITY.md](SECURITY.md) for complete security architecture
 
 ### Security Best Practices
 
@@ -1042,46 +1107,29 @@ Every pipeline phase produces a traceable artifact in `.specs/NNN-feature/`. The
 - **EARS Validator** — programmatic requirement quality enforcement
 - **Cross-Artifact Analysis** — automatic alignment checking between spec, design, and tasks
 - **Phase Enforcement** — state machine blocks phase-skipping; required files gate advancement
-- **507 unit tests** — CI enforces thresholds on every push
+- **Comprehensive test suite** — CI enforces thresholds on every push
 
 
 ## Development
 
 ```bash
-# Clone and setup
-git clone https://github.com/paulasilvatech/specky.git
-cd specky
-npm install
-
-# Build
-npm run build
-
-# Run tests (507 tests)
-npm test
-
-# Run tests with coverage report
-npm run test:coverage
-
-# Development mode (auto-reload on file changes)
-npm run dev
+# Install globally
+npm install -g specky-sdd
 
 # Verify MCP handshake (quick smoke test)
-echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | node dist/index.js 2>/dev/null
-
-# Build and run with Docker locally
-docker build -t specky-sdd:dev .
-docker run -p 3200:3200 -v $(pwd):/workspace specky-sdd:dev
-curl http://localhost:3200/health
+echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | specky-sdd 2>/dev/null
 ```
+
+For contributors, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
 ## Roadmap
 
-### v3.1 (current)
+### v3.2 (current)
 
 | Capability | Status |
 |------------|--------|
-| 56 MCP tools across 10 enforced pipeline phases | Stable |
+| 57 MCP tools across 10 enforced pipeline phases | Stable |
 | Phase validation on every tool with gate enforcement | Stable |
 | 17 software engineering diagram types (C4, sequence, ER, DFD, deployment, network) | Stable |
 | 12-section system design template (C4 model, security, infrastructure) | Stable |
@@ -1096,16 +1144,16 @@ curl http://localhost:3200/health
 | Test traceability: REQ-ID → test coverage mapping | Stable |
 | Intent drift detection with amendment suggestions | Stable |
 | 10 automation hooks (2 blocking) | Stable |
-| 12 Claude Code commands + 5 Copilot agents | Stable |
+| 7 Copilot agents + 19 prompts + 6 skills (via plugin) | Stable |
 | 6 compliance frameworks (HIPAA, SOC2, GDPR, PCI-DSS, ISO 27001) | Stable |
 | 6 input types (transcript, PDF, DOCX, Figma, codebase, raw text) | Stable |
 | Test generation for 6 frameworks (vitest, jest, playwright, pytest, junit, xunit) | Stable |
 | MCP-to-MCP routing (GitHub, Azure DevOps, Jira, Terraform, Figma, Docker) | Stable |
 | SBOM + cosign signing on Docker image | Stable |
 | JSONL audit logger (optional) | Stable |
-| 507 unit tests | Stable |
+| Comprehensive test suite | Stable |
 
-### v3.2+ (planned)
+### v3.3+ (planned)
 
 | Feature | Description |
 |---------|-------------|
@@ -1113,10 +1161,8 @@ curl http://localhost:3200/health
 | Observability | OpenTelemetry metrics and structured logging |
 | Internationalization | Spec templates in PT-BR, ES, FR, DE, JA |
 | Automated shrinking | fast-check/Hypothesis shrinking feedback into spec refinement |
-| RBAC | Role-based access control for phase advancement |
 | Centralized audit log | SIEM-integrated tamper-evident audit trail |
 | Multi-tenant | Isolated workspaces for multiple teams |
-| Rate limiting | Request throttling for HTTP transport |
 | SSO / SAML | Federated identity for enterprise auth |
 
 Have a feature request? [Open an issue](https://github.com/paulasilvatech/specky/issues).

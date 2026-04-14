@@ -72,10 +72,29 @@ if (config.templates_path) console.error(`[specky] Custom templates: ${config.te
 if (config.audit_enabled) console.error(`[specky] Audit trail: enabled`);
 
 // Initialize MCP server
-const server = new McpServer({
-  name: SERVER_NAME,
-  version: VERSION,
-});
+const server = new McpServer(
+  {
+    name: SERVER_NAME,
+    version: VERSION,
+    title: "Specky",
+    description: "57 MCP tools for Spec-Driven Development. 10-phase enforced pipeline, EARS notation, 17 diagram types, 6 compliance frameworks.",
+    websiteUrl: "https://paulasilvatech.github.io/specky-site/",
+    icons: [
+      {
+        src: "https://raw.githubusercontent.com/paulasilvatech/specky/main/media/specky-brand-icon.svg",
+        mimeType: "image/svg+xml",
+      },
+      {
+        src: "https://raw.githubusercontent.com/paulasilvatech/specky/main/media/specky-icon-128.png",
+        mimeType: "image/png",
+        sizes: ["128x128"],
+      },
+    ],
+  },
+  {
+    instructions: "Specky is a Spec-Driven Development engine. Start with sdd_init to create a project, then follow the 10-phase pipeline: Init → Discover → Specify → Clarify → Design → Tasks → Analyze → Implement → Verify → Release. Use sdd_get_status to check current phase. Reply LGTM at quality gates to advance.",
+  },
+);
 
 // Initialize services (v1)
 const fileManager = new FileManager(workspaceRoot);
