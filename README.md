@@ -120,27 +120,37 @@ Specky adds a **deterministic engine** between your intent and your code:
 ### Prerequisites
 
 - **Node.js 18+**: [Download here](https://nodejs.org/)
-- **An AI IDE**: VS Code with Copilot, Claude Code, Claude Desktop, Cursor, or Windsurf
+- **An AI IDE**: VS Code with Copilot, Claude Code, Cursor, or Windsurf
 
-### Step 1: Choose Your Installation Scope
+### Install the Plugin
 
-| Scope | What it does | Best for |
-|-------|-------------|----------|
-| **Per workspace** (recommended) | Config file lives inside the repo, shared with the team via Git | Teams, open-source projects |
-| **Global (once)** | Installed on your machine, available in every repo automatically | Personal use, quick setup |
+#### Via APM (recommended)
 
-### Step 2: Install
+```bash
+apm install paulasilvatech/specky
+```
 
-<details open>
-<summary><strong>Global (recommended): Install once, use everywhere</strong></summary>
+One command: installs 13 agents, 22 prompts, 8 skills, 14 hooks + configures the MCP server. [Install APM](https://microsoft.github.io/apm/getting-started/installation/) if you don't have it.
 
-Install globally so `specky-sdd` is always available — no re-download on every run:
+#### Via curl installer (no APM required)
+
+```bash
+cd your-project/
+bash <(curl -sL https://raw.githubusercontent.com/paulasilvatech/specky/main/install.sh)
+```
+
+#### Via Copilot CLI (skills only)
+
+```bash
+copilot plugin install paulasilvatech/specky
+```
+
+<details>
+<summary><strong>MCP server only (advanced — tools without agents/prompts/hooks)</strong></summary>
 
 ```bash
 npm install -g specky-sdd
 ```
-
-Then configure your IDE to use the global install:
 
 **VS Code** (`.vscode/mcp.json`):
 ```json
@@ -159,98 +169,30 @@ Then configure your IDE to use the global install:
 claude mcp add specky -- specky-sdd
 ```
 
-**Claude Desktop** (`claude_desktop_config.json`):
-
-| OS | Config location |
-|----|----------------|
-| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Linux | `~/.config/Claude/claude_desktop_config.json` |
-| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
-
-```json
-{
-  "mcpServers": {
-    "specky": {
-      "command": "specky-sdd",
-      "env": { "SDD_WORKSPACE": "/path/to/your/project" }
-    }
-  }
-}
-```
-
-</details>
-
-<details>
-<summary><strong>Per Workspace (alternative): npx, no global install</strong></summary>
-
-Add a config file to the repo so teammates get Specky automatically on clone — no global install needed.
-
-**VS Code** (`.vscode/mcp.json`):
-```json
-{
-  "servers": {
-    "specky": {
-      "command": "npx",
-      "args": ["-y", "specky-sdd"],
-      "env": { "SDD_WORKSPACE": "${workspaceFolder}" }
-    }
-  }
-}
-```
-
-**Claude Code**:
-```bash
-claude mcp add specky -- npx -y specky-sdd
-```
-
-> Commit `.vscode/mcp.json` to Git so every team member gets Specky automatically.
-
-</details>
-
-<details>
-<summary><strong>Docker: Docker (HTTP mode, no Node.js required)</strong></summary>
-
-Run Specky as an HTTP server in a container:
-
+**Docker** (HTTP mode, no Node.js):
 ```bash
 docker run -d --name specky -p 3200:3200 -v $(pwd):/workspace ghcr.io/paulasilvatech/specky:latest
 ```
 
-Verify it's running:
-
-```bash
-curl http://localhost:3200/health
-```
-
-Point any MCP client that supports HTTP to `http://localhost:3200/mcp`
-
-Stop when done:
-
-```bash
-docker stop specky && docker rm specky
-```
-
 </details>
 
-### Step 3: Verify
+### Verify
 
-Open your AI IDE and type:
+Open Copilot Chat and type:
 
 ```
-> What tools does Specky have?
+@specky-onboarding
 ```
 
-The AI should list the 57 SDD tools. If you see them, Specky is working.
+The onboarding wizard detects your project context (greenfield/brownfield/modernization) and guides you through setup.
 
 ### Try It Now
 
-Once connected, type this in your AI chat to see Specky in action:
-
 ```
-> Initialize a Specky project for a todo API and help me define the scope
+@specky-orchestrator run the pipeline for a todo API
 ```
 
-Specky creates the project structure and asks you 7 discovery questions. From here, follow the guide for your project type:
+The orchestrator coordinates all 10 phases: Init → Research → Specify → Design → Tasks → Implement → Verify → Review → Release, with LGTM gates at Specify, Design, and Tasks.
 
 | Your situation | Guide |
 |---------------|-------|
