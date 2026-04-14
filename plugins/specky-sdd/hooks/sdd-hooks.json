@@ -1,0 +1,93 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "sdd_create_pr",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/security-scan.sh",
+          "timeout": 30
+        },
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/release-gate.sh",
+          "timeout": 15
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Write|Edit|MultiEdit|sdd_write_spec|sdd_write_design|sdd_write_tasks",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/spec-sync.sh",
+          "timeout": 10
+        },
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/auto-checkpoint.sh",
+          "timeout": 5
+        }
+      ]
+    },
+    {
+      "matcher": "sdd_write_spec|sdd_turnkey_spec",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/spec-quality.sh",
+          "timeout": 10
+        },
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/ears-validator.sh",
+          "timeout": 10
+        }
+      ]
+    },
+    {
+      "matcher": "sdd_write_tasks",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/task-tracer.sh",
+          "timeout": 10
+        }
+      ]
+    },
+    {
+      "matcher": "sdd_run_analysis|sdd_cross_analyze|sdd_compliance_check",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/drift-monitor.sh",
+          "timeout": 10
+        },
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/cognitive-debt-alert.sh",
+          "timeout": 10
+        },
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/metrics-dashboard.sh",
+          "timeout": 5
+        }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "matcher": "",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/security-scan.sh",
+          "timeout": 30
+        }
+      ]
+    }
+  ]
+}
